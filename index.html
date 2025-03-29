@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع الصوامت العربية - دليل شامل لأصوات اللغة العربية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .search-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .search-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .search-input {
+            font-size: 24px;
+            padding: 10px 15px;
+            width: 60px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .search-input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+        
+        .search-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .search-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .result-section {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .char-display {
+            font-size: 80px;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--primary-color);
+        }
+        
+        .char-name {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .detail-card {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 5px solid var(--secondary-color);
+        }
+        
+        .detail-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+        }
+        
+        .error-message {
+            color: var(--accent-color);
+            text-align: center;
+            font-size: 18px;
+            padding: 20px;
+        }
+        
+        .classification-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .classification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .classification-card {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .classification-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .classification-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .classification-list li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px 10px 0 0;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .classification-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>موقع الصوامت العربية</h1>
+            <p class="subtitle">دليل شامل لتصنيف أصوات اللغة العربية حسب المخرج وطريقة النطق</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="search-section">
+            <h2>بحث عن الحروف الصامتة</h2>
+            <p>أدخل حرفًا عربيًا صامتًا لمعرفة خصائصه الصوتية</p>
+            
+            <div class="search-box">
+                <input type="text" id="charInput" class="search-input" maxlength="1" placeholder="أ">
+                <button onclick="searchPhonetic()" class="search-btn">بحث</button>
+            </div>
+        </section>
+        
+        <section class="result-section" id="resultSection">
+            <div id="charDisplay" class="char-display"></div>
+            <div id="charName" class="char-name"></div>
+            
+            <div class="details-grid" id="resultDetails">
+                <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </div>
+        </section>
+        
+        <section class="classification-section">
+            <h2 class="section-title">تصنيف الصوامت العربية</h2>
+            
+            <div class="classification-grid">
+                <div class="classification-card">
+                    <h3 class="classification-title">حسب المخرج</h3>
+                    <ul class="classification-list">
+                        <li><strong>الأصوات الشفوية:</strong> الباء، الميم، الواو</li>
+                        <li><strong>الأصوات الشفوية الأسنانية:</strong> الفاء</li>
+                        <li><strong>بين الأسنانية:</strong> الثاء، الذال، الظاء</li>
+                        <li><strong>الأسنانية اللثوية:</strong> التاء، الدال، الطاء، الضاد، اللام، النون</li>
+                        <li><strong>اللثوية:</strong> الراء، الزاي، السين، الصاد</li>
+                        <li><strong>اللثوية الحنكية:</strong> الجيم، الشين</li>
+                        <li><strong>الحنكية:</strong> الجيم، الياء</li>
+                        <li><strong>الطبقية:</strong> الغين، الخاء، الكاف</li>
+                        <li><strong>اللهوية:</strong> القاف</li>
+                        <li><strong>الحلقية:</strong> الحاء، العين</li>
+                        <li><strong>الحنجرية:</strong> الهمزة، الهاء</li>
+                    </ul>
+                </div>
+                
+                <div class="classification-card">
+                    <h3 class="classification-title">حسب اهتزاز الوترين</h3>
+                    <ul class="classification-list">
+                        <li><strong>المجهورة (13 حرفًا):</strong><br>
+                        الباء، الجيم، الدال، الذال، الراء، الزاي، الضاد، الظاء، العين، الغين، اللام، الميم، النون</li>
+                        <li><strong>المهموسة (12 حرفًا):</strong><br>
+                        التاء، الثاء، الحاء، الخاء، السين، الشين، الصاد، الطاء، الفاء، القاف، الكاف، الهاء</li>
+                    </ul>
+                </div>
+                
+                <div class="classification-card">
+                    <h3 class="classification-title">حسب طريقة النطق</h3>
+                    <ul class="classification-list">
+                        <li><strong>الأصوات الشديدة (الانفجارية):</strong><br>
+                        الهمزة، الباء، التاء، الجيم، الدال، الضاد، الطاء، القاف، الكاف</li>
+                        <li><strong>الأصوات الرخوة (الاحتكاكية):</strong><br>
+                        الثاء، الحاء، الخاء، الذال، الزاي، السين، الشين، الصاد، الظاء، العين، الغين، الفاء، الهاء</li>
+                        <li><strong>الأصوات المركبة:</strong> الجيم المعطشة</li>
+                        <li><strong>الأصوات التكرارية:</strong> الراء</li>
+                        <li><strong>الأصوات الجانبية:</strong> اللام</li>
+                        <li><strong>الأصوات الأنفية:</strong> الميم، النون</li>
+                        <li><strong>الأصوات اللينة:</strong> الواو، الياء</li>
+                    </ul>
+                </div>
+                
+                <div class="classification-card">
+                    <h3 class="classification-title">حسب شكل اللسان</h3>
+                    <ul class="classification-list">
+                        <li><strong>الأصوات المطبقة:</strong><br>
+                        الصاد، الضاد، الطاء، الظاء</li>
+                        <li><strong>الأصوات غير المطبقة:</strong><br>
+                        جميع الأحرف الأخرى</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 موقع الصوامت العربية - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <script>
+        const phoneticsData = {
+            "أ": {
+                "التسمية": "حرف الألف (الهمزة)",
+                "المخرج": "الحنجرة",
+                "طريقة النطق": "شديد (انفجاري)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت حنجري انفجاري مجهور"
+            },
+            "ب": {
+                "التسمية": "حرف الباء",
+                "المخرج": "الشفة",
+                "طريقة النطق": "شديد (انفجاري)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت شفوي انفجاري مجهور"
+            },
+            "ت": {
+                "التسمية": "حرف التاء",
+                "المخرج": "أسنانية لثوية",
+                "طريقة النطق": "شديد (انفجاري)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت أسناني لثوي انفجاري مهموس"
+            },
+            "ث": {
+                "التسمية": "حرف الثاء",
+                "المخرج": "بين أسنانية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت بين أسناني احتكاكي مهموس"
+            },
+            "ج": {
+                "التسمية": "حرف الجيم",
+                "المخرج": "حنكية",
+                "طريقة النطق": "شديد (انفجاري)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت حنكي انفجاري مجهور"
+            },
+            "ح": {
+                "التسمية": "حرف الحاء",
+                "المخرج": "حلقية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت حلقي احتكاكي مهموس"
+            },
+            "خ": {
+                "التسمية": "حرف الخاء",
+                "المخرج": "حلقية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت حلقي احتكاكي مهموس"
+            },
+            "د": {
+                "التسمية": "حرف الدال",
+                "المخرج": "أسنانية لثوية",
+                "طريقة النطق": "شديد (انفجاري)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت أسناني لثوي انفجاري مجهور"
+            },
+            "ذ": {
+                "التسمية": "حرف الذال",
+                "المخرج": "لثوية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت لثوي احتكاكي مجهور"
+            },
+            "ر": {
+                "التسمية": "حرف الراء",
+                "المخرج": "لثوية",
+                "طريقة النطق": "تكراري",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت لثوي تكراري مجهور"
+            },
+            "ز": {
+                "التسمية": "حرف الزاي",
+                "المخرج": "لثوية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت لثوي احتكاكي مجهور"
+            },
+            "س": {
+                "التسمية": "حرف السين",
+                "المخرج": "لثوية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت لثوي احتكاكي مهموس"
+            },
+            "ش": {
+                "التسمية": "حرف الشين",
+                "المخرج": "لثوية حنكية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت لثوي حنكي احتكاكي مهموس"
+            },
+            "ص": {
+                "التسمية": "حرف الصاد",
+                "المخرج": "لثوية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "مطبق",
+                "التصنيف": "صوت لثوي احتكاكي مهموس مطبق"
+            },
+            "ض": {
+                "التسمية": "حرف الضاد",
+                "المخرج": "أسنانية لثوية",
+                "طريقة النطق": "شديد (انفجاري)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "مطبق",
+                "التصنيف": "صوت أسناني لثوي انفجاري مجهور مطبق"
+            },
+            "ط": {
+                "التسمية": "حرف الطاء",
+                "المخرج": "أسنانية لثوية",
+                "طريقة النطق": "شديد (انفجاري)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "مطبق",
+                "التصنيف": "صوت أسناني لثوي انفجاري مجهور مطبق"
+            },
+            "ظ": {
+                "التسمية": "حرف الظاء",
+                "المخرج": "بين أسنانية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "مطبق",
+                "التصنيف": "صوت بين أسناني احتكاكي مجهور مطبق"
+            },
+            "ع": {
+                "التسمية": "حرف العين",
+                "المخرج": "حلقية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت حلقي احتكاكي مجهور"
+            },
+            "غ": {
+                "التسمية": "حرف الغين",
+                "المخرج": "طبقية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت طبقي احتكاكي مجهور"
+            },
+            "ف": {
+                "التسمية": "حرف الفاء",
+                "المخرج": "شفوية أسنانية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت شفوي أسناني احتكاكي مهموس"
+            },
+            "ق": {
+                "التسمية": "حرف القاف",
+                "المخرج": "لهوية",
+                "طريقة النطق": "شديد (انفجاري)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت لهوي انفجاري مهموس"
+            },
+            "ك": {
+                "التسمية": "حرف الكاف",
+                "المخرج": "طبقية",
+                "طريقة النطق": "شديد (انفجاري)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت طبقي انفجاري مهموس"
+            },
+            "ل": {
+                "التسمية": "حرف اللام",
+                "المخرج": "أسنانية لثوية",
+                "طريقة النطق": "جانبي",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت أسناني لثوي جانبي مجهور"
+            },
+            "م": {
+                "التسمية": "حرف الميم",
+                "المخرج": "أسنانية لثوية",
+                "طريقة النطق": "أنفي",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت أسناني لثوي أنفي مجهور"
+            },
+            "ن": {
+                "التسمية": "حرف النون",
+                "المخرج": "أسنانية لثوية",
+                "طريقة النطق": "أنفي",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت أسناني لثوي أنفي مجهور"
+            },
+            "ه": {
+                "التسمية": "حرف الهاء",
+                "المخرج": "حنجرية",
+                "طريقة النطق": "رخو (احتكاكي)",
+                "اهتزاز الوترين": "مهموس",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت حنجري احتكاكي مهموس"
+            },
+            "و": {
+                "التسمية": "حرف الواو",
+                "المخرج": "شفوية",
+                "طريقة النطق": "لين",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت شفوي لين مجهور"
+            },
+            "ي": {
+                "التسمية": "حرف الياء",
+                "المخرج": "حنكية",
+                "طريقة النطق": "لين",
+                "اهتزاز الوترين": "مجهور",
+                "شكل اللسان": "غير مطبق",
+                "التصنيف": "صوت حنكي لين مجهور"
+            }
+        };
+        
+        function searchPhonetic() {
+            let input = document.getElementById("charInput").value.trim();
+            let resultSection = document.getElementById("resultSection");
+            let charDisplay = document.getElementById("charDisplay");
+            let charName = document.getElementById("charName");
+            let resultDetails = document.getElementById("resultDetails");
+            
+            if (phoneticsData[input]) {
+                let data = phoneticsData[input];
+                charDisplay.innerHTML = input;
+                charName.innerHTML = data["التسمية"];
+                
+                let detailsHTML = '';
+                for (let key in data) {
+                    if (key !== "التسمية") {
+                        detailsHTML += `
+                            <div class="detail-card">
+                                <div class="detail-title">${key}</div>
+                                <div class="detail-value">${data[key]}</div>
+                            </div>
+                        `;
+                    }
+                }
+                resultDetails.innerHTML = detailsHTML;
+                
+                resultSection.style.display = "block";
+            } else {
+                resultSection.style.display = "none";
+                alert("الرجاء إدخال حرف عربي صامت صحيح");
+            }
+        }
+        
+        // للسماح بالبحث عند الضغط على زر Enter
+        document.getElementById("charInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                searchPhonetic();
+            }
+        });
+    </script>
+</body>
+</html>
