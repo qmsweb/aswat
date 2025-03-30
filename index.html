@@ -39,9 +39,16 @@
             margin-bottom: 30px;
         }
         
-        h1 {
-            margin: 0;
-            font-size: 2.2rem;
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo-img {
+            height: 80px;
+            width: auto;
+            max-width: 100%;
         }
         
         .subtitle {
@@ -222,14 +229,20 @@
             .classification-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .logo-img {
+                height: 60px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>أداة الصوامت العربية</h1>
-            <p class="subtitle">دليل شامل لتصنيف أصوات اللغة العربية حسب المخرج وطريقة النطق</p>
+            <div class="logo-container">
+                <img src="https://github.com/qmsweb/aswat/raw/main/images/Jassim-white-logo.png?text=دليل+الصوامت+العربية" alt="شعار دليل الصوامت العربية" class="logo-img">
+            </div>
+            <p class="subtitle">مرجع شامل لتصنيف أصوات اللغة العربية حسب المخرج وطريقة النطق</p>
         </div>
     </header>
     
@@ -314,7 +327,7 @@
     
     <footer>
         <div class="container">
-            <p>© 2025 جاسم الفارسي - جميع الحقوق محفوظة</p>
+            <p>© 2025 دليل الصوامت العربية - جميع الحقوق محفوظة</p>
         </div>
     </footer>
 
