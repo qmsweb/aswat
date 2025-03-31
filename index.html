@@ -26,35 +26,121 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
         
-        header {
+        /* الشريط العلوي المعدل */
+        .top-header {
             background-color: var(--primary-color);
             color: white;
-            padding: 20px 0;
-            text-align: center;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
+            padding: 10px 0;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
         }
         
         .logo-container {
             display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
+            align-items: center;
+            gap: 10px;
         }
         
         .logo-img {
-            height: 80px;
+            height: 40px;
             width: auto;
-            max-width: 100%;
+            transition: all 0.3s;
         }
         
-        .subtitle {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            margin-top: 10px;
+        .site-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 20px;
+        }
+        
+        .side-menu.show {
+            right: 0;
+        }
+        
+        .side-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .menu-links li {
+            margin-bottom: 15px;
+        }
+        
+        .menu-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 8px 0;
+            transition: color 0.3s;
+        }
+        
+        .menu-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .overlay.show {
+            display: block;
         }
         
         .search-section {
@@ -64,6 +150,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
             text-align: center;
+            margin-top: 20px;
         }
         
         .search-box {
@@ -210,11 +297,38 @@
         
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 30px 20px;
             background-color: var(--primary-color);
             color: white;
-            border-radius: 10px 10px 0 0;
             margin-top: 50px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border: 1px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
         
         @media (max-width: 768px) {
@@ -231,21 +345,51 @@
             }
             
             .logo-img {
-                height: 40px;
+                height: 35px;
+            }
+            
+            .site-title {
+                font-size: 1rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
+    <!-- الشريط العلوي المعدل -->
+    <header class="top-header">
         <div class="container">
-            <div class="logo-container">
-                <img src="https://github.com/qmsweb/aswat/raw/main/images/Jassim-white-logo%20(1)%20(1).png?text=دليل+الصوامت+العربية" alt="جاسم الفارسي" class="logo-img">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="https://github.com/qmsweb/aswat/raw/main/images/Jassim-white-logo%20(1)%20(1).png" alt="أداة الصوامت العربية" class="logo-img">
+                    <h1 class="site-title">أداة الصوامت العربية</h1>
+                </div>
+                
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
             </div>
-            <p class="subtitle">أداة الصوامت العربية</p>
         </div>
     </header>
     
+    <!-- القائمة الجانبية -->
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h3>القائمة</h3>
+            <button class="close-btn" onclick="toggleMenu()">×</button>
+        </div>
+        <ul class="menu-links">
+            <li><a href="#">الصفحة الرئيسية</a></li>
+            <li><a href="#">عن الأداة</a></li>
+            <li><a href="#">اتصل بنا</a></li>
+        </ul>
+    </div>
+    
+    <!-- المحتوى الرئيسي -->
     <div class="container">
         <section class="search-section">
             <h2>محرّك البحث عن الصوامت</h2>
@@ -327,11 +471,25 @@
     
     <footer>
         <div class="container">
-            <p>© 2025 جاسم الفارسي - جميع الحقوق محفوظة</p>
+            <div class="footer-links">
+                <a href="https://example.com/linguistics" class="footer-link" target="_blank">موارد لغوية</a>
+                <a href="https://example.com/arabic" class="footer-link" target="_blank">تعلم العربية</a>
+            </div>
+            <p class="copyright">© 2025 أداة الصوامت العربية - جميع الحقوق محفوظة</p>
         </div>
     </footer>
 
     <script>
+        // إدارة القائمة الجانبية
+        function toggleMenu() {
+            document.getElementById("sideMenu").classList.toggle("show");
+            document.getElementById("overlay").classList.toggle("show");
+        }
+        
+        // إغلاق القائمة عند النقر على overlay
+        document.getElementById("overlay").addEventListener("click", toggleMenu);
+        
+        // بيانات الصوامت
         const phoneticsData = {
             "أ": {
                 "التسمية": "حرف الألف (الهمزة)",
