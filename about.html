@@ -72,9 +72,24 @@
             align-items: center;
         }
 
-        .logo i {
+        .logo-img {
+            height: 40px;
             margin-left: 10px;
-            font-size: 28px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text span:first-child {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .logo-text span:last-child {
+            font-size: 12px;
+            opacity: 0.8;
         }
 
         .nav-links {
@@ -105,6 +120,8 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
         }
 
         .hero h1 {
@@ -266,75 +283,41 @@
             color: var(--secondary-color);
         }
 
-        /* Team Section */
-        .team {
+        /* Values Section */
+        .values {
             padding: 80px 0;
             background-color: white;
         }
 
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+        .values-list {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .team-member {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .team-member:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .member-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .member-info {
-            padding: 20px;
-        }
-
-        .member-info h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-            color: var(--secondary-color);
-        }
-
-        .member-info p {
-            color: var(--primary-color);
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-
-        .social-links {
+        .value-item {
             display: flex;
-            justify-content: center;
-            gap: 15px;
+            align-items: flex-start;
+            margin-bottom: 30px;
         }
 
-        .social-links a {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
+        .value-icon {
+            width: 60px;
+            height: 60px;
             background-color: var(--light-color);
-            color: var(--primary-color);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--transition);
+            margin-left: 20px;
+            color: var(--primary-color);
+            font-size: 24px;
+            flex-shrink: 0;
         }
 
-        .social-links a:hover {
-            background-color: var(--primary-color);
-            color: white;
+        .value-content h3 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
         }
 
         /* Footer */
@@ -467,24 +450,21 @@
         <div class="container">
             <nav>
                 <div class="logo">
-                    <i class="fas fa-cogs"></i>
-                    <span>اسم الأداة</span>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="about.html" class="active">عن الأداة</a></li>
-                    <li><a href="features.html">الميزات</a></li>
-                    <li><a href="contact.html">اتصل بنا</a></li>
-                </ul>
+                    <img src="https://github.com/qmsweb/aswat/raw/main/images/Jassim-white-logo%20(1)%20(1).png" alt="شعار المنصة" class="logo-img">
+                    <div class="logo-text">
+                        <span>أداة الصوامت العربية</span>
+                        <span>ش</span>
+                    </div>
+               
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white;">
+    <section class="hero">
         <div class="container fade-in">
-            <h1>تعرف على أداتنا بشكل أعمق</h1>
-            <p>نحن نقدم حلولاً تقنية مبتكرة تساعدك على تحقيق أهدافك بكل كفاءة واحترافية</p>
+            <h1>تعرف على الأداة بشكل أعمق</h1>
+            <p>نحن نقدم حلولاً تقنية مبتكرة تساعدك على اختصار الجهد في التفريق بين الصوامت العربية</p>
         </div>
     </section>
 
@@ -492,7 +472,7 @@
     <section class="about">
         <div class="container">
             <div class="section-title fade-in">
-                <h2>عن أداتنا الرائعة</h2>
+                <h2>عن الأداة</h2>
             </div>
             <div class="about-content">
                 <div class="about-text fade-in delay-1">
@@ -502,7 +482,7 @@
                     <p>نؤمن بأن التقنية يجب أن تكون سهلة الاستخدام وقوية في نفس الوقت، وهذا بالضبط ما نوفره في أداتنا التي تجمع بين الواجهة البسيطة والإمكانيات المتقدمة.</p>
                 </div>
                 <div class="about-image fade-in delay-2">
-                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="فريق العمل">
+                    <img src="https://github.com/qmsweb/aswat/raw/main/images/ASWAT_Screen.png" alt="أداة الصوامت العربية">
                 </div>
             </div>
         </div>
@@ -512,7 +492,7 @@
     <section class="features">
         <div class="container">
             <div class="section-title fade-in">
-                <h2>لماذا تختار أداتنا؟</h2>
+                <h2>لماذا تستعمل أداتنا؟</h2>
             </div>
             <div class="features-grid">
                 <div class="feature-card fade-in delay-1">
@@ -520,67 +500,58 @@
                         <i class="fas fa-bolt"></i>
                     </div>
                     <h3>سرعة فائقة</h3>
-                    <p>أداتنا مصممة لتكون سريعة جداً في التنفيذ، مما يوفر لك الوقت والجهد في إنجاز مهامك اليومية.</p>
+                    <p>أداتنا مصممة لتكون سريعة جداً في التنفيذ، مما يوفر لك الوقت والجهد في إنجاز مهامك.</p>
                 </div>
                 <div class="feature-card fade-in delay-2">
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h3>أمان متكامل</h3>
-                    <p>نحن نولي الأمان أولوية قصوى، حيث يتم تشفير جميع البيانات وحمايتها بأحدث تقنيات الأمان.</p>
+                    <p>جميع البيانات المدخلة في "محرّك بحث" الأداة تتم معالجتها داخليًّا بدون أطراف أخرى، ما يجعل الأداة آمنة 100% </p>
                 </div>
                 <div class="feature-card fade-in delay-3">
                     <div class="feature-icon">
                         <i class="fas fa-cogs"></i>
                     </div>
                     <h3>سهولة الاستخدام</h3>
-                    <p>واجهة مستخدم بديهية وسهلة تمكنك من تحقيق أقصى استفادة من الأداة دون الحاجة لخبرة تقنية متقدمة.</p>
+                    <p>واجهة مستخدم سهلة تمكِّنك من تحقيق أقصى استفادة من الأداة دون الحاجة لخبرة تقنية متقدمة.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Team Section -->
-    <section class="team">
+    <!-- Values Section -->
+    <section class="values">
         <div class="container">
             <div class="section-title fade-in">
-                <h2>فريقنا المتميز</h2>
+                <h2>قيمنا الأساسية</h2>
             </div>
-            <div class="team-grid">
-                <div class="team-member fade-in delay-1">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="عضو الفريق" class="member-image">
-                    <div class="member-info">
-                        <h3>أحمد محمد</h3>
-                        <p>المؤسس والرئيس التنفيذي</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-github"></i></a>
-                        </div>
+            <div class="values-list">
+                <div class="value-item fade-in delay-1">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="value-content">
+                        <h3>الابتكار</h3>
+                        <p>نحن نؤمن بالتفكير خارج الصندوق ونسعى دائماً لتقديم حلول مبتكرة تلبي احتياجات طلبة اللغة العربية بطرق غير تقليدية.</p>
                     </div>
                 </div>
-                <div class="team-member fade-in delay-2">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" alt="عضو الفريق" class="member-image">
-                    <div class="member-info">
-                        <h3>سارة عبدالله</h3>
-                        <p>مديرة التصميم</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-dribbble"></i></a>
-                        </div>
+                <div class="value-item fade-in delay-2">
+                    <div class="value-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="value-content">
+                        <h3>النزاهة</h3>
+                        <p>نلتزم بأعلى معايير النزاهة والأخلاقيات في جميع تعاملاتنا مع بيانات زوّار منصاتنا، بما فيها هذه المنصة.</p>
                     </div>
                 </div>
-                <div class="team-member fade-in delay-3">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=761&q=80" alt="عضو الفريق" class="member-image">
-                    <div class="member-info">
-                        <h3>خالد إبراهيم</h3>
-                        <p>رئيس المطورين</p>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fab fa-stack-overflow"></i></a>
-                        </div>
+                <div class="value-item fade-in delay-3">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="value-content">
+                        <h3>الشغف</h3>
+                        <p>نحن شغوفون بما نقوم به، وهذا الشغف هو ما يدفعنا للتميز وتقديم الأفضل دائمًا.</p>
                     </div>
                 </div>
             </div>
@@ -593,33 +564,11 @@
             <div class="footer-content">
                 <div class="footer-column fade-in">
                     <h3>عن الأداة</h3>
-                    <p>أداتنا توفر حلولاً تقنية متكاملة تساعد الأفراد والشركات على تحقيق أهدافهم بكفاءة عالية.</p>
-                    <div class="social-links" style="justify-content: flex-start; margin-top: 20px;">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-column fade-in delay-1">
-                    <h3>روابط سريعة</h3>
-                    <ul class="footer-links">
-                        <li><a href="index.html"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
-                        <li><a href="about.html"><i class="fas fa-chevron-left"></i> عن الأداة</a></li>
-                        <li><a href="features.html"><i class="fas fa-chevron-left"></i> الميزات</a></li>
-                        <li><a href="pricing.html"><i class="fas fa-chevron-left"></i> الأسعار</a></li>
-                        <li><a href="contact.html"><i class="fas fa-chevron-left"></i> اتصل بنا</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column fade-in delay-2">
-                    <h3>اتصل بنا</h3>
-                    <p><i class="fas fa-map-marker-alt" style="margin-left: 8px;"></i> الرياض، المملكة العربية السعودية</p>
-                    <p><i class="fas fa-phone" style="margin-left: 8px;"></i> +966 12 345 6789</p>
-                    <p><i class="fas fa-envelope" style="margin-left: 8px;"></i> info@toolname.com</p>
-                </div>
+                    <p>أداتنا توفر حلولاً تقنية متكاملة تساعد طلبة اللغة العربية على إنجاز مهاهم بسرعة فائقة ليس لها من مثيل.</p>
+
             </div>
             <div class="footer-bottom fade-in delay-3">
-                <p>&copy; 2023 اسم الأداة. جميع الحقوق محفوظة.</p>
+                <p>&copy; 2025 فريق أداة الصوامت العربية. جميع الحقوق محفوظة.</p>
             </div>
         </div>
     </footer>
