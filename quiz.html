@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأسئلة - صوامت</title></title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* الشريط العلوي المعدل */
+        .top-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 0;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-img {
+            height: 40px;
+            width: auto;
+            transition: all 0.3s;
+        }
+        
+        .site-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 280px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 20px;
+        }
+        
+        .side-menu.show {
+            right: 0;
+        }
+        
+        .side-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .menu-links li {
+            margin-bottom: 15px;
+        }
+        
+        .menu-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 8px 0;
+            transition: color 0.3s;
+        }
+        
+        .menu-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .overlay.show {
+            display: block;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .tab-container {
+            margin: 30px 0;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            background-color: var(--light-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .question-card {
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-right: 5px solid var(--secondary-color);
+        }
+        
+        .question {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .answer {
+            display: none;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+        }
+        
+        .show-answer-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            transition: background-color 0.3s;
+        }
+        
+        .show-answer-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 50px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border: 1px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .tab-buttons {
+                flex-direction: column;
+            }
+            
+            .logo-img {
+                height: 35px;
+            }
+            
+            .site-title {
+                font-size: 1rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<link rel="icon" href="icons/favicon.png" type="image/jpg">
+
+<body>
+    <!-- الشريط العلوي المعدل -->
+    <header class="top-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="https://github.com/qmsweb/aswat/raw/main/images/swamet%206002.png" alt="صوامت" class="logo-img">
+                    <h1 class="site-title">أداة الصوامت العربية</h1>
+                </div>
+                
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- القائمة الجانبية -->
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h3> </h3>
+            <button class="close-btn" onclick="toggleMenu()">×</button>
+        </div>
+        <ul class="menu-links">
+            <li><a href="https://aswt.jassim.one/about.html">عن الأداة</a></li>
+            <li><a href="https://platforms.jassim.one">مواقع صديقة</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header">إرسال مقترح</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfszQ_yNUfNBfkkZjFPPz6cmd13gJsWxEQXOpTirbuz9V-ezA/viewform?usp=header">الإبلاغ عن خطأ</a></li>
+        </ul>
+    </div>
+    
+    <!-- المحتوى الرئيسي -->
+    <div class="container">
+        <h2 class="section-title">أسئلة تخبر فهمك للصوامت العربية</h2>
+        <p>اختر أحد الأبواب التالية لاختبار معرفتك بخصائص الصوامت العربية</p>
+        
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="openTab('makharij')">باب المخرج</button>
+                <button class="tab-btn" onclick="openTab('tongue')">باب شكل اللسان</button>
+                <button class="tab-btn" onclick="openTab('vibration')">باب اهتزاز الوترين</button>
+                <button class="tab-btn" onclick="openTab('pronunciation')">باب طريقة النطق</button>
+                <button class="tab-btn" onclick="openTab('all')">باب الأسئلة الشاملة</button>
+            </div>
+            
+            <!-- باب المخرج -->
+            <div id="makharij" class="tab-content active">
+                <div class="question-card">
+                    <div class="question">1. ما هي الحروف التي تخرج من الشفتين؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">الباء، الميم، الواو (الأصوات الشفوية)</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">2. ما هو الحرف الذي يخرج من بين الشفة السفلى والأسنان العليا؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">حرف الفاء (صوت شفوي أسناني)</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">3. ما هي الحروف التي تخرج من بين الأسنان؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">الثاء، الذال، الظاء (الأصوات بين الأسنانية)</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">4. ما هي الحروف التي تخرج من مخرج الأسنان واللثة؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">التاء، الدال، الطاء، الضاد، اللام، النون (الأصوات الأسنانية اللثوية)</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">5. ما هو الحرف الذي يخرج من أقصى اللسان مع ما يحاذيه من الحنك؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">حرف القاف (صوت لهوي)</div>
+                </div>
+            </div>
+            
+            <!-- باب شكل اللسان -->
+            <div id="tongue" class="tab-content">
+                <div class="question-card">
+                    <div class="question">1. ما هي الحروف المطبقة في اللغة العربية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">الصاد، الضاد، الطاء، الظاء (الأصوات المطبقة)</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">2. ما معنى أن الحرف مطبق؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">أنه ينطق مع إطباق جانب اللسان على الحنك الأعلى</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">3. ما الفرق بين الطاء والتاء من حيث شكل اللسان؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">الطاء حرف مطبق بينما التاء حرف غير مطبق</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">4. لماذا سميت الحروف المطبقة بهذا الاسم؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">لأن اللسان يلتصق بالحنك الأعلى عند النطق بها</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">5. ما هي الحروف غير المطبقة في اللغة العربية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">جميع الأحرف العربية ما عدا الصاد، الضاد، الطاء، الظاء</div>
+                </div>
+            </div>
+            
+            <!-- باب اهتزاز الوترين -->
+            <div id="vibration" class="tab-content">
+                <div class="question-card">
+                    <div class="question">1. ما الفرق بين الحروف المجهورة والمهموسة؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">المجهورة: تهتز لها الأوتار الصوتية. المهموسة: لا تهتز لها الأوتار الصوتية</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">2. كم عدد الحروف المجهورة في العربية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">13 حرفًا (الباء، الجيم، الدال، الذال، الراء، الزاي، الضاد، الظاء، العين، الغين، اللام، الميم، النون)</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">3. كم عدد الحروف المهموسة في العربية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">12 حرفًا (التاء، الثاء، الحاء، الخاء، السين، الشين، الصاد، الطاء، الفاء، القاف، الكاف، الهاء)</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">4. لماذا سميت الحروف المجهورة بهذا الاسم؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">لأنها تخرج بجهرة وصوت مسموع نتيجة اهتزاز الأوتار الصوتية</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">5. ما هي الحروف الحلقية المهموسة؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">الحاء، الخاء، الهاء</div>
+                </div>
+            </div>
+            
+            <!-- باب طريقة النطق -->
+            <div id="pronunciation" class="tab-content">
+                <div class="question-card">
+                    <div class="question">1. ما هي الأصوات الشديدة (الانفجارية) في العربية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">الهمزة، الباء، التاء، الجيم الخالية من التعطيش، الدال، الضاد، الطاء، القاف، الكاف</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">2. ما هي الأصوات الرخوة (الاحتكاكية) في العربية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">الثاء، الحاء، الخاء، الذال، الزاي، السين، الشين، الصاد، الظاء، العين، الغين، الفاء، الهاء</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">3. ما هو الحرف التكراري في العربية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">حرف الراء</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">4. ما هي الأصوات الأنفية في العربية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">الميم، النون</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">5. ما الفرق بين الجيم المعطشة وغير المعطشة؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">الجيم المعطشة: صوت مركب بين الانفجار والاحتكاك. الجيم غير المعطشة: صوت انفجاري صرف</div>
+                </div>
+            </div>
+            
+            <!-- باب الأسئلة الشاملة -->
+            <div id="all" class="tab-content">
+                <div class="question-card">
+                    <div class="question">1. صف حرف الضاد من حيث المخرج وطريقة النطق واهتزاز الوترين وشكل اللسان؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">
+                        - المخرج: أسنانية لثوية<br>
+                        - طريقة النطق: شديد (انفجاري)<br>
+                        - اهتزاز الوترين: مجهور<br>
+                        - شكل اللسان: مطبق
+                    </div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">2. ما الفرق بين السين والصاد من جميع النواحي الصوتية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">
+                        - المخرج: كلاهما لثوي<br>
+                        - طريقة النطق: كلاهما رخو (احتكاكي)<br>
+                        - اهتزاز الوترين: كلاهما مهموس<br>
+                        - شكل اللسان: السين غير مطبقة، الصاد مطبقة
+                    </div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">3. قارن بين حرفي الطاء والتاء من جميع الجوانب الصوتية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">
+                        - المخرج: كلاهما أسناني لثوي<br>
+                        - طريقة النطق: كلاهما شديد (انفجاري)<br>
+                        - اهتزاز الوترين: الطاء مجهورة، التاء مهموسة<br>
+                        - شكل اللسان: الطاء مطبقة، التاء غير مطبقة
+                    </div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">4. صف حرف العين من جميع النواحي الصوتية؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">
+                        - المخرج: حلقية<br>
+                        - طريقة النطق: رخو (احتكاكي)<br>
+                        - اهتزاز الوترين: مجهور<br>
+                        - شكل اللسان: غير مطبق
+                    </div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question">5. ما هي الحروف التي تخرج من الحلق؟ وما الفرق بينها؟</div>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">إظهار الإجابة</button>
+                    <div class="answer">
+                        الحروف الحلقية: الهمزة، الهاء، العين، الحاء، الغين، الخاء<br>
+                        الفروق:<br>
+                        - الهمزة: حنجري انفجاري مهموس<br>
+                        - الهاء: حنجري احتكاكي مهموس<br>
+                        - العين: حلقي احتكاكي مجهور<br>
+                        - الحاء: حلقي احتكاكي مهموس<br>
+                        - الغين: طبقي احتكاكي مجهور<br>
+                        - الخاء: طبقي احتكاكي مهموس
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" class="footer-link" target="_blank">إرسال مقترح</a>
+                <a href="https://aswt.jassim.one/qr.html" class="footer-link" target="_blank">رمز الاستجابة السريعة</a>
+                <a href="https://platforms.jassim.one/" class="footer-link" target="_blank">مواقع إلكترونية صديقة</a>
+                <a href="https://aswt.jassim.one/about.html" class="footer-link" target="_blank">عن الأداة</a>
+            </div>
+            <p class="copyright"> تطوير جاسم الفارسي لفريق عمل أداة صوامت - جميع الحقوق محفوظة © 2025 </p>
+        </div>
+    </footer>
+
+    <script>
+        // إدارة القائمة الجانبية
+        function toggleMenu() {
+            document.getElementById("sideMenu").classList.toggle("show");
+            document.getElementById("overlay").classList.toggle("show");
+        }
+        
+        // إغلاق القائمة عند النقر على overlay
+        document.getElementById("overlay").addEventListener("click", toggleMenu);
+        
+        // إدارة تبويبات الأسئلة
+        function openTab(tabId) {
+            // إخفاء جميع المحتويات
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // إزالة التنشيط من جميع الأزرار
+            const tabButtons = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // إظهار المحتوى المحدد وتنشيط الزر
+            document.getElementById(tabId).classList.add("active");
+            event.currentTarget.classList.add("active");
+        }
+        
+        // إظهار/إخفاء الإجابة
+        function toggleAnswer(button) {
+            const answer = button.nextElementSibling;
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                button.textContent = "إظهار الإجابة";
+            } else {
+                answer.style.display = "block";
+                button.textContent = "إخفاء الإجابة";
+            }
+        }
+    </script>
+</body>
+</html>
