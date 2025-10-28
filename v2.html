@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta property="og:title" content="أداة صوامت" />
+    <meta property="og:description" content="أداة الصوامت العربية - علم الأصوات" />
+    <meta property="og:image" content="images/cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sawamet.jassim.one" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صوامت - أداة الصوامت العربية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="icons/favicon.png" type="image/jpg">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #4769fa;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* الشريط العلوي المعدل */
+        .top-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 0;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-img {
+            height: 40px;
+            width: auto;
+            transition: all 0.3s;
+        }
+        
+        .site-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 280px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 20px;
+        }
+        
+        .side-menu.show {
+            right: 0;
+        }
+        
+        .side-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .menu-links li {
+            margin-bottom: 15px;
+        }
+        
+        .menu-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 8px 0;
+            transition: color 0.3s;
+        }
+        
+        .menu-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .overlay.show {
+            display: block;
+        }
+        
+        .search-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .search-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-direction: column;
+        }
+        
+        .search-input {
+            font-size: 20px;
+            padding: 12px 20px;
+            width: 300px;
+            max-width: 90%;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .search-input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+        
+        .search-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .search-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .quiz-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Tajawal', sans-serif;
+            margin-bottom: 15px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .quiz-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .result-section {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .word-display {
+            font-size: 36px;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--primary-color);
+            padding: 15px;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .consonants-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .consonant-card {
+            background: var(--light-color);
+            border-radius: 8px;
+            padding: 15px;
+            width: 120px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .consonant-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .consonant-char {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .consonant-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .consonant-type {
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+        
+        .vowels-container {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd;
+        }
+        
+        .vowels-title {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+        
+        .vowels-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .vowel-item {
+            background: #fff5f5;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 18px;
+            border: 1px solid #ffcccc;
+        }
+        
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .error-message {
+            color: var(--accent-color);
+            text-align: center;
+            font-size: 18px;
+            padding: 20px;
+        }
+        
+        .classification-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .classification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .classification-card {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .classification-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .classification-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .classification-list li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 50px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border: 1px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .classification-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-img {
+                height: 35px;
+            }
+            
+            .site-title {
+                font-size: 1rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .summary-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الشريط العلوي المعدل -->
+    <header class="top-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="https://github.com/qmsweb/aswat/raw/main/images/swamet%206002.png" alt="أداة الصوامت العربية" class="logo-img">
+                    <h1 class="site-title">أداة الصوامت العربية</h1>
+                </div>
+                
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- القائمة الجانبية -->
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h3> </h3>
+            <button class="close-btn" onclick="toggleMenu()">×</button>
+        </div>
+        <ul class="menu-links">
+            <li><a href="https://sawamet.jassim.one/about.html">عن الأداة</a></li>
+            <li><a href="https://platforms.jassim.one">مواقع صديقة</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header">إرسال مقترح</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfszQ_yNUfNBfkkZjFPPz6cmd13gJsWxEQXOpTirbuz9V-ezA/viewform?usp=header">الإبلاغ عن خطأ</a></li>
+        </ul>
+    </div>
+    
+    <!-- المحتوى الرئيسي -->
+    <div class="container">
+        <section class="search-section">
+            <h2>مُحلل الصوامت في الكلمات</h2>
+            <p>أدخل كلمة عربية لاستخراج الصوامت وتحليل خصائصها الصوتية</p>
+            
+            <!-- زر الاختبارات الجديد -->
+            <a href="/quiz" class="quiz-btn">اختبر معلوماتك في الصوامت</a>
+            
+            <div class="search-box">
+                <input type="text" id="wordInput" class="search-input" placeholder="اكتب كلمة هنا">
+                <button onclick="analyzeWord()" class="search-btn">تحليل الصوامت</button>
+            </div>
+        </section>
+        
+        <section class="result-section" id="resultSection">
+            <div id="wordDisplay" class="word-display"></div>
+            
+            <div class="summary-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalConsonants">0</div>
+                    <div class="stat-label">إجمالي الصوامت</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalVowels">0</div>
+                    <div class="stat-label">إجمالي حروف العلة</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalLetters">0</div>
+                    <div class="stat-label">إجمالي الحروف</div>
+                </div>
+            </div>
+            
+            <h3 class="section-title">الصوامت في الكلمة</h3>
+            <div class="consonants-container" id="consonantsContainer">
+                <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </div>
+            
+            <div class="vowels-container">
+                <h4 class="vowels-title">حروف العلة في الكلمة</h4>
+                <div class="vowels-list" id="vowelsList">
+                    <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </div>
+            </div>
+        </section>
+        
+        <section class="classification-section">
+            <h2 class="section-title">تصنيف الصوامت العربية</h2>
+            
+            <div class="classification-grid">
+                <div class="classification-card">
+                    <h3 class="classification-title">حسب المخرج</h3>
+                    <ul class="classification-list">
+                        <li><strong>الأصوات الشفوية:</strong> الباء، الميم، الواو</li>
+                        <li><strong>الأصوات الشفوية الأسنانية:</strong> الفاء</li>
+                        <li><strong>بين الأسنانية:</strong> الثاء، الذال، الظاء</li>
+                        <li><strong>الأسنانية اللثوية:</strong> التاء، الدال، الطاء، الضاد، اللام، النون</li>
+                        <li><strong>اللثوية:</strong> الراء، الزاي، السين، الصاد</li>
+                        <li><strong>اللثوية الحنكية:</strong> الجيم المعطشة، الشين</li>
+                        <li><strong>الحنكية:</strong> الجيم، الياء</li>
+                        <li><strong>الطبقية:</strong> الغين، الخاء، الكاف</li>
+                        <li><strong>اللهاوية:</strong> القاف</li>
+                        <li><strong>الحلقية:</strong> الحاء، العين</li>
+                        <li><strong>الحنجرية:</strong> الهمزة، الهاء</li>
+                    </ul>
+                </div>
+                
+                <div class="classification-card">
+                    <h3 class="classification-title">حسب اهتزاز الوترين</h3>
+                    <ul class="classification-list">
+                        <li><strong>المجهورة (13 حرفًا):</strong><br>
+                        الباء، الجيم، الدال، الذال، الراء، الزاي، الضاد، الظاء، العين، الغين، اللام، الميم، النون</li>
+                        <li><strong>المهموسة (12 حرفًا):</strong><br>
+                        التاء، الثاء، الحاء، الخاء، السين، الشين، الصاد، الطاء، الفاء، القاف، الكاف، الهاء</li>
+                    </ul>
+                </div>
+                
+                <div class="classification-card">
+                    <h3 class="classification-title">حسب طريقة النطق</h3>
+                    <ul class="classification-list">
+                        <li><strong>الأصوات الشديدة (الانفجارية):</strong><br>
+                        الهمزة، الباء، التاء، الجيم الخالية من التعطيش، الدال، الضاد، الطاء، القاف، الكاف</li>
+                        <li><strong>الأصوات الرخوة (الاحتكاكية):</strong><br>
+                        الثاء، الحاء، الخاء، الذال، الزاي، السين، الشين، الصاد، الظاء، العين، الغين، الفاء، الهاء</li>
+                        <li><strong>الأصوات المركبة:</strong> الجيم الفصحى المعطشة قليلًا</li>
+                        <li><strong>الأصوات التكرارية:</strong> الراء</li>
+                        <li><strong>الأصوات الجانبية:</strong> اللام</li>
+                        <li><strong>الأصوات الأنفية:</strong> الميم، النون</li>
+                        <li><strong>الأصوات اللينة:</strong> الواو، الياء</li>
+                    </ul>
+                </div>
+                
+                <div class="classification-card">
+                    <h3 class="classification-title">حسب شكل اللسان</h3>
+                    <ul class="classification-list">
+                        <li><strong>الأصوات المطبقة:</strong><br>
+                        الصاد، الضاد، الطاء، الظاء</li>
+                        <li><strong>الأصوات غير المطبقة:</strong><br>
+                        جميع الأحرف الأخرى</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" class="footer-link" target="_blank">إرسال مقترح</a>
+                <a href="https://sawamet.jassim.one/qr.html" class="footer-link" target="_blank">رمز الاستجابة السريعة</a>
+                <a href="https://platforms.jassim.one/" class="footer-link" target="_blank">مواقع إلكترونية صديقة</a>
+                <a href="https://sawamet.jassim.one/about.html" class="footer-link" target="_blank">عن الأداة</a>
+            </div>
+            <p class="copyright"> تطوير جاسم الفارسي لفريق عمل أداة صوامت - جميع الحقوق محفوظة © 2025 </p>
+        </div>
+    </footer>
+
+    <script>
+        // بيانات الصوامت العربية
+        const consonantsData = {
+            "ب": { name: "الباء", type: "صامت", place: "شفوي", vibration: "مجهور", method: "انفجاري", tongueShape: "غير مطبق" },
+            "ت": { name: "التاء", type: "صامت", place: "لثوي", vibration: "مهموس", method: "انفجاري", tongueShape: "غير مطبق" },
+            "ث": { name: "الثاء", type: "صامت", place: "بين الأسناني", vibration: "مهموس", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "ج": { name: "الجيم", type: "صامت", place: "حنكي", vibration: "مجهور", method: "انفجاري", tongueShape: "غير مطبق" },
+            "ح": { name: "الحاء", type: "صامت", place: "حلقي", vibration: "مهموس", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "خ": { name: "الخاء", type: "صامت", place: "طبقي", vibration: "مهموس", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "د": { name: "الدال", type: "صامت", place: "لثوي", vibration: "مجهور", method: "انفجاري", tongueShape: "غير مطبق" },
+            "ذ": { name: "الذال", type: "صامت", place: "بين الأسناني", vibration: "مجهور", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "ر": { name: "الراء", type: "صامت", place: "لثوي", vibration: "مجهور", method: "تكرارى", tongueShape: "غير مطبق" },
+            "ز": { name: "الزاي", type: "صامت", place: "لثوي", vibration: "مجهور", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "س": { name: "السين", type: "صامت", place: "لثوي", vibration: "مهموس", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "ش": { name: "الشين", type: "صامت", place: "لثوي حنكي", vibration: "مهموس", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "ص": { name: "الصاد", type: "صامت", place: "لثوي", vibration: "مهموس", method: "احتكاكي", tongueShape: "مطبق" },
+            "ض": { name: "الضاد", type: "صامت", place: "لثوي", vibration: "مجهور", method: "انفجاري", tongueShape: "مطبق" },
+            "ط": { name: "الطاء", type: "صامت", place: "لثوي", vibration: "مجهور", method: "انفجاري", tongueShape: "مطبق" },
+            "ظ": { name: "الظاء", type: "صامت", place: "بين الأسناني", vibration: "مجهور", method: "احتكاكي", tongueShape: "مطبق" },
+            "ع": { name: "العين", type: "صامت", place: "حلقي", vibration: "مجهور", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "غ": { name: "الغين", type: "صامت", place: "طبقي", vibration: "مجهور", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "ف": { name: "الفاء", type: "صامت", place: "شفوي أسناني", vibration: "مهموس", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "ق": { name: "القاف", type: "صامت", place: "لهاوي", vibration: "مهموس", method: "انفجاري", tongueShape: "غير مطبق" },
+            "ك": { name: "الكاف", type: "صامت", place: "طبقي", vibration: "مهموس", method: "انفجاري", tongueShape: "غير مطبق" },
+            "ل": { name: "اللام", type: "صامت", place: "لثوي", vibration: "مجهور", method: "جانبي", tongueShape: "غير مطبق" },
+            "م": { name: "الميم", type: "صامت", place: "شفوي", vibration: "مجهور", method: "أنفي", tongueShape: "غير مطبق" },
+            "ن": { name: "النون", type: "صامت", place: "لثوي", vibration: "مجهور", method: "أنفي", tongueShape: "غير مطبق" },
+            "ه": { name: "الهاء", type: "صامت", place: "حنجري", vibration: "مهموس", method: "احتكاكي", tongueShape: "غير مطبق" },
+            "ء": { name: "الهمزة", type: "صامت", place: "حنجري", vibration: "مهموس", method: "انفجاري", tongueShape: "غير مطبق" },
+            "ؤ": { name: "الواو مع الهمزة", type: "صامت", place: "حنجري", vibration: "مهموس", method: "انفجاري", tongueShape: "غير مطبق" },
+            "ئ": { name: "الياء مع الهمزة", type: "صامت", place: "حنجري", vibration: "مهموس", method: "انفجاري", tongueShape: "غير مطبق" }
+        };
+
+        // حروف العلة العربية
+        const vowels = ["ا", "أ", "إ", "آ", "ى", "و", "ي", "ة"];
+
+        // دالة تحليل الكلمة
+        function analyzeWord() {
+            const word = document.getElementById("wordInput").value.trim();
+            const resultSection = document.getElementById("resultSection");
+            const wordDisplay = document.getElementById("wordDisplay");
+            const consonantsContainer = document.getElementById("consonantsContainer");
+            const vowelsList = document.getElementById("vowelsList");
+            
+            // إحصائيات
+            const totalConsonants = document.getElementById("totalConsonants");
+            const totalVowels = document.getElementById("totalVowels");
+            const totalLetters = document.getElementById("totalLetters");
+            
+            // تفريغ المحتوى السابق
+            consonantsContainer.innerHTML = "";
+            vowelsList.innerHTML = "";
+            
+            if (!word) {
+                resultSection.style.display = "block";
+                wordDisplay.innerHTML = '<div class="error-message">الرجاء إدخال كلمة</div>';
+                return;
+            }
+            
+            // عرض الكلمة المدخلة
+            wordDisplay.textContent = word;
+            
+            // استخراج الصوامت وحروف العلة
+            let consonants = [];
+            let foundVowels = [];
+            
+            for (let char of word) {
+                if (consonantsData[char]) {
+                    consonants.push(char);
+                } else if (vowels.includes(char)) {
+                    foundVowels.push(char);
+                }
+            }
+            
+            // تحديث الإحصائيات
+            totalConsonants.textContent = consonants.length;
+            totalVowels.textContent = foundVowels.length;
+            totalLetters.textContent = word.length;
+            
+            // عرض الصوامت
+            if (consonants.length > 0) {
+                consonants.forEach(char => {
+                    const consonantCard = document.createElement("div");
+                    consonantCard.className = "consonant-card";
+                    
+                    const consonantChar = document.createElement("div");
+                    consonantChar.className = "consonant-char";
+                    consonantChar.textContent = char;
+                    
+                    const consonantName = document.createElement("div");
+                    consonantName.className = "consonant-name";
+                    consonantName.textContent = consonantsData[char].name;
+                    
+                    const consonantType = document.createElement("div");
+                    consonantType.className = "consonant-type";
+                    consonantType.textContent = `${consonantsData[char].place} - ${consonantsData[char].vibration}`;
+                    
+                    consonantCard.appendChild(consonantChar);
+                    consonantCard.appendChild(consonantName);
+                    consonantCard.appendChild(consonantType);
+                    
+                    consonantsContainer.appendChild(consonantCard);
+                });
+            } else {
+                consonantsContainer.innerHTML = '<div class="error-message">لا توجد صوامت في هذه الكلمة</div>';
+            }
+            
+            // عرض حروف العلة
+            if (foundVowels.length > 0) {
+                foundVowels.forEach(vowel => {
+                    const vowelItem = document.createElement("div");
+                    vowelItem.className = "vowel-item";
+                    vowelItem.textContent = vowel;
+                    vowelsList.appendChild(vowelItem);
+                });
+            } else {
+                vowelsList.innerHTML = '<div class="error-message">لا توجد حروف علة في هذه الكلمة</div>';
+            }
+            
+            // عرض قسم النتائج
+            resultSection.style.display = "block";
+        }
+
+        // دالة فتح/إغلاق القائمة الجانبية
+        function toggleMenu() {
+            const sideMenu = document.getElementById("sideMenu");
+            const overlay = document.getElementById("overlay");
+            
+            sideMenu.classList.toggle("show");
+            overlay.classList.toggle("show");
+        }
+
+        // إغلاق القائمة عند النقر خارجها
+        document.getElementById("overlay").addEventListener("click", toggleMenu);
+        
+        // السماح بالبحث عند الضغط على زر Enter
+        document.getElementById("wordInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                analyzeWord();
+            }
+        });
+    </script>
+</body>
+</html>
