@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>صوامت - أداة الصوامت العربية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon" href="icons/favicon.png" type="image/jpg">
     <style>
         :root {
@@ -16,7 +16,8 @@
         }
         
         body {
-            font-family: 'Tajawal', sans-serif;
+            /* تطبيق الخط الجديد */
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
             background-color: #f5f5f5;
             color: #333;
             line-height: 1.6;
@@ -30,11 +31,11 @@
             padding: 0 20px;
         }
         
-        /* الشريط العلوي المعدل */
+        /* الشريط العلوي */
         .top-header {
             background-color: var(--primary-color);
             color: white;
-            padding: 10px 0;
+            padding: 15px 0;
             position: relative;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
@@ -49,17 +50,19 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
         
+        /* تنسيق شعار التوب بار */
         .logo-img {
-            height: 40px;
+            height: 45px;
             width: auto;
+            object-fit: contain;
             transition: all 0.3s;
         }
         
         .site-title {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 500;
             margin: 0;
         }
@@ -68,9 +71,11 @@
             background: none;
             border: none;
             color: white;
-            font-size: 24px;
+            font-size: 26px;
             cursor: pointer;
             padding: 5px;
+            display: flex;
+            align-items: center;
         }
         
         .side-menu {
@@ -169,7 +174,7 @@
             text-align: center;
             border: 2px solid #ddd;
             border-radius: 8px;
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
         }
         
         .search-input:focus {
@@ -177,7 +182,7 @@
             outline: none;
         }
         
-        .search-btn {
+        .search-btn, .quiz-btn {
             background-color: var(--secondary-color);
             color: white;
             border: none;
@@ -186,30 +191,17 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s;
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
         }
         
-        .search-btn:hover {
+        .search-btn:hover, .quiz-btn:hover {
             background-color: #2980b9;
         }
         
         .quiz-btn {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-family: 'Tajawal', sans-serif;
             margin-bottom: 15px;
             display: inline-block;
             text-decoration: none;
-        }
-        
-        .quiz-btn:hover {
-            background-color: #2980b9;
         }
         
         .result-section {
@@ -318,7 +310,7 @@
         
         footer {
             text-align: center;
-            padding: 30px 20px;
+            padding: 40px 20px;
             background-color: var(--primary-color);
             color: white;
             margin-top: 50px;
@@ -328,7 +320,7 @@
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
         }
         
@@ -346,13 +338,55 @@
             color: var(--primary-color);
         }
         
+        /* تنسيق شعارات الفوتر */
+        .footer-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-logo {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.1); /* خلفية خفيفة لإبراز الشعار إن كان داكناً */
+            padding: 5px;
+            border-radius: 5px;
+        }
+
         .copyright {
             margin-top: 15px;
             font-size: 0.9rem;
             opacity: 0.8;
         }
         
+        /* توافق الأجهزة اللوحية (Tablets) */
+        @media (max-width: 992px) {
+            .logo-img {
+                height: 40px;
+            }
+            .site-title {
+                font-size: 1.15rem;
+            }
+        }
+
+        /* توافق الهواتف الذكية (Mobiles) */
         @media (max-width: 768px) {
+            .header-content {
+                flex-direction: row; /* للحفاظ على الشعار والزر في نفس السطر */
+            }
+            
+            .logo-img {
+                height: 35px;
+            }
+            
+            .site-title {
+                font-size: 1rem;
+            }
+            
             .search-box {
                 flex-direction: column;
             }
@@ -365,17 +399,17 @@
                 grid-template-columns: 1fr;
             }
             
-            .logo-img {
-                height: 35px;
-            }
-            
-            .site-title {
-                font-size: 1rem;
-            }
-            
             .footer-links {
                 flex-direction: column;
-                gap: 10px;
+                gap: 15px;
+            }
+
+            .footer-logos {
+                gap: 20px;
+            }
+
+            .footer-logo {
+                height: 40px;
             }
         }
     </style>
@@ -385,6 +419,7 @@
     <header class="top-header">
         <div class="container header-content">
             <div class="logo-container">
+                <img src="images/logo.png" alt="شعار الأداة" class="logo-img">
                 <h1 class="site-title">أداة الصوامت العربية</h1>
             </div>
             <button class="menu-btn" onclick="toggleMenu()">☰</button>
@@ -516,13 +551,18 @@
             <a href="#" class="footer-link">المصادر العلمية</a>
             <a href="#" class="footer-link">سياسة الخصوصية</a>
         </div>
+        
+        <div class="footer-logos">
+            <img src="images/logo1.png" alt="شعار داعم 1" class="footer-logo">
+            <img src="images/logo2.png" alt="شعار داعم 2" class="footer-logo">
+        </div>
+
         <div class="copyright">
             © 2024 أداة الصوامت العربية - تعتمد على التصوير المخبري لمخارج الحروف.
         </div>
     </footer>
 
     <script>
-        // قاعدة بيانات الصوامت بناءً على النص المُعطى
         const consonantsData = {
             'ب': { name: 'الباء', makhraj: 'أصوات شفوية', desc: 'يصدر من بين الشفتين. ينحبس الهواء في أثناء النطق بالباء بسبب انطباق الشفتين.' },
             'م': { name: 'الميم', makhraj: 'أصوات شفوية', desc: 'يصدر من بين الشفتين بانطباقهما. ويُرافق الميم غنة من الخيشوم.' },
@@ -559,13 +599,11 @@
             'هـ': { name: 'الهاء', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة بحسب وضع الوترين الصّوتيين انفتاحًا أو إغلاقًا.' }
         };
 
-        // دالة فتح/إغلاق القائمة الجانبية
         function toggleMenu() {
             document.getElementById('sideMenu').classList.toggle('show');
             document.getElementById('overlay').classList.toggle('show');
         }
 
-        // دالة البحث عن الحرف
         function searchChar() {
             const input = document.getElementById('charInput').value.trim();
             const errorMsg = document.getElementById('errorMsg');
@@ -578,30 +616,25 @@
                 return;
             }
 
-            // استخراج الحرف الأول في حال كتب المستخدم أكثر من حرف
             const char = input.charAt(0);
 
             if (consonantsData[char]) {
                 const data = consonantsData[char];
                 
-                // تحديث البيانات في قسم النتائج
                 document.getElementById('charDisplay').innerText = char;
                 document.getElementById('charName').innerText = data.name;
                 document.getElementById('makhrajValue').innerText = data.makhraj;
                 document.getElementById('descValue').innerText = data.desc;
 
-                // إظهار النتائج وإخفاء رسالة الخطأ
                 errorMsg.style.display = 'none';
                 resultSection.style.display = 'block';
             } else {
-                // الحرف غير موجود أو ليس صامتاً من القائمة
                 errorMsg.style.display = 'block';
                 errorMsg.innerText = 'عذراً، لم يتم العثور على الحرف! تأكد من إدخال صامت عربي (حرف صحيح).';
                 resultSection.style.display = 'none';
             }
         }
 
-        // دعم البحث عند الضغط على زر Enter
         document.getElementById('charInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 searchChar();
