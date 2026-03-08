@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صوامت - أداة الصوامت العربية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="icons/favicon.png" type="image/jpg">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #4769fa;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* الشريط العلوي المعدل */
+        .top-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 0;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-img {
+            height: 40px;
+            width: auto;
+            transition: all 0.3s;
+        }
+        
+        .site-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 280px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 20px;
+        }
+        
+        .side-menu.show {
+            right: 0;
+        }
+        
+        .side-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .menu-links li {
+            margin-bottom: 15px;
+        }
+        
+        .menu-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 8px 0;
+            transition: color 0.3s;
+        }
+        
+        .menu-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .overlay.show {
+            display: block;
+        }
+        
+        .search-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .search-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .search-input {
+            font-size: 24px;
+            padding: 10px 15px;
+            width: 80px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .search-input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+        
+        .search-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .search-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .quiz-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Tajawal', sans-serif;
+            margin-bottom: 15px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .quiz-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .result-section {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .char-display {
+            font-size: 80px;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--primary-color);
+        }
+        
+        .char-name {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .detail-card {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 5px solid var(--secondary-color);
+        }
+        
+        .detail-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+        }
+        
+        .error-message {
+            color: var(--accent-color);
+            text-align: center;
+            font-size: 18px;
+            padding: 20px;
+            display: none;
+        }
+        
+        .classification-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .classification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .classification-card {
+            background: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .classification-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .classification-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .classification-list li {
+            padding: 5px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 50px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border: 1px solid white;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .classification-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-img {
+                height: 35px;
+            }
+            
+            .site-title {
+                font-size: 1rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="container header-content">
+            <div class="logo-container">
+                <h1 class="site-title">أداة الصوامت العربية</h1>
+            </div>
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        </div>
+    </header>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <h3>القائمة</h3>
+            <button class="close-btn" onclick="toggleMenu()">×</button>
+        </div>
+        <ul class="menu-links">
+            <li><a href="#">الرئيسية</a></li>
+            <li><a href="#classifications">تصنيف الصوامت</a></li>
+            <li><a href="#">اختبار الصوامت</a></li>
+            <li><a href="#">حول الأداة</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <section class="search-section">
+            <a href="#" class="quiz-btn">اختبر معلوماتك</a>
+            <h2>ابحث عن صامت (حرف)</h2>
+            <p>أدخل الحرف لمعرفة مخرجه وتفاصيل نطقه وفقاً للتصوير المخبري</p>
+            <div class="search-box">
+                <input type="text" id="charInput" class="search-input" maxlength="1" placeholder="ب">
+                <button class="search-btn" onclick="searchChar()">بحث</button>
+            </div>
+            <div id="errorMsg" class="error-message">يرجى إدخال حرف عربي صحيح!</div>
+        </section>
+
+        <section id="resultSection" class="result-section">
+            <div class="char-display" id="charDisplay">ب</div>
+            <div class="char-name" id="charName">الباء</div>
+            
+            <div class="details-grid">
+                <div class="detail-card">
+                    <div class="detail-title">المخرج الأساسي</div>
+                    <div class="detail-value" id="makhrajValue">أصوات شفوية</div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-title">آلية النطق (التشكيل)</div>
+                    <div class="detail-value" id="descValue">ينحبس الهواء في أثناء النطق بالباء بسبب انطباق الشفتين.</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="classifications" class="classification-section">
+            <h2 class="section-title">التوزيع الحديث للصوامت العربية (وفق مخارجها الـ 10)</h2>
+            <div class="classification-grid">
+                <div class="classification-card">
+                    <div class="classification-title">1. الأصوات الشفوية</div>
+                    <ul class="classification-list">
+                        <li><strong>ب، م، و</strong></li>
+                        <li>تصدر من بين الشفتين بأوضاع مختلفة.</li>
+                    </ul>
+                </div>
+                <div class="classification-card">
+                    <div class="classification-title">2. شفوي أسناني</div>
+                    <ul class="classification-list">
+                        <li><strong>ف</strong></li>
+                        <li>يصدر من بين الشفة السفلى والأسنان العليا.</li>
+                    </ul>
+                </div>
+                <div class="classification-card">
+                    <div class="classification-title">3. بين أسنانية</div>
+                    <ul class="classification-list">
+                        <li><strong>ث، ذ، ظ</strong></li>
+                        <li>تصدر من بين الأسنان العليا وطرف اللسان.</li>
+                    </ul>
+                </div>
+                <div class="classification-card">
+                    <div class="classification-title">4. أسنانية لثوية</div>
+                    <ul class="classification-list">
+                        <li><strong>ت، د، ط، ض، ن</strong> (التقاء طرف/رأس اللسان بأصول الثنايا).</li>
+                        <li><strong>ز، س، ص</strong> (أصوات الصفير).</li>
+                    </ul>
+                </div>
+                <div class="classification-card">
+                    <div class="classification-title">5. لثويّان</div>
+                    <ul class="classification-list">
+                        <li><strong>ر، ل</strong></li>
+                        <li>يعاق الهواء لاتصال طرف اللسان باللثة العليا.</li>
+                    </ul>
+                </div>
+                <div class="classification-card">
+                    <div class="classification-title">6. أصوات غاريّة</div>
+                    <ul class="classification-list">
+                        <li><strong>ج، ش، ي</strong></li>
+                        <li>تقترب أو تلتقي بوسط الحنك الصلب (الغار).</li>
+                    </ul>
+                </div>
+                <div class="classification-card">
+                    <div class="classification-title">7. أصوات طبقية</div>
+                    <ul class="classification-list">
+                        <li><strong>غ، خ، ك</strong></li>
+                        <li>يتكون عائقها في منطقة الحنك اللين (الطبق).</li>
+                    </ul>
+                </div>
+                <div class="classification-card">
+                    <div class="classification-title">8. صوت لهوي</div>
+                    <ul class="classification-list">
+                        <li><strong>ق</strong></li>
+                        <li>التقاء أقصى اللسان باللهاة.</li>
+                    </ul>
+                </div>
+                <div class="classification-card">
+                    <div class="classification-title">9. صوتان حلقيّان</div>
+                    <ul class="classification-list">
+                        <li><strong>ح، ع</strong></li>
+                        <li>اقتراب لسان المزمار من الجدار الخلفي للحلق.</li>
+                    </ul>
+                </div>
+                <div class="classification-card">
+                    <div class="classification-title">10. صوتان حنجريّان</div>
+                    <ul class="classification-list">
+                        <li><strong>ء، هـ</strong></li>
+                        <li>يصدران من الحنجرة بحسب وضع الوترين الصوتيين.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#" class="footer-link">اتصل بنا</a>
+            <a href="#" class="footer-link">المصادر العلمية</a>
+            <a href="#" class="footer-link">سياسة الخصوصية</a>
+        </div>
+        <div class="copyright">
+            © 2024 أداة الصوامت العربية - تعتمد على التصوير المخبري لمخارج الحروف.
+        </div>
+    </footer>
+
+    <script>
+        // قاعدة بيانات الصوامت بناءً على النص المُعطى
+        const consonantsData = {
+            'ب': { name: 'الباء', makhraj: 'أصوات شفوية', desc: 'يصدر من بين الشفتين. ينحبس الهواء في أثناء النطق بالباء بسبب انطباق الشفتين.' },
+            'م': { name: 'الميم', makhraj: 'أصوات شفوية', desc: 'يصدر من بين الشفتين بانطباقهما. ويُرافق الميم غنة من الخيشوم.' },
+            'و': { name: 'الواو', makhraj: 'أصوات شفوية', desc: 'يتشكّل صوت الواو من انضمام الشفتين، ويصدر من بينهما.' },
+            'ف': { name: 'الفاء', makhraj: 'صوت شفوي أسناني', desc: 'يصدر من بين الشفة السّفلى والأسنان العليا. يتشكل عائق يضيق مجرى الهواء في أثناء النطق به.' },
+            'ث': { name: 'الثاء', makhraj: 'أصوات بين أسنانية', desc: 'تصدر من بين الأسنان العليا وطرف اللسان مع وجود الأسنان السّفلى في الموضع المناسب كعائق لتيّار الهواء.' },
+            'ذ': { name: 'الذال', makhraj: 'أصوات بين أسنانية', desc: 'تصدر من بين الأسنان العليا وطرف اللسان مع وجود الأسنان السّفلى في الموضع المناسب كعائق لتيّار الهواء.' },
+            'ظ': { name: 'الظاء', makhraj: 'أصوات بين أسنانية', desc: 'تصدر من بين الأسنان العليا وطرف اللسان مع وجود الأسنان السّفلى في الموضع المناسب كعائق لتيّار الهواء.' },
+            'ت': { name: 'التاء', makhraj: 'أصوات أسنانية لثوية', desc: 'يتكون عائق الهواء نتيجة التقاء طرف اللسان بأصول الثنايا واللثة العليا.' },
+            'د': { name: 'الدال', makhraj: 'أصوات أسنانية لثوية', desc: 'يتكون عائق الهواء نتيجة التقاء طرف اللسان بأصول الثنايا واللثة العليا.' },
+            'ط': { name: 'الطاء', makhraj: 'أصوات أسنانية لثوية', desc: 'يتكون عائق الهواء نتيجة التقاء طرف اللسان بأصول الثنايا واللثة العليا.' },
+            'ض': { name: 'الضاد', makhraj: 'أصوات أسنانية لثوية', desc: 'يتكون عائق الهواء نتيجة التقاء طرف اللسان بأصول الثنايا واللثة العليا (وفقاً لنطقها الحالي في الفصحى).' },
+            'ن': { name: 'النون', makhraj: 'أصوات أسنانية لثوية', desc: 'اتصال رأس اللسان بأصول الثنايا واللثة العليا.' },
+            'ز': { name: 'الزاي', makhraj: 'أصوات أسنانية لثوية (أصوات الصفير)', desc: 'التقاء رأس اللسان مع أصول الثنايا واللثة السفلى. يخرج الهواء من فتحة ضيقة فينشأ صفير مع اقتراب الحبلين الصوتيين.' },
+            'س': { name: 'السين', makhraj: 'أصوات أسنانية لثوية (أصوات الصفير)', desc: 'التقاء رأس اللسان مع أصول الثنايا واللثة السفلى. يخرج الهواء من فتحة ضيقة فينشأ صفير مع ابتعاد الحبلين الصوتيين.' },
+            'ص': { name: 'الصاد', makhraj: 'أصوات أسنانية لثوية (أصوات الصفير)', desc: 'التقاء رأس اللسان مع أصول الثنايا واللثة السفلى. يخرج الهواء من فتحة ضيقة فينشأ صفير مع ابتعاد الحبلين الصوتيين.' },
+            'ر': { name: 'الراء', makhraj: 'صوتان لثويّان', desc: 'يعاق الهواء في أثناء النطق به نتيجة لاتصال طرف اللسان باللثة العليا.' },
+            'ل': { name: 'اللام', makhraj: 'صوتان لثويّان', desc: 'يعاق الهواء في أثناء النطق به نتيجة لاتصال طرف اللسان باللثة العليا.' },
+            'ج': { name: 'الجيم', makhraj: 'أصوات غاريّة', desc: 'الشديدة: ينحبس مجرى الهواء نتيجة التقاء وسط اللسان بالحنك الصلب (الغار). الرخوة: يقترب وسط اللسان من الغار ويبقى منفذ للهواء مع اهتزاز الوترين.' },
+            'ش': { name: 'الشين', makhraj: 'أصوات غاريّة', desc: 'صوت متفشٍّ يتكوّن عائقه باقتراب وسط اللسان مما يحاذيه من الحنك الصلب (الغار)، ولا يهتز معه الوتران.' },
+            'ي': { name: 'الياء', makhraj: 'أصوات غاريّة', desc: 'يهتز معها الوتران الصوتيان وتصدر من منطقة الحنك الصلب (الغار).' },
+            'غ': { name: 'الغين', makhraj: 'أصوات طبقية', desc: 'يتكوّن عائقها في منطقة الطبق أو الحنك اللين عندما يقترب منه مؤخر اللسان.' },
+            'خ': { name: 'الخاء', makhraj: 'أصوات طبقية', desc: 'يتكوّن عائقها في منطقة الطبق أو الحنك اللين عندما يقترب منه مؤخر اللسان.' },
+            'ك': { name: 'الكاف', makhraj: 'أصوات طبقية', desc: 'يتكوّن عائقها في منطقة الطبق أو الحنك اللين عندما يلتصق به مؤخر اللسان.' },
+            'ق': { name: 'القاف', makhraj: 'صوت لهوي', desc: 'يصدر من التقاء أقصى اللسان (مؤخره) باللهاة.' },
+            'ح': { name: 'الحاء', makhraj: 'صوتان حلقيّان', desc: 'يتكون عائقه من اقتراب لسان المزمار من الجدار الخلفي للحلق مع عدم اهتزاز الوترين.' },
+            'ع': { name: 'العين', makhraj: 'صوتان حلقيّان', desc: 'يتكون عائقه من اقتراب لسان المزمار من الجدار الخلفي للحلق مع اهتزاز الوترين.' },
+            'ء': { name: 'الهمزة', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة بحسب وضع الوترين الصّوتيين انفتاحًا أو إغلاقًا.' },
+            'أ': { name: 'الهمزة', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة بحسب وضع الوترين الصّوتيين انفتاحًا أو إغلاقًا.' },
+            'إ': { name: 'الهمزة', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة بحسب وضع الوترين الصّوتيين انفتاحًا أو إغلاقًا.' },
+            'ؤ': { name: 'الهمزة', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة بحسب وضع الوترين الصّوتيين انفتاحًا أو إغلاقًا.' },
+            'ئ': { name: 'الهمزة', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة بحسب وضع الوترين الصّوتيين انفتاحًا أو إغلاقًا.' },
+            'ه': { name: 'الهاء', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة بحسب وضع الوترين الصّوتيين انفتاحًا أو إغلاقًا.' },
+            'هـ': { name: 'الهاء', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة بحسب وضع الوترين الصّوتيين انفتاحًا أو إغلاقًا.' }
+        };
+
+        // دالة فتح/إغلاق القائمة الجانبية
+        function toggleMenu() {
+            document.getElementById('sideMenu').classList.toggle('show');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+
+        // دالة البحث عن الحرف
+        function searchChar() {
+            const input = document.getElementById('charInput').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            const resultSection = document.getElementById('resultSection');
+
+            if (!input || input.length === 0) {
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = 'يرجى كتابة حرف واحد للبحث!';
+                resultSection.style.display = 'none';
+                return;
+            }
+
+            // استخراج الحرف الأول في حال كتب المستخدم أكثر من حرف
+            const char = input.charAt(0);
+
+            if (consonantsData[char]) {
+                const data = consonantsData[char];
+                
+                // تحديث البيانات في قسم النتائج
+                document.getElementById('charDisplay').innerText = char;
+                document.getElementById('charName').innerText = data.name;
+                document.getElementById('makhrajValue').innerText = data.makhraj;
+                document.getElementById('descValue').innerText = data.desc;
+
+                // إظهار النتائج وإخفاء رسالة الخطأ
+                errorMsg.style.display = 'none';
+                resultSection.style.display = 'block';
+            } else {
+                // الحرف غير موجود أو ليس صامتاً من القائمة
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = 'عذراً، لم يتم العثور على الحرف! تأكد من إدخال صامت عربي (حرف صحيح).';
+                resultSection.style.display = 'none';
+            }
+        }
+
+        // دعم البحث عند الضغط على زر Enter
+        document.getElementById('charInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                searchChar();
+            }
+        });
+    </script>
+</body>
+</html>
