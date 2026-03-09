@@ -56,14 +56,14 @@
             padding: 0 20px;
         }
         
-        /* === الشريط العلوي الجديد === */
+        /* === الشريط العلوي الجديد والملون === */
         .top-navbar {
-            background-color: var(--bg-color);
-            border-bottom: 1px solid var(--border-color);
+            background-color: var(--primary-color); /* اللون البنفسجي */
             padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 4px 12px rgba(127, 40, 143, 0.2);
         }
         
         .navbar-content {
@@ -81,15 +81,18 @@
         .brand-logo {
             height: 45px;
             width: auto;
+            /* إضافة فلتر أبيض إذا كان الشعار داكناً ليظهر على الخلفية البنفسجية */
+            /* filter: brightness(0) invert(1); */ 
         }
         
         .brand-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: var(--primary-color);
+            color: #ffffff; /* نص أبيض */
             margin: 0;
         }
         
+        /* الروابط في الكمبيوتر */
         .nav-links {
             display: flex;
             gap: 25px;
@@ -98,12 +101,106 @@
         
         .nav-links a {
             font-weight: 500;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.85); /* أبيض شفاف قليلاً */
             font-size: 0.95rem;
         }
         
         .nav-links a:hover {
+            color: #ffffff; /* أبيض ناصع عند التمرير */
+        }
+
+        /* زر القائمة للموبايل (مخفي في الكمبيوتر) */
+        .menu-toggle-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        /* === القائمة الجانبية (للموبايل) === */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: -300px; /* مخفية خارج الشاشة من اليمين */
+            width: 280px;
+            height: 100vh;
+            background-color: #ffffff;
+            z-index: 1000;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+            transition: right 0.3s ease-in-out;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mobile-drawer.open {
+            right: 0; /* إظهار القائمة */
+        }
+        
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .drawer-title {
+            margin: 0;
             color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .close-drawer-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        
+        .drawer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .drawer-links a {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            font-weight: 500;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        .drawer-links a:hover {
+            color: var(--primary-color);
+            padding-right: 5px;
+        }
+
+        /* الطبقة المعتمة خلف القائمة */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .drawer-overlay.open {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* === قسم البحث === */
@@ -337,7 +434,7 @@
             margin-left: 5px;
         }
 
-        /* === التذييل الجديد (Footer) === */
+        /* === التذييل (Footer) === */
         .site-footer {
             background-color: #fafafa;
             border-top: 1px solid var(--border-color);
@@ -381,7 +478,7 @@
         
         .footer-links-list a:hover {
             color: var(--primary-color);
-            padding-right: 5px; /* حركة خفيفة عند المرور */
+            padding-right: 5px;
         }
         
         .footer-logos {
@@ -390,7 +487,6 @@
             gap: 15px;
         }
         
-        /* تصميم مبدئي للشعارات الثلاثة (يمكنك تغيير الصور لاحقاً) */
         .logo-placeholder {
             height: 50px;
             background-color: white;
@@ -419,11 +515,13 @@
             font-size: 0.9rem;
         }
 
-        /* === التجاوب (Responsive) === */
+        /* === التجاوب (Responsive) للموبايل === */
         @media (max-width: 768px) {
-            .navbar-content {
-                flex-direction: column;
-                gap: 15px;
+            .nav-links {
+                display: none; /* إخفاء الروابط العادية في الموبايل */
+            }
+            .menu-toggle-btn {
+                display: block; /* إظهار زر الهمبرغر */
             }
             .hero-title {
                 font-size: 2rem;
@@ -464,8 +562,23 @@
                 <a href="https://rawafid.jassim.one/">روافد</a>
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
             </nav>
+
+            <button class="menu-toggle-btn" onclick="openDrawer()">☰</button>
         </div>
     </header>
+
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header">
+            <h2 class="drawer-title">القائمة</h2>
+            <button class="close-drawer-btn" onclick="closeDrawer()">×</button>
+        </div>
+        <nav class="drawer-links">
+            <a href="https://sawamet.jassim.one/about.html">عن الأداة</a>
+            <a href="https://rawafid.jassim.one/">روافد</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
+        </nav>
+    </div>
     
     <main class="container">
         
@@ -588,6 +701,20 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function openDrawer() {
+            document.getElementById('mobileDrawer').classList.add('open');
+            document.getElementById('drawerOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden'; // منع التمرير في الخلفية
+        }
+
+        function closeDrawer() {
+            document.getElementById('mobileDrawer').classList.remove('open');
+            document.getElementById('drawerOverlay').classList.remove('open');
+            document.body.style.overflow = 'auto'; // إعادة التمرير
+        }
+    </script>
 
     <script src="script.js"></script>
 </body>
