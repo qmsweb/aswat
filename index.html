@@ -424,12 +424,12 @@
             <p>أدخل حرفًا عربيًا صامتًا لمعرفة خصائصه الصوتية</p>
             
             <!-- زر الاختبارات الجديد -->
-            <a href="/quiz" class="quiz-btn">اختبر معلوماتك في الصوامت</a>
+            <a href="/quiz" class="quiz-btn">اختبر معلوماتك</a>
             
-            <div class="search-box">
-                <input type="text" id="charInput" class="search-input" maxlength="1" placeholder="أ">
-                <button onclick="searchPhonetic()" class="search-btn">بحث</button>
-            </div>
+<div class="search-box">
+    <input type="text" id="charInput" class="search-input" maxlength="2" placeholder="أ" onkeyup="if(event.key === 'Enter') searchPhonetic()">
+    <button type="button" onclick="searchPhonetic()" class="search-btn">بحث</button>
+</div>
         </section>
         
         <section class="result-section" id="resultSection">
@@ -515,6 +515,7 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
