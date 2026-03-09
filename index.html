@@ -387,7 +387,6 @@
     </style>
 </head>
 <body>
-    <!-- الشريط العلوي المعدل -->
     <header class="top-header">
         <div class="container">
             <div class="header-content">
@@ -401,7 +400,6 @@
         </div>
     </header>
     
-    <!-- القائمة الجانبية -->
     <div class="overlay" id="overlay"></div>
     
     <div class="side-menu" id="sideMenu">
@@ -417,19 +415,17 @@
         </ul>
     </div>
     
-    <!-- المحتوى الرئيسي -->
     <div class="container">
         <section class="search-section">
             <h2>محرّك البحث عن الصوامت</h2>
             <p>أدخل حرفًا عربيًا صامتًا لمعرفة خصائصه الصوتية</p>
             
-            <!-- زر الاختبارات الجديد -->
             <a href="/quiz" class="quiz-btn">اختبر معلوماتك</a>
             
-<div class="search-box">
-    <input type="text" id="charInput" class="search-input" maxlength="2" placeholder="أ" onkeyup="if(event.key === 'Enter') searchPhonetic()">
-    <button type="button" onclick="searchPhonetic()" class="search-btn">بحث</button>
-</div>
+            <div class="search-box">
+                <input type="text" id="charInput" class="search-input" maxlength="2" placeholder="أ" onkeyup="if(event.key === 'Enter') searchPhonetic()">
+                <button type="button" onclick="searchPhonetic()" class="search-btn">بحث</button>
+            </div>
         </section>
         
         <section class="result-section" id="resultSection">
@@ -437,26 +433,25 @@
             <div id="charName" class="char-name"></div>
             
             <div class="details-grid" id="resultDetails">
-                <!-- سيتم تعبئتها بالجافاسكريبت -->
-            </div>
+                </div>
         </section>
         
         <section class="classification-section">
             <h2 class="section-title">تصنيف الصوامت العربية</h2>
             
             <div class="classification-grid">
+                
                 <div class="classification-card">
                     <h3 class="classification-title">حسب المخرج</h3>
                     <ul class="classification-list">
-                        <li><strong>الأصوات الشفوية:</strong> الباء، الميم، الواو</li>
-                        <li><strong>الأصوات الشفوية الأسنانية:</strong> الفاء</li>
+                        <li><strong>الشفوية:</strong> الباء، الميم، الواو</li>
+                        <li><strong>الشفوية الأسنانية:</strong> الفاء</li>
                         <li><strong>بين الأسنانية:</strong> الثاء، الذال، الظاء</li>
-                        <li><strong>الأسنانية اللثوية:</strong> التاء، الدال، الطاء، الضاد، اللام، النون</li>
-                        <li><strong>اللثوية:</strong> الراء، الزاي، السين، الصاد</li>
-                        <li><strong>اللثوية الحنكية:</strong> الجيم المعطشة، الشين</li>
-                        <li><strong>الحنكية:</strong> الجيم، الياء</li>
-                        <li><strong>الطبقية:</strong> الغين، الخاء، الكاف</li>
-                        <li><strong>اللهاوية:</strong> القاف</li>
+                        <li><strong>الأسنانية اللثوية:</strong> التاء، الدال، الزاي، السين، الصاد، الضاد، الطاء، النون</li>
+                        <li><strong>اللثوية:</strong> الراء، اللام</li>
+                        <li><strong>الغارية:</strong> الجيم، الشين، الياء</li>
+                        <li><strong>الطبقية:</strong> الخاء، الغين، الكاف</li>
+                        <li><strong>اللهوية:</strong> القاف</li>
                         <li><strong>الحلقية:</strong> الحاء، العين</li>
                         <li><strong>الحنجرية:</strong> الهمزة، الهاء</li>
                     </ul>
@@ -465,37 +460,36 @@
                 <div class="classification-card">
                     <h3 class="classification-title">حسب اهتزاز الوترين</h3>
                     <ul class="classification-list">
-                        <li><strong>المجهورة (13 حرفًا):</strong><br>
-                        الباء، الجيم، الدال، الذال، الراء، الزاي، الضاد، الظاء، العين، الغين، اللام، الميم، النون</li>
-                        <li><strong>المهموسة (12 حرفًا):</strong><br>
-                        التاء، الثاء، الحاء، الخاء، السين، الشين، الصاد، الطاء، الفاء، القاف، الكاف، الهاء</li>
+                        <li><strong>المجهورة (17 حرفًا):</strong><br>
+                        الهمزة، الباء، الجيم، الدال، الذال، الراء، الزاي، الضاد، الطاء، الظاء، العين، الغين، اللام، الميم، النون، الواو، الياء</li>
+                        <li><strong>المهموسة (11 حرفًا):</strong><br>
+                        التاء، الثاء، الحاء، الخاء، السين، الشين، الصاد، الفاء، القاف، الكاف، الهاء</li>
                     </ul>
                 </div>
                 
                 <div class="classification-card">
                     <h3 class="classification-title">حسب طريقة النطق</h3>
                     <ul class="classification-list">
-                        <li><strong>الأصوات الشديدة (الانفجارية):</strong><br>
-                        الهمزة، الباء، التاء، الجيم الخالية من التعطيش، الدال، الضاد، الطاء، القاف، الكاف</li>
-                        <li><strong>الأصوات الرخوة (الاحتكاكية):</strong><br>
-                        الثاء، الحاء، الخاء، الذال، الزاي، السين، الشين، الصاد، الظاء، العين، الغين، الفاء، الهاء</li>
-                        <li><strong>الأصوات المركبة:</strong> الجيم الفصحى المعطشة قليلًا</li>
-                        <li><strong>الأصوات التكرارية:</strong> الراء</li>
-                        <li><strong>الأصوات الجانبية:</strong> اللام</li>
-                        <li><strong>الأصوات الأنفية:</strong> الميم، النون</li>
-                        <li><strong>الأصوات اللينة:</strong> الواو، الياء</li>
+                        <li><strong>الشديدة (الانفجارية):</strong> الهمزة، الباء، التاء، الدال، الضاد، الطاء، القاف، الكاف</li>
+                        <li><strong>الرخوة (الاحتكاكية):</strong> الثاء، الحاء، الخاء، الذال، الزاي، السين، الشين، الصاد، الظاء، العين، الغين، الفاء، الهاء</li>
+                        <li><strong>المركبة (شديدة رخوة):</strong> الجيم</li>
+                        <li><strong>التكرارية:</strong> الراء</li>
+                        <li><strong>الجانبية:</strong> اللام</li>
+                        <li><strong>الأنفية:</strong> الميم، النون</li>
+                        <li><strong>اللينة:</strong> الواو، الياء</li>
                     </ul>
                 </div>
                 
                 <div class="classification-card">
                     <h3 class="classification-title">حسب شكل اللسان</h3>
                     <ul class="classification-list">
-                        <li><strong>الأصوات المطبقة:</strong><br>
+                        <li><strong>المطبقة:</strong><br>
                         الصاد، الضاد، الطاء، الظاء</li>
-                        <li><strong>الأصوات غير المطبقة:</strong><br>
-                        جميع الأحرف الأخرى</li>
+                        <li><strong>غير المطبقة:</strong><br>
+                        بقية الأحرف (الهمزة، الباء، التاء، الثاء، الجيم، الحاء، الخاء، الدال، الذال، الراء، الزاي، السين، الشين، العين، الغين، الفاء، القاف، الكاف، اللام، الميم، النون، الهاء، الواو، الياء)</li>
                     </ul>
                 </div>
+                
             </div>
         </section>
     </div>
@@ -515,9 +509,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
