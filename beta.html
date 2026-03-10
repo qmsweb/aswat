@@ -1,752 +1,769 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <meta property="og:title" content="أداة صوامت" />
+    <meta property="og:description" content="أداة الصوامت العربية - علم الأصوات" />
+    <meta property="og:image" content="images/cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sawamet.jassim.one" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>صوامت - أداة الصوامت العربية</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="icons/favicon.png" type="image/jpg">
+    
     <style>
         :root {
-            --text-dark: #1d1d1f;
-            --text-gray: #515154;
-            --glass-bg: rgba(255, 255, 255, 0.45); /* زيادة الشفافية */
-            --glass-border: rgba(255, 255, 255, 0.25);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08); /* ظل أنعم */
-            --glass-blur: blur(25px); /* زيادة تأثير الغشاوة */
-            --main-color: #785d9b; /* اللون الأساسي الجديد */
+            --primary-color: #7F288F; /* اللون المطلوب */
+            --primary-hover: #671d75;
+            --primary-light: #f6ecf8;
+            --bg-color: #ffffff;
+            --text-main: #222222;
+            --text-muted: #666666;
+            --border-color: #e5e5e5;
+            --card-bg: #ffffff;
         }
         
-        body {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
-            color: var(--text-dark);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            /* خلفية بسيطة ونظيفة */
-            background: #ffffff;
-            min-height: 100vh;
+        * {
+            box-sizing: border-box;
         }
 
-        /* فئة الزجاج السائل الأساسية */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: var(--glass-shadow);
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
         }
         
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary-hover);
+        }
+
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
-        /* الشريط العلوي الزجاجي */
-        .top-header {
+        /* === الشريط العلوي === */
+        .top-navbar {
+            background-color: var(--primary-color);
+            padding: 15px 0;
             position: sticky;
-            top: 10px;
+            top: 0;
             z-index: 100;
-            margin: 10px 20px;
-            padding: 10px 20px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 12px rgba(127, 40, 143, 0.2);
         }
         
-        .header-content {
+        .navbar-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0;
         }
         
-        .logo-container {
+        .brand {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
         
-        .logo-img {
-            height: 40px;
+        .brand-logo {
+            height: 45px;
             width: auto;
-            object-fit: contain;
         }
         
-        .site-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 0;
-            color: var(--text-dark);
-            letter-spacing: -0.5px;
-        }
-        
-        .menu-btn {
-            background: none;
-            border: none;
-            color: var(--text-dark);
-            font-size: 26px;
-            cursor: pointer;
-            padding: 5px;
+        /* الروابط في الكمبيوتر */
+        .nav-links {
             display: flex;
+            gap: 25px;
             align-items: center;
-            transition: opacity 0.3s;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover {
+            color: #ffffff;
         }
 
-        .menu-btn:hover {
-            opacity: 0.7;
+        /* زر القائمة للموبايل */
+        .menu-toggle-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0;
         }
-        
-        /* القائمة الجانبية الزجاجية */
-        .side-menu {
+
+        /* === التصميم الجديد للقائمة الجانبية (للموبايل) === */
+        .mobile-drawer {
             position: fixed;
             top: 0;
             right: -320px;
-            width: 280px;
+            width: 320px;
+            max-width: 100%;
             height: 100vh;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-left: 1px solid var(--glass-border);
-            box-shadow: -10px 0 30px rgba(0,0,0,0.08);
+            background-color: var(--bg-color);
             z-index: 1000;
-            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            padding: 30px 20px;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            display: flex;
+            flex-direction: column;
+            border-top-left-radius: 24px;
+            border-bottom-left-radius: 24px;
         }
         
-        .side-menu.show {
+        .mobile-drawer.open {
             right: 0;
         }
         
-        .side-menu-header {
+        .drawer-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            padding: 30px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            padding-bottom: 15px;
+            border-top-left-radius: 24px;
         }
         
-        .close-btn {
-            background: rgba(0,0,0,0.04);
-            border: none;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            cursor: pointer;
-            color: var(--text-dark);
-        }
-        
-        .menu-links {
-            list-style: none;
-            padding: 0;
+        .drawer-title {
             margin: 0;
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 700;
         }
         
-        .menu-links li {
-            margin-bottom: 10px;
+        .close-drawer-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-drawer-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: rotate(90deg);
         }
         
-        .menu-links a {
-            color: var(--text-dark);
-            text-decoration: none;
-            font-size: 17px;
-            font-weight: 500;
-            display: block;
-            padding: 12px 15px;
+        .drawer-links {
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .drawer-links a {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+            font-weight: 600;
+            padding: 15px 20px;
             border-radius: 12px;
-            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
         }
         
-        .menu-links a:hover {
-            background: rgba(0,0,0,0.04);
-            color: var(--main-color);
+        .drawer-links a::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            margin-left: 15px;
+            transition: all 0.3s ease;
         }
         
-        .overlay {
+        .drawer-links a:hover {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(127, 40, 143, 0.2);
+        }
+
+        .drawer-links a:hover::before {
+            background-color: #ffffff;
+            transform: scale(1.5);
+        }
+
+        .drawer-footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* الطبقة المعتمة خلف القائمة */
+        .drawer-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.1);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
+            background-color: rgba(0,0,0,0.5);
             z-index: 999;
             opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+            backdrop-filter: blur(2px);
         }
         
-        .overlay.show {
+        .drawer-overlay.open {
             opacity: 1;
-            pointer-events: all;
+            visibility: visible;
+        }
+
+        /* === قسم البحث === */
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px 40px;
         }
         
-        /* أقسام المحتوى */
-        .search-section, .result-section, .classification-section {
-            padding: 40px;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .search-section h2 {
-            font-size: 2rem;
+        .hero-title {
+            font-size: 2.5rem;
             font-weight: 700;
+            color: var(--primary-color);
             margin-bottom: 10px;
-            letter-spacing: -1px;
-            color: var(--main-color);
+            margin-top: 0;
         }
-
-        .search-section p {
-            color: var(--text-gray);
+        
+        .hero-subtitle {
             font-size: 1.1rem;
-            margin-bottom: 30px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+        
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(127, 40, 143, 0.08);
         }
         
         .search-box {
             display: flex;
-            justify-content: center;
-            align-items: center;
             gap: 15px;
+            justify-content: center;
+            align-items: stretch;
         }
         
         .search-input {
-            font-size: 24px;
-            padding: 15px 20px;
-            width: 100px;
-            text-align: center;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 18px;
-            background: rgba(255,255,255,0.7);
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.01);
             font-family: 'IBM Plex Sans Arabic', sans-serif;
-            color: var(--text-dark);
+            font-size: 2rem;
+            padding: 10px;
+            width: 80px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--primary-color);
+            font-weight: 700;
             transition: all 0.3s ease;
         }
         
         .search-input:focus {
+            border-color: var(--primary-color);
             outline: none;
-            background: rgba(255,255,255,1);
-            border-color: var(--main-color);
-            box-shadow: 0 0 0 4px rgba(120, 93, 155, 0.15);
+            box-shadow: 0 0 0 4px var(--primary-light);
         }
         
-        .search-btn, .quiz-btn {
-            background-color: var(--main-color);
+        .search-btn {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 16px 32px;
-            font-size: 18px;
-            font-weight: 500;
-            border-radius: 18px;
+            padding: 0 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
-            box-shadow: 0 4px 15px rgba(120, 93, 155, 0.25);
         }
         
-        .search-btn:hover, .quiz-btn:hover {
+        .search-btn:hover {
+            background-color: var(--primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(120, 93, 155, 0.35);
-            opacity: 0.9;
-        }
-        
-        .quiz-btn {
-            margin-bottom: 25px;
-            display: inline-block;
-            text-decoration: none;
-            background: rgba(255, 255, 255, 0.8);
-            color: var(--main-color);
-            border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            box-shadow: 0 5px 15px rgba(127, 40, 143, 0.3);
         }
 
-        .quiz-btn:hover {
-            background: rgba(255, 255, 255, 1);
-            color: var(--main-color);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-        }
-        
+        /* === قسم النتائج (تم تحديث بطاقة الحرف) === */
         .result-section {
             display: none;
-            animation: fadeIn 0.5s ease;
-            padding-bottom: 60px; /* زيادة الهامش السفلي لتصحيح القطع */
+            max-width: 800px;
+            margin: 0 auto 50px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .result-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: inset 0 -5px 15px rgba(0,0,0,0.1);
         }
         
         .char-display {
-            font-size: 110px; /* تكبير بسيط */
+            font-size: 5.5rem;
             font-weight: 700;
-            text-align: center;
-            margin: 10px 0;
-            color: var(--main-color);
             line-height: 1;
-            padding-bottom: 10px; /* مساحة إضافية لتصحيح القطع */
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         
         .char-name {
-            font-size: 28px;
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--text-gray);
+            font-size: 1.6rem;
             font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
         }
         
         .details-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
+            padding: 30px;
         }
         
         .detail-card {
-            background: rgba(255, 255, 255, 0.6);
-            padding: 25px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.7);
-            text-align: right;
+            padding: 15px;
+            border-radius: 12px;
+            background-color: #fafafa;
+            border: 1px solid var(--border-color);
+            border-right: 4px solid var(--primary-color);
             transition: transform 0.3s ease;
         }
 
         .detail-card:hover {
             transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         
         .detail-title {
-            font-weight: 700;
-            color: var(--main-color);
-            margin-bottom: 12px;
-            font-size: 18px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
         }
         
         .detail-value {
-            font-size: 17px;
-            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            font-size: 1.1rem;
+            padding: 30px;
+            font-weight: 500;
+        }
+
+        /* === قسم التصنيفات === */
+        .classification-section {
+            margin: 60px 0;
         }
         
-        .error-message {
-            color: #ff3b30;
+        .section-header {
             text-align: center;
-            font-size: 16px;
-            font-weight: 500;
-            margin-top: 20px;
-            background: rgba(255, 59, 48, 0.08);
-            padding: 12px;
-            border-radius: 12px;
-            display: none;
+            margin-bottom: 40px;
         }
         
         .section-title {
-            color: var(--main-color);
-            font-weight: 700;
-            margin-bottom: 30px;
-            font-size: 26px;
-            letter-spacing: -0.5px;
+            font-size: 2rem;
+            color: var(--text-main);
+            display: inline-block;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
         }
         
         .classification-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            text-align: right;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
         }
         
-        .classification-card {
-            background: rgba(255, 255, 255, 0.6);
+        .class-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
             padding: 25px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            transition: all 0.3s ease;
-        }
-
-        .classification-card:hover {
-            background: rgba(255, 255, 255, 0.8);
-            transform: scale(1.02);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .classification-title {
+        .class-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(127, 40, 143, 0.08);
+            border-color: var(--primary-light);
+        }
+        
+        .class-title {
+            font-size: 1.3rem;
             font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 15px;
-            font-size: 19px;
-            border-bottom: 2px solid rgba(0,0,0,0.04);
-            padding-bottom: 10px;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .classification-list {
-            list-style-type: none;
+        .class-title::before {
+            content: '■';
+            font-size: 0.8rem;
+        }
+        
+        .class-list {
+            list-style: none;
             padding: 0;
             margin: 0;
-            color: var(--text-gray);
         }
         
-        .classification-list li {
-            padding: 8px 0;
-            font-size: 16px;
+        .class-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+        
+        .class-list li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .class-list strong {
+            color: var(--text-main);
+            font-weight: 600;
+            margin-left: 5px;
         }
 
-        .classification-list li strong {
-            color: var(--main-color);
-            font-size: 18px;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 50px 20px 30px;
+        /* === التذييل (Footer) === */
+        .site-footer {
+            background-color: #fafafa;
+            border-top: 1px solid var(--border-color);
+            padding: 60px 0 20px;
             margin-top: 60px;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
         }
         
-        .footer-links {
-            display: flex;
-            justify(Content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
         }
         
-        .footer-link {
-            color: var(--main-color);
-            text-decoration: none;
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.8);
-            border: 1px solid rgba(0,0,0,0.04);
-            border-radius: 20px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+        .footer-col h3 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 700;
         }
         
-        .footer-link:hover {
-            background: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            transform: translateY(-1px);
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        
+        .footer-links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links-list li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links-list a {
+            color: var(--text-muted);
+        }
+        
+        .footer-links-list a:hover {
+            color: var(--primary-color);
+            padding-right: 5px;
         }
         
         .footer-logos {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .logo-placeholder {
+            height: 50px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            display: flex;
             align-items: center;
-            gap: 30px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 5px 15px;
         }
-        
-        .footer-logo {
-            height: 45px;
-            width: auto;
+
+        .logo-placeholder img {
+            max-height: 100%;
+            max-width: 100%;
             object-fit: contain;
-            filter: grayscale(100%) opacity(0.6); /* جعل الشعارات بلون رمادي وهادئ */
-            transition: all 0.3s;
-        }
-
-        .footer-logo:hover {
-            filter: grayscale(0%) opacity(1);
-            transform: scale(1.05);
-        }
-
-        .copyright {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: var(--text-gray);
         }
         
-        /* توافق الأجهزة اللوحية (Tablets) */
-        @media (max-width: 992px) {
-            .top-header {
-                margin: 10px;
-            }
-            .search-section, .result-section, .classification-section {
-                padding: 30px 20px;
-            }
-            .logo-img {
-                height: 35px;
-            }
-            .site-title {
-                font-size: 1.15rem;
-            }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
-        /* توافق الهواتف الذكية (Mobiles) */
+        /* === التجاوب (Responsive) للموبايل === */
         @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .menu-toggle-btn {
+                display: block;
+            }
+            .hero-title {
+                font-size: 2rem;
+            }
             .search-box {
                 flex-direction: column;
             }
             .search-input {
                 width: 100%;
-                max-width: 250px;
             }
             .search-btn {
-                width: 100%;
-                max-width: 250px;
+                padding: 15px;
             }
-            .details-grid, .classification-grid {
+            .footer-grid {
                 grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
             }
-            .logo-img {
-                height: 32px;
-            }
-            .site-title {
-                font-size: 1.1rem;
-            }
-            .footer-links {
+            .footer-logos {
+                flex-direction: row;
                 justify-content: center;
-                gap: 10px;
-            }
-            .footer-logo {
-                height: 35px;
+                flex-wrap: wrap;
             }
         }
     </style>
 </head>
 <body>
 
-    <header class="top-header">
-        <div class="container header-content">
-            <div class="logo-container">
-                <img src="images/logo.png" alt="شعار الأداة" class="logo-img">
-                <h1 class="site-title">أداة الصوامت</h1>
+    <header class="top-navbar">
+        <div class="container navbar-content">
+            <div class="brand">
+                <img src="https://github.com/qmsweb/aswat/raw/main/images/sawamet-logo.png" alt="شعار صوامت" class="brand-logo">
             </div>
-            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            
+            <nav class="nav-links">
+                <a href="https://sawamet.jassim.one/about.html">عن الأداة</a>
+                <a href="https://rawafid.jassim.one/">روافد</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
+            </nav>
+
+            <button class="menu-toggle-btn" onclick="openDrawer()">☰</button>
         </div>
     </header>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    <div class="side-menu" id="sideMenu">
-        <div class="side-menu-header">
-            <h3 style="margin: 0; font-weight: 600;">القائمة</h3>
-            <button class="close-btn" onclick="toggleMenu()">×</button>
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="drawer-header">
+            <h2 class="drawer-title">القائمة الرئيسية</h2>
+            <button class="close-drawer-btn" onclick="closeDrawer()">×</button>
         </div>
-        <ul class="menu-links">
-            <li><a href="#">الرئيسية</a></li>
-            <li><a href="#classifications">تصنيف الصوامت</a></li>
-            <li><a href="#">اختبار الصوامت</a></li>
-            <li><a href="#">حول الأداة</a></li>
-        </ul>
-    </div>
-
-    <div class="container">
-        <section class="glass-panel search-section">
-            <a href="#" class="quiz-btn">اختبر معلوماتك</a>
-            <h2>ابحث عن حرف صامت</h2>
-            <p>أدخل الحرف لمعرفة مخرجه وتفاصيل نطقه المخبرية</p>
-            <div class="search-box">
-                <input type="text" id="charInput" class="search-input" maxlength="1" placeholder="ب">
-                <button class="search-btn" onclick="searchChar()">بحث</button>
-            </div>
-            <div id="errorMsg" class="error-message">يرجى إدخال حرف عربي صحيح!</div>
-        </section>
-
-        <section id="resultSection" class="glass-panel result-section">
-            <div class="char-display" id="charDisplay">ب</div>
-            <div class="char-name" id="charName">الباء</div>
-            
-            <div class="details-grid">
-                <div class="detail-card">
-                    <div class="detail-title">المخرج الأساسي</div>
-                    <div class="detail-value" id="makhrajValue">أصوات شفوية</div>
-                </div>
-                <div class="detail-card">
-                    <div class="detail-title">آلية النطق (التشكيل)</div>
-                    <div class="detail-value" id="descValue">ينحبس الهواء في أثناء النطق بالباء بسبب انطباق الشفتين.</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="classifications" class="glass-panel classification-section">
-            <h2 class="section-title">التوزيع الحديث للصوامت العربية</h2>
-            <div class="classification-grid">
-                <div class="classification-card">
-                    <div class="classification-title">1. الأصوات الشفوية</div>
-                    <ul class="classification-list">
-                        <li><strong>ب، م، و</strong></li>
-                        <li>تصدر من بين الشفتين بأوضاع مختلفة.</li>
-                    </ul>
-                </div>
-                <div class="classification-card">
-                    <div class="classification-title">2. شفوي أسناني</div>
-                    <ul class="classification-list">
-                        <li><strong>ف</strong></li>
-                        <li>يصدر من بين الشفة السفلى والأسنان العليا.</li>
-                    </ul>
-                </div>
-                <div class="classification-card">
-                    <div class="classification-title">3. بين أسنانية</div>
-                    <ul class="classification-list">
-                        <li><strong>ث، ذ، ظ</strong></li>
-                        <li>تصدر من بين الأسنان العليا وطرف اللسان.</li>
-                    </ul>
-                </div>
-                <div class="classification-card">
-                    <div class="classification-title">4. أسنانية لثوية</div>
-                    <ul class="classification-list">
-                        <li><strong>ت، د، ط، ض، ن</strong></li>
-                        <li><strong>ز، س، ص</strong> (أصوات الصفير).</li>
-                    </ul>
-                </div>
-                <div class="classification-card">
-                    <div class="classification-title">5. لثويّان</div>
-                    <ul class="classification-list">
-                        <li><strong>ر، ل</strong></li>
-                        <li>يعاق الهواء لاتصال طرف اللسان باللثة العليا.</li>
-                    </ul>
-                </div>
-                <div class="classification-card">
-                    <div class="classification-title">6. أصوات غاريّة</div>
-                    <ul class="classification-list">
-                        <li><strong>ج، ش، ي</strong></li>
-                        <li>تقترب أو تلتقي بوسط الحنك الصلب.</li>
-                    </ul>
-                </div>
-                <div class="classification-card">
-                    <div class="classification-title">7. أصوات طبقية</div>
-                    <ul class="classification-list">
-                        <li><strong>غ، خ، ك</strong></li>
-                        <li>يتكون عائقها في منطقة الحنك اللين.</li>
-                    </ul>
-                </div>
-                <div class="classification-card">
-                    <div class="classification-title">8. صوت لهوي</div>
-                    <ul class="classification-list">
-                        <li><strong>ق</strong></li>
-                        <li>التقاء أقصى اللسان باللهاة.</li>
-                    </ul>
-                </div>
-                <div class="classification-card">
-                    <div class="classification-title">9. صوتان حلقيّان</div>
-                    <ul class="classification-list">
-                        <li><strong>ح، ع</strong></li>
-                        <li>اقتراب لسان المزمار من الجدار الخلفي للحلق.</li>
-                    </ul>
-                </div>
-                <div class="classification-card">
-                    <div class="classification-title">10. صوتان حنجريّان</div>
-                    <ul class="classification-list">
-                        <li><strong>ء، هـ</strong></li>
-                        <li>يصدران من الحنجرة بحسب وضع الوترين.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <footer>
-        <div class="footer-links">
-            <a href="#" class="footer-link">اتصل بنا</a>
-            <a href="#" class="footer-link">المصادر العلمية</a>
-            <a href="#" class="footer-link">سياسة الخصوصية</a>
+        <nav class="drawer-links">
+            <a href="https://sawamet.jassim.one/about.html">عن الأداة</a>
+            <a href="https://rawafid.jassim.one/">روافد</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
+        </nav>
+        <div class="drawer-footer">
+            أداة صوامت © 2026
         </div>
+    </div>
+    
+    <main class="container">
         
-        <div class="footer-logos">
-            <img src="images/logo1.png" alt="شعار داعم 1" class="footer-logo">
-            <img src="images/logo2.png" alt="شعار داعم 2" class="footer-logo">
-        </div>
-
-        <div class="copyright">
-            © 2024 أداة الصوامت العربية - تعتمد على التصوير المخبري لمخارج الحروف.
+        <section class="hero-section">
+            <h2 class="hero-title">البحث في الخصائص الصوتية</h2>
+            <p class="hero-subtitle">أدخل أي حرف عربي صامت لمعرفة مخرجه، طريقة نطقه، والمزيد من التفاصيل الدقيقة.</p>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="charInput" class="search-input" maxlength="2" placeholder="أ" onkeyup="if(event.key === 'Enter') searchPhonetic()">
+                    <button type="button" onclick="searchPhonetic()" class="search-btn">ابحث الآن</button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="result-section" id="resultSection">
+            <div class="result-header">
+                <div id="charDisplay" class="char-display"></div>
+                <h3 id="charName" class="char-name"></h3>
+            </div>
+            
+            <div class="details-grid" id="resultDetails">
+                </div>
+        </section>
+        
+        <section class="classification-section">
+            <div class="section-header">
+                <h2 class="section-title">القاعدة الصوتية للصوامت</h2>
+            </div>
+            
+            <div class="classification-grid">
+                
+                <div class="class-card">
+                    <h3 class="class-title">حسب المخرج</h3>
+                    <ul class="class-list">
+                        <li><strong>الشفوية:</strong> الباء، الميم، الواو</li>
+                        <li><strong>الشفوية الأسنانية:</strong> الفاء</li>
+                        <li><strong>بين الأسنانية:</strong> الثاء، الذال، الظاء</li>
+                        <li><strong>الأسنانية اللثوية:</strong> التاء، الدال، الزاي، السين، الصاد، الضاد، الطاء، النون</li>
+                        <li><strong>اللثوية:</strong> الراء، اللام</li>
+                        <li><strong>الغارية:</strong> الجيم، الشين، الياء</li>
+                        <li><strong>الطبقية:</strong> الخاء، الغين، الكاف</li>
+                        <li><strong>اللهوية:</strong> القاف</li>
+                        <li><strong>الحلقية:</strong> الحاء، العين</li>
+                        <li><strong>الحنجرية:</strong> الهمزة، الهاء</li>
+                    </ul>
+                </div>
+                
+                <div class="class-card">
+                    <h3 class="class-title">حسب اهتزاز الوترين</h3>
+                    <ul class="class-list">
+                        <li><strong>المجهورة (17 حرفًا):</strong><br>
+                        الهمزة، الباء، الجيم، الدال، الذال، الراء، الزاي، الضاد، الطاء، الظاء، العين، الغين، اللام، الميم، النون، الواو، الياء</li>
+                        <li><strong>المهموسة (11 حرفًا):</strong><br>
+                        التاء، الثاء، الحاء، الخاء، السين، الشين، الصاد، الفاء، القاف، الكاف، الهاء</li>
+                    </ul>
+                </div>
+                
+                <div class="class-card">
+                    <h3 class="class-title">حسب طريقة النطق</h3>
+                    <ul class="class-list">
+                        <li><strong>الشديدة (الانفجارية):</strong> الهمزة، الباء، التاء، الدال، الضاد، الطاء، القاف، الكاف</li>
+                        <li><strong>الرخوة (الاحتكاكية):</strong> الثاء، الحاء، الخاء، الذال، الزاي، السين، الشين، الصاد، الظاء، العين، الغين، الفاء، الهاء</li>
+                        <li><strong>المركبة (شديدة رخوة):</strong> الجيم</li>
+                        <li><strong>التكرارية:</strong> الراء</li>
+                        <li><strong>الجانبية:</strong> اللام</li>
+                        <li><strong>الأنفية:</strong> الميم، النون</li>
+                        <li><strong>اللينة:</strong> الواو، الياء</li>
+                    </ul>
+                </div>
+                
+                <div class="class-card">
+                    <h3 class="class-title">حسب شكل اللسان</h3>
+                    <ul class="class-list">
+                        <li><strong>المطبقة:</strong><br>
+                        الصاد، الضاد، الطاء، الظاء</li>
+                        <li><strong>غير المطبقة:</strong><br>
+                        بقية الأحرف (24 حرفاً)</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-col">
+                    <h3>عن أداة صوامت</h3>
+                    <p class="footer-text">
+                        صوامت هي منصة تعليمية تفاعلية مبسطة تهدف إلى مساعدة الباحثين والطلاب والمهتمين باللغة العربية على فهم الخصائص الصوتية للأحرف (الصوامت) بكل سهولة ويسر، وفقاً لأحدث المناهج في علم الأصوات.
+                    </p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>روابط سريعة</h3>
+                    <ul class="footer-links-list">
+                        <li><a href="https://sawamet.jassim.one/about.html">المزيد عن الأداة</a></li>
+                        <li><a href="https://rawafid.jassim.one/">موقع روافد</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfszQ_yNUfNBfkkZjFPPz6cmd13gJsWxEQXOpTirbuz9V-ezA/viewform?usp=header" target="_blank">الإبلاغ عن خطأ برمجي</a></li>
+                        <li><a href="https://sawamet.jassim.one/qr.html">رمز الاستجابة السريعة (QR)</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>شركاء وداعمون</h3>
+                    <div class="footer-logos">
+                        <div class="logo-placeholder">شعار المؤسسة 1</div>
+                        <div class="logo-placeholder">شعار المشروع 2</div>
+                        <div class="logo-placeholder">شعار الجهة 3</div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="footer-bottom">
+                تطوير جاسم الفارسي لفريق عمل أداة صوامت - جميع الحقوق محفوظة © 2026
+            </div>
         </div>
     </footer>
 
     <script>
-        const consonantsData = {
-            'ب': { name: 'الباء', makhraj: 'أصوات شفوية', desc: 'يصدر من بين الشفتين. ينحبس الهواء في أثناء النطق بالباء بسبب انطباق الشفتين.' },
-            'م': { name: 'الميم', makhraj: 'أصوات شفوية', desc: 'يصدر من بين الشفتين بانطباقهما. ويُرافق الميم غنة من الخيشوم.' },
-            'و': { name: 'الواو', makhraj: 'أصوات شفوية', desc: 'يتشكّل صوت الواو من انضمام الشفتين، ويصدر من بينهما.' },
-            'ف': { name: 'الفاء', makhraj: 'صوت شفوي أسناني', desc: 'يصدر من بين الشفة السّفلى والأسنان العليا. يتشكل عائق يضيق مجرى الهواء في أثناء النطق به.' },
-            'ث': { name: 'الثاء', makhraj: 'أصوات بين أسنانية', desc: 'تصدر من بين الأسنان العليا وطرف اللسان مع وجود الأسنان السّفلى في الموضع المناسب كعائق.' },
-            'ذ': { name: 'الذال', makhraj: 'أصوات بين أسنانية', desc: 'تصدر من بين الأسنان العليا وطرف اللسان مع وجود الأسنان السّفلى في الموضع المناسب كعائق.' },
-            'ظ': { name: 'الظاء', makhraj: 'أصوات بين أسنانية', desc: 'تصدر من بين الأسنان العليا وطرف اللسان مع وجود الأسنان السّفلى في الموضع المناسب كعائق.' },
-            'ت': { name: 'التاء', makhraj: 'أصوات أسنانية لثوية', desc: 'يتكون عائق الهواء نتيجة التقاء طرف اللسان بأصول الثنايا واللثة العليا.' },
-            'د': { name: 'الدال', makhraj: 'أصوات أسنانية لثوية', desc: 'يتكون عائق الهواء نتيجة التقاء طرف اللسان بأصول الثنايا واللثة العليا.' },
-            'ط': { name: 'الطاء', makhraj: 'أصوات أسنانية لثوية', desc: 'يتكون عائق الهواء نتيجة التقاء طرف اللسان بأصول الثنايا واللثة العليا.' },
-            'ض': { name: 'الضاد', makhraj: 'أصوات أسنانية لثوية', desc: 'يتكون عائق الهواء نتيجة التقاء طرف اللسان بأصول الثنايا واللثة العليا.' },
-            'ن': { name: 'النون', makhraj: 'أصوات أسنانية لثوية', desc: 'اتصال رأس اللسان بأصول الثنايا واللثة العليا.' },
-            'ز': { name: 'الزاي', makhraj: 'أصوات أسنانية لثوية (صفير)', desc: 'التقاء رأس اللسان مع أصول الثنايا واللثة السفلى. يخرج الهواء من فتحة ضيقة فينشأ صفير.' },
-            'س': { name: 'السين', makhraj: 'أصوات أسنانية لثوية (صفير)', desc: 'التقاء رأس اللسان مع أصول الثنايا واللثة السفلى. يخرج الهواء من فتحة ضيقة فينشأ صفير.' },
-            'ص': { name: 'الصاد', makhraj: 'أصوات أسنانية لثوية (صفير)', desc: 'التقاء رأس اللسان مع أصول الثنايا واللثة السفلى. يخرج الهواء من فتحة ضيقة فينشأ صفير.' },
-            'ر': { name: 'الراء', makhraj: 'صوتان لثويّان', desc: 'يعاق الهواء في أثناء النطق به نتيجة لاتصال طرف اللسان باللثة العليا.' },
-            'ل': { name: 'اللام', makhraj: 'صوتان لثويّان', desc: 'يعاق الهواء في أثناء النطق به نتيجة لاتصال طرف اللسان باللثة العليا.' },
-            'ج': { name: 'الجيم', makhraj: 'أصوات غاريّة', desc: 'ينحبس مجرى الهواء نتيجة التقاء وسط اللسان بالحنك الصلب (الغار).' },
-            'ش': { name: 'الشين', makhraj: 'أصوات غاريّة', desc: 'صوت متفشٍّ يتكوّن عائقه باقتراب وسط اللسان مما يحاذيه من الحنك الصلب.' },
-            'ي': { name: 'الياء', makhraj: 'أصوات غاريّة', desc: 'يهتز معها الوتران الصوتيان وتصدر من منطقة الحنك الصلب (الغار).' },
-            'غ': { name: 'الغين', makhraj: 'أصوات طبقية', desc: 'يتكوّن عائقها في منطقة الطبق أو الحنك اللين عندما يقترب منه مؤخر اللسان.' },
-            'خ': { name: 'الخاء', makhraj: 'أصوات طبقية', desc: 'يتكوّن عائقها في منطقة الطبق أو الحنك اللين عندما يقترب منه مؤخر اللسان.' },
-            'ك': { name: 'الكاف', makhraj: 'أصوات طبقية', desc: 'يتكوّن عائقها في منطقة الطبق أو الحنك اللين عندما يلتصق به مؤخر اللسان.' },
-            'ق': { name: 'القاف', makhraj: 'صوت لهوي', desc: 'يصدر من التقاء أقصى اللسان (مؤخره) باللهاة.' },
-            'ح': { name: 'الحاء', makhraj: 'صوتان حلقيّان', desc: 'يتكون عائقه من اقتراب لسان المزمار من الجدار الخلفي للحلق.' },
-            'ع': { name: 'العين', makhraj: 'صوتان حلقيّان', desc: 'يتكون عائقه من اقتراب لسان المزمار من الجدار الخلفي للحلق.' },
-            'ء': { name: 'الهمزة', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة بحسب وضع الوترين الصّوتيين انفتاحًا أو إغلاقًا.' },
-            'أ': { name: 'الهمزة', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة.' },
-            'إ': { name: 'الهمزة', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة.' },
-            'ؤ': { name: 'الهمزة', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة.' },
-            'ئ': { name: 'الهمزة', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة.' },
-            'ه': { name: 'الهاء', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة.' },
-            'هـ': { name: 'الهاء', makhraj: 'صوتان حنجريّان', desc: 'يصدر من الحنجرة.' }
-        };
-
-        function toggleMenu() {
-            document.getElementById('sideMenu').classList.toggle('show');
-            document.getElementById('overlay').classList.toggle('show');
+        function openDrawer() {
+            document.getElementById('mobileDrawer').classList.add('open');
+            document.getElementById('drawerOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden'; // منع التمرير في الخلفية
         }
 
-        function searchChar() {
-            const input = document.getElementById('charInput').value.trim();
-            const errorMsg = document.getElementById('errorMsg');
-            const resultSection = document.getElementById('resultSection');
-
-            if (!input || input.length === 0) {
-                errorMsg.style.display = 'block';
-                errorMsg.innerText = 'يرجى كتابة حرف واحد للبحث!';
-                resultSection.style.display = 'none';
-                return;
-            }
-
-            const char = input.charAt(0);
-
-            if (consonantsData[char]) {
-                const data = consonantsData[char];
-                
-                document.getElementById('charDisplay').innerText = char;
-                document.getElementById('charName').innerText = data.name;
-                document.getElementById('makhrajValue').innerText = data.makhraj;
-                document.getElementById('descValue').innerText = data.desc;
-
-                errorMsg.style.display = 'none';
-                resultSection.style.display = 'block';
-                
-                resultSection.style.animation = 'none';
-                resultSection.offsetHeight; 
-                resultSection.style.animation = 'fadeIn 0.5s ease';
-            } else {
-                errorMsg.style.display = 'block';
-                errorMsg.innerText = 'عذراً، لم يتم العثور على الحرف! تأكد من إدخال حرف عربي صحيح.';
-                resultSection.style.display = 'none';
-            }
+        function closeDrawer() {
+            document.getElementById('mobileDrawer').classList.remove('open');
+            document.getElementById('drawerOverlay').classList.remove('open');
+            document.body.style.overflow = 'auto'; // إعادة التمرير
         }
-
-        document.getElementById('charInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                searchChar();
-            }
-        });
     </script>
+
+    <script src="script.js"></script>
 </body>
 </html>
