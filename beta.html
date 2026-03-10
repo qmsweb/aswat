@@ -17,7 +17,7 @@
     
     <style>
         :root {
-            --primary-color: #7F288F; /* اللون المطلوب */
+            --primary-color: #7F288F;
             --primary-hover: #671d75;
             --primary-light: #f6ecf8;
             --bg-color: #ffffff;
@@ -83,7 +83,6 @@
             width: auto;
         }
         
-        /* الروابط في الكمبيوتر */
         .nav-links {
             display: flex;
             gap: 25px;
@@ -100,7 +99,6 @@
             color: #ffffff;
         }
 
-        /* زر القائمة للموبايل */
         .menu-toggle-btn {
             display: none;
             background: none;
@@ -111,7 +109,7 @@
             padding: 0;
         }
 
-        /* === التصميم الجديد للقائمة الجانبية (للموبايل) === */
+        /* === القائمة الجانبية (للموبايل) === */
         .mobile-drawer {
             position: fixed;
             top: 0;
@@ -220,7 +218,6 @@
             font-size: 0.85rem;
         }
 
-        /* الطبقة المعتمة خلف القائمة */
         .drawer-overlay {
             position: fixed;
             top: 0;
@@ -315,10 +312,10 @@
             box-shadow: 0 5px 15px rgba(127, 40, 143, 0.3);
         }
 
-        /* === قسم النتائج (تم تحديث بطاقة الحرف) === */
+        /* === قسم النتائج (ترتيب Grid الجديد) === */
         .result-section {
             display: none;
-            max-width: 800px;
+            max-width: 900px; /* تم التوسيع قليلاً لتناسب الشبكة */
             margin: 0 auto 50px;
             background: var(--card-bg);
             border-radius: 16px;
@@ -350,36 +347,46 @@
             margin: 0;
         }
         
+        /* الحاوية الشبكية المحدثة */
         .details-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr); /* 3 أعمدة بشكل افتراضي */
             gap: 20px;
             padding: 30px;
+            background-color: #ffffff;
         }
         
+        /* بطاقات الخانات (المربعات) */
         .detail-card {
-            padding: 15px;
+            padding: 20px 15px;
             border-radius: 12px;
             background-color: #fafafa;
             border: 1px solid var(--border-color);
-            border-right: 4px solid var(--primary-color);
-            transition: transform 0.3s ease;
+            border-top: 4px solid var(--primary-color); /* الخط الملون في الأعلى ليعطي شكل اللوحة */
+            text-align: center; /* توسيط النص */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .detail-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(127, 40, 143, 0.1);
+            background-color: #ffffff;
         }
         
         .detail-title {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
         
         .detail-value {
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-weight: 700;
             color: var(--primary-color);
         }
 
@@ -580,6 +587,12 @@
             .search-btn {
                 padding: 15px;
             }
+            /* جعل الشبكة عمودين في الأجهزة اللوحية والموبايل الكبير */
+            .details-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 20px;
+                gap: 15px;
+            }
             .footer-grid {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -589,6 +602,13 @@
                 flex-direction: row;
                 justify-content: center;
                 flex-wrap: wrap;
+            }
+        }
+        
+        /* جعل الشبكة عمود واحد في الشاشات الصغيرة جداً */
+        @media (max-width: 480px) {
+            .details-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -754,13 +774,13 @@
         function openDrawer() {
             document.getElementById('mobileDrawer').classList.add('open');
             document.getElementById('drawerOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden'; // منع التمرير في الخلفية
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeDrawer() {
             document.getElementById('mobileDrawer').classList.remove('open');
             document.getElementById('drawerOverlay').classList.remove('open');
-            document.body.style.overflow = 'auto'; // إعادة التمرير
+            document.body.style.overflow = 'auto'; 
         }
     </script>
 
