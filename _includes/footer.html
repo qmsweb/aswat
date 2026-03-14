@@ -20,14 +20,22 @@
         margin-bottom: 30px;
     }
 
+    /* ضمان محاذاة كل محتويات الأعمدة لليمين في الشاشات الكبيرة */
+    .footer-col {
+        text-align: right; 
+    }
+
     .footer-col h3 {
+        margin-top: 0;
         margin-bottom: 15px;
         font-size: 1.2rem;
+        color: #333;
     }
 
     .footer-text {
         line-height: 1.6;
         color: #666;
+        margin-top: 0;
     }
 
     .footer-links-list {
@@ -50,21 +58,23 @@
         color: #000;
     }
 
-    /* --- تنسيق الشعارات 2:1 وبدون مسافات داخلية --- */
+    /* --- تنسيق الشعارات --- */
     .footer-logos {
         display: flex;
         flex-wrap: wrap;
         gap: 15px; /* المسافة بين الشعارات */
-        align-items: center;
+        justify-content: flex-start; /* محاذاة الشعارات لليمين تحت العنوان مباشرة */
+        align-items: flex-start;
     }
 
     .logo-link {
-        display: inline-block;
+        display: block; /* تغيير ليتناسب مع أبعاد البطاقة */
+        width: 140px; /* العرض */
+        height: 70px; /* الارتفاع بنسبة 2:1 */
         border-radius: 8px; /* الانحناء المطلوب */
         overflow: hidden; /* يضمن عدم خروج أطراف الصورة عن الانحناء */
         box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* ظل خفيف للبطاقة */
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        /* إزالة أي خلفية أو مسافة إضافية من الرابط */
         background: transparent;
         padding: 0; 
     }
@@ -76,11 +86,11 @@
 
     .partner-logo {
         display: block;
-        width: 140px; /* العرض ضعف الارتفاع */
-        height: 70px; /* نسبة 2:1 */
-        object-fit: cover; /* تغطي المساحة بالكامل */
+        width: 100%; /* تأخذ عرض الرابط بالكامل 140px */
+        height: 100%; /* تأخذ ارتفاع الرابط بالكامل 70px */
+        object-fit: cover; /* تغطي المساحة بالكامل بدون تشوه */
         border: none;
-        padding: 0; /* بدون مسافة داخلية */
+        padding: 0; 
         margin: 0;
     }
 
@@ -99,17 +109,20 @@
         margin-bottom: 10px;
     }
 
-    /* تعديلات الشاشات الصغيرة */
+    /* تعديلات الشاشات الصغيرة (الهاتف) */
     @media (max-width: 600px) {
-        .footer-logos {
-            justify-content: center;
+        .footer-grid {
+            gap: 40px; /* زيادة المسافة بين الأقسام لترتيب أفضل */
         }
-        .partner-logo {
-            width: 120px; /* تصغير طفيف في الجوال مع الحفاظ على النسبة 2:1 */
-            height: 60px;
-        }
+        
         .footer-col {
-            text-align: center;
+            text-align: center; /* توسيط النصوص في الجوال */
+        }
+
+        .footer-logos {
+            flex-direction: column; /* جعل الشعارات كقائمة عمودية (فوق بعضها) */
+            align-items: center; /* توسيط الشعارات في منتصف الشاشة */
+            justify-content: center;
         }
     }
 </style>
