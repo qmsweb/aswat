@@ -1,0 +1,89 @@
+---
+layout: default
+---
+
+<main class="container">
+    
+    <section class="hero-section">
+        <h2 class="hero-title">البحث في الخصائص الصوتية</h2>
+        <p class="hero-subtitle">أدخل أي حرف عربي صامت لمعرفة مخرجه، طريقة نطقه، والمزيد من التفاصيل الدقيقة.</p>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="charInput" class="search-input" maxlength="2" placeholder="أ" onkeyup="if(event.key === 'Enter') searchPhonetic()">
+                <button type="button" onclick="searchPhonetic()" class="search-btn">ابحث الآن</button>
+            </div>
+        </div>
+    </section>
+    
+    <section class="result-section" id="resultSection">
+        <div class="result-header">
+            <div id="charDisplay" class="char-display"></div>
+            <h3 id="charName" class="char-name"></h3>
+        </div>
+        
+        <div class="details-grid" id="resultDetails">
+            </div>
+    </section>
+    
+    <section class="classification-section">
+        <div class="section-header">
+            <h2 class="section-title">القاعدة الصوتية للصوامت</h2>
+        </div>
+        
+        <div class="classification-grid">
+            
+            <div class="class-card">
+                <h3 class="class-title">حسب المخرج</h3>
+                <ul class="class-list">
+                    <li><strong>الشفوية:</strong> الباء، الميم، الواو</li>
+                    <li><strong>الشفوية الأسنانية:</strong> الفاء</li>
+                    <li><strong>بين الأسنانية:</strong> الثاء، الذال، الظاء</li>
+                    <li><strong>الأسنانية اللثوية:</strong> التاء، الدال، الزاي، السين، الصاد، الضاد، الطاء، النون</li>
+                    <li><strong>اللثوية:</strong> الراء، اللام</li>
+                    <li><strong>الغارية:</strong> الجيم، الشين، الياء</li>
+                    <li><strong>الطبقية:</strong> الخاء، الغين، الكاف</li>
+                    <li><strong>اللهوية:</strong> القاف</li>
+                    <li><strong>الحلقية:</strong> الحاء، العين</li>
+                    <li><strong>الحنجرية:</strong> الهمزة، الهاء</li>
+                </ul>
+            </div>
+            
+            <div class="class-card">
+                <h3 class="class-title">حسب اهتزاز الوترين</h3>
+                <ul class="class-list">
+                    <li><strong>المجهورة (17 حرفًا):</strong><br>
+                    الهمزة، الباء، الجيم، الدال، الذال، الراء، الزاي، الضاد، الطاء، الظاء، العين، الغين، اللام، الميم، النون، الواو، الياء</li>
+                    <li><strong>المهموسة (11 حرفًا):</strong><br>
+                    التاء، الثاء، الحاء، الخاء، السين، الشين، الصاد، الفاء، القاف، الكاف، الهاء</li>
+                </ul>
+            </div>
+            
+            <div class="class-card">
+                <h3 class="class-title">حسب طريقة النطق</h3>
+                <ul class="class-list">
+                    <li><strong>الشديدة (الانفجارية):</strong> الهمزة، الباء، التاء، الدال، الضاد، الطاء، القاف، الكاف</li>
+                    <li><strong>الرخوة (الاحتكاكية):</strong> الثاء، الحاء، الخاء، الذال، الزاي، السين، الشين، الصاد، الظاء، العين، الغين، الفاء، الهاء</li>
+                    <li><strong>المركبة (شديدة رخوة):</strong> الجيم</li>
+                    <li><strong>التكرارية:</strong> الراء</li>
+                    <li><strong>الجانبية:</strong> اللام</li>
+                    <li><strong>الأنفية:</strong> الميم، النون</li>
+                    <li><strong>اللينة:</strong> الواو، الياء</li>
+                </ul>
+            </div>
+            
+            <div class="class-card">
+                <h3 class="class-title">حسب شكل اللسان</h3>
+                <ul class="class-list">
+                    <li><strong>المطبقة:</strong><br>
+                    الصاد، الضاد، الطاء، الظاء</li>
+                    <li><strong>غير المطبقة:</strong><br>
+                    بقية الأحرف (24 حرفاً)</li>
+                </ul>
+            </div>
+            
+        </div>
+    </section>
+
+    {{ content }}
+</main>
