@@ -70,7 +70,7 @@
         .drawer-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); padding: 30px 25px; display: flex; justify-content: space-between; align-items: center; border-top-left-radius: 24px; }
         .drawer-title { margin: 0; color: #ffffff; font-size: 1.4rem; font-weight: 700; }
         .close-drawer-btn { background: rgba(255, 255, 255, 0.2); border: none; color: #ffffff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; }
-        .close-drawer-btn:hover { background: rgba(255, 255, 255, 0.4); transform: rotate(45deg); }
+        .close-drawer-btn:hover { background: rgba(255, 255, 255, 0.4); transform: rotate(90deg); }
         .drawer-links { padding: 30px 20px; display: flex; flex-direction: column; gap: 15px; flex: 1; }
         .drawer-links a { font-size: 1.1rem; color: var(--primary-color); background-color: var(--primary-light); font-weight: 600; padding: 15px 20px; border-radius: 12px; display: flex; align-items: center; transition: all 0.3s ease; }
         .drawer-links a::before { content: ''; display: inline-block; width: 8px; height: 8px; background-color: var(--primary-color); border-radius: 50%; margin-left: 15px; transition: all 0.3s ease; }
@@ -111,8 +111,17 @@
         .classification-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
         .class-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 25px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .class-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(127, 40, 143, 0.08); border-color: var(--primary-light); }
+        
+        /* التعديل هنا: تكرار المربع وتدويره 90 درجة */
         .class-title { font-size: 1.3rem; font-weight: 700; color: var(--primary-color); margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .class-title::before { content: '■'; font-size: 0.8rem; }
+        .class-title::before { 
+            content: '■ ■'; 
+            font-size: 0.7rem; 
+            letter-spacing: 2px; 
+            display: inline-block; 
+            transform: rotate(45deg); 
+        }
+        
         .class-list { list-style: none; padding: 0; margin: 0; }
         .class-list li { padding: 10px 0; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
         .class-list li:last-child { border-bottom: none; padding-bottom: 0; }
