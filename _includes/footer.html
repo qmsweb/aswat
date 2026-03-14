@@ -1,7 +1,7 @@
 <style>
     /* تنسيقات التذييل الأساسية */
     .site-footer {
-        background-color: #f8f9fa; /* لون خلفية افتراضي */
+        background-color: #f8f9fa;
         padding: 40px 0 20px;
         direction: rtl;
         font-family: sans-serif;
@@ -34,6 +34,7 @@
     .footer-links-list {
         list-style: none;
         padding: 0;
+        margin: 0;
     }
 
     .footer-links-list li {
@@ -50,32 +51,38 @@
         color: #000;
     }
 
-    /* --- تنسيق الشعارات المطلوب --- */
+    /* --- تنسيق الشعارات 2:1 وبدون مسافات داخلية --- */
     .footer-logos {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 15px; /* المسافة بين الشعارات */
         align-items: center;
     }
 
-    .partner-logo {
-        /* حجم الشعار */
-        width: 80px; 
-        height: 80px;
-        /* جعل الصور مربعة ومنتظمة */
-        object-fit: contain; 
-        /* إضافة الانحناء */
-        border-radius: 12px; 
-        /* تحسين المظهر */
-        background: #fff;
-        border: 1px solid #eee;
-        padding: 5px;
+    .logo-link {
+        display: inline-block;
+        border-radius: 8px; /* الانحناء المطلوب */
+        overflow: hidden; /* يضمن عدم خروج أطراف الصورة عن الانحناء */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* ظل خفيف للبطاقة */
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* إزالة أي خلفية أو مسافة إضافية من الرابط */
+        background: transparent;
+        padding: 0; 
     }
 
-    .partner-logo:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    .logo-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .partner-logo {
+        display: block;
+        width: 140px; /* العرض ضعف الارتفاع */
+        height: 70px; /* نسبة 2:1 */
+        object-fit: cover; /* تغطي المساحة بالكامل */
+        border: none;
+        padding: 0; /* بدون مسافة داخلية */
+        margin: 0;
     }
 
     /* تنسيق الجزء السفلي */
@@ -85,6 +92,7 @@
         padding-top: 20px;
         color: #777;
         font-size: 0.9rem;
+        line-height: 1.6;
     }
 
     .dev-logo {
@@ -100,8 +108,8 @@
             justify-content: center;
         }
         .partner-logo {
-            width: 70px;
-            height: 70px;
+            width: 120px; /* تصغير طفيف في الجوال مع الحفاظ على النسبة 2:1 */
+            height: 60px;
         }
         .footer-col {
             text-align: center;
@@ -110,50 +118,6 @@
 </style>
 
 <footer class="site-footer">
-    <div class="container">
-        <div class="footer-grid">
-            
-            <div class="footer-col">
-                <h3>عن أداة صوامت</h3>
-                <p class="footer-text">
-                    صوامت هي منصة تعليمية تفاعلية مبسطة تهدف إلى مساعدة الباحثين والطلاب والمهتمين باللغة العربية على فهم الخصائص الصوتية للأحرف (الصوامت) بكل سهولة ويسر، وفقاً لأحدث المناهج في علم الأصوات.
-                </p>
-            </div>
-            
-            <div class="footer-col">
-                <h3>روابط سريعة</h3>
-                <ul class="footer-links-list">
-                    <li><a href="https://sawamet.jassim.one/about.html">المزيد عن الأداة</a></li>
-                    <li><a href="https://rawafid.jassim.one/">موقع روافد</a></li>
-                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfszQ_yNUfNBfkkZjFPPz6cmd13gJsWxEQXOpTirbuz9V-ezA/viewform?usp=header" target="_blank">الإبلاغ عن خطأ برمجي</a></li>
-                    <li><a href="https://sawamet.jassim.one/qr.html">رمز الاستجابة السريعة (QR)</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-col">
-                <h3>مواقع شقيقة</h3>
-                <div class="footer-logos">
-                    <a href="#" target="_blank" class="logo-link">
-                        <img src="images/rwfd-logo.jpg" alt="روافد" class="partner-logo">
-                    </a>
-                    <a href="#" target="_blank" class="logo-link">
-                        <img src="images/bayn-logo.jpg" alt="منصة بين" class="partner-logo">
-                    </a>
-                    <a href="#" target="_blank" class="logo-link">
-                        <img src="images/mtnbi-logo.jpg" alt="رحلة المتنبي" class="partner-logo">
-                    </a>
-                </div>
-            </div>
-            
-        </div>
-        
-        <div class="footer-bottom">
-            <img src="images/jassim-black.png" alt="Jassim Logo" class="dev-logo">
-            <br>
-            تطوير جاسم الفارسي لفريق عمل أداة صوامت - جميع الحقوق محفوظة © 2026
-        </div>
-    </div>
-</footer><footer class="site-footer">
     <div class="container">
         <div class="footer-grid">
             
