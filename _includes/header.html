@@ -1,9 +1,4 @@
 <style>
-    /* تنسيقات عامة (موجودة سابقاً) لضمان عمل الشعار */
-    .top-navbar .brand-logo {
-        max-height: 40px; /* أو أي ارتفاع مناسب */
-    }
-
     /* ========================================================= */
     /* تخصيص شاشات الجوال (عرض الشاشة 768 بكسل فأقل) */
     /* ========================================================= */
@@ -11,9 +6,9 @@
         .navbar-content {
             display: flex;
             align-items: center;
-            justify-content: center; /* توسيط العناصر مبدئياً */
-            position: relative; /* ضروري لضبط تموضع الشعار وزر القائمة */
-            min-height: 60px; /* تأكد من وجود ارتفاع مناسب لشريط التنقل */
+            justify-content: center;
+            position: relative;
+            min-height: 60px;
         }
 
         /* إخفاء روابط سطح المكتب على الجوال */
@@ -31,110 +26,125 @@
             align-items: center;
         }
 
-        /* تنسيق زر القائمة الجديد (على اليمين للغة العربية) */
+        /* تنسيق زر القائمة (على اليمين) */
         .menu-toggle-btn {
             position: absolute;
             right: 15px; 
-            z-index: 1001; /* فوق كل شيء لفتحه وإغلاقه */
+            z-index: 1001;
             background: none;
             border: none;
             cursor: pointer;
             padding: 0;
-            /* توسيط محتوى الزر */
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* تغيير لون وحجم أيقونة SVG الجديدة */
+        /* أيقونة القائمة باللون الأبيض */
         .menu-toggle-btn svg {
-            fill: #333; /* يمكنك تغيير اللون من هنا */
-            width: 30px;
-            height: 30px;
-            transition: transform 0.3s ease;
-        }
-
-        /* تدوير الأيقونة عند فتح القائمة (اختياري، يعمل مع الـ JS) */
-        body.drawer-open .menu-toggle-btn svg {
-            transform: rotate(90deg);
+            fill: #ffffff; /* اللون الأبيض */
+            width: 32px;
+            height: 32px;
         }
 
         /* --------------------------------------------------------- */
-        /* تصميم القائمة الجديد (خلفية Blur شفافة فقط) */
+        /* تصميم القائمة الزجاجية (Blur) */
         /* --------------------------------------------------------- */
         
-        /* إخفاء غطاء التعتيم القديم */
+        /* إخفاء غطاء التعتيم القديم الخاص بالكمبيوتر */
         .drawer-overlay {
             display: none !important;
         }
 
-        /* تنسيق القائمة الجانبية لتصبح ملء الشاشة وشفافة */
+        /* حاوية القائمة ملء الشاشة */
         .mobile-drawer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            /* تأثير الخلفية الضبابية والشفافية */
-            background-color: rgba(255, 255, 255, 0.5); /* شفافية عالية */
-            backdrop-filter: blur(20px); /* تأثير الضباب */
-            -webkit-backdrop-filter: blur(20px); /* لدعم متصفح Safari */
+            height: 100vh;
             
-            z-index: 1000; /* تحت زر القائمة وفوق محتوى الصفحة */
+            /* خلفية زجاجية ضبابية شفافة */
+            background-color: rgba(0, 0, 0, 0.4); /* لون داكن شفاف لإبراز النص الأبيض */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             
-            /* إخفاءها في البداية */
-            display: none; 
+            z-index: 1000;
+            display: none; /* مخفية افتراضياً */
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s ease;
             
-            /* توسيط الروابط في منتصف الشاشة */
             flex-direction: column;
             justify-content: center;
             align-items: center;
             
-            /* إلغاء أي تنسيقات قديمة أخرى */
+            /* إزالة أي تنسيقات قديمة */
             box-shadow: none;
             border: none;
             padding: 0;
         }
 
-        /* عرض القائمة عند تفعيل الفئة 'open' (يتم إضافتها بواسطة JS) */
+        /* عرض القائمة عند النقر */
         .mobile-drawer.open {
             display: flex;
             opacity: 1;
         }
 
-        /* حذف عناصر التصميم القديمة */
-        .drawer-header,
+        /* --------------------------------------------------------- */
+        /* زر الإغلاق (X) في الأعلى يساراً */
+        /* --------------------------------------------------------- */
+        .drawer-header {
+            position: absolute;
+            top: 25px;
+            left: 25px; /* تم وضعه في اليسار */
+            width: auto;
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* إخفاء عنوان القائمة القديم */
+        .drawer-title {
+            display: none !important;
+        }
+
+        /* تصميم زر X */
+        .close-drawer-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff; /* لون أبيض */
+            font-size: 45px;
+            font-weight: 300;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+        }
+
+        /* إخفاء الفوتر القديم في الجوال */
         .drawer-footer {
             display: none !important;
         }
 
-        /* تنسيق قائمة الروابط الجديدة */
+        /* --------------------------------------------------------- */
+        /* نصوص الروابط (بدون خلفية) */
+        /* --------------------------------------------------------- */
         .drawer-links {
             display: flex;
             flex-direction: column;
-            gap: 25px; /* مسافة كبيرة بين الروابط */
+            gap: 35px; /* مسافة بين العناصر */
             text-align: center;
             width: 100%;
         }
 
-        /* تنسيق الروابط نفسها */
         .drawer-links a {
-            font-size: 24px; /* حجم كبير للروابط */
-            font-weight: bold;
-            color: #1a1a1a; /* لون غامق ليكون واضحاً */
+            background: transparent !important; /* بدون خلفية */
+            color: #ffffff !important; /* لون النص أبيض */
+            font-size: 26px; /* حجم خط كبير وواضح */
+            font-weight: 500;
             text-decoration: none;
-            padding: 10px 20px;
-            transition: color 0.3s ease, transform 0.3s ease;
-            display: block;
-        }
-
-        /* تأثير عند تمرير الماوس أو النقر (على الجوال) */
-        .drawer-links a:active,
-        .drawer-links a:hover {
-            color: #007bff; /* أو لون هوية الموقع */
-            transform: scale(1.05);
+            padding: 10px;
+            display: inline-block;
         }
     }
 </style>
@@ -142,7 +152,7 @@
 <header class="top-navbar">
     <div class="container navbar-content">
         <div class="brand">
-            <img src="https://github.com/qmsweb/aswat/raw/main/images/sawamet-logo.png" alt="شعار صوامت" class="brand-logo">
+            <img src="https://github.com/qmsweb/aswat/raw/main/images/sawamet-logo.png" alt="شعار صوامت" class="brand-logo" style="max-height: 40px;">
         </div>
         
         <nav class="nav-links">
@@ -151,7 +161,7 @@
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
         </nav>
 
-        <button class="menu-toggle-btn" onclick="toggleDrawer()" aria-label="قائمة التنقل">
+        <button class="menu-toggle-btn" onclick="toggleMobileDrawer()" aria-label="قائمة التنقل">
             <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                 <path d="M160 256h704a32 32 0 0 1 0 64H160a32 32 0 0 1 0-64zm192 192h512a32 32 0 0 1 0 64H352a32 32 0 0 1 0-64zm-192 192h704a32 32 0 0 1 0 64H160a32 32 0 0 1 0-64z"/>
             </svg>
@@ -159,41 +169,38 @@
     </div>
 </header>
 
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeMobileDrawer()"></div>
 
 <div class="mobile-drawer" id="mobileDrawer">
     <div class="drawer-header">
         <h2 class="drawer-title">القائمة الرئيسية</h2>
-        <button class="close-drawer-btn" onclick="closeDrawer()">×</button>
+        <button class="close-drawer-btn" onclick="closeMobileDrawer()">×</button>
     </div>
+    
     <nav class="drawer-links">
         <a href="https://sawamet.jassim.one/about.html">عن الأداة</a>
         <a href="https://rawafid.jassim.one/">روافد</a>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
     </nav>
+    
     <div class="drawer-footer">
         أداة صوامت © 2026
     </div>
 </div>
 
 <script>
-    /* دالة موحدة لفتح وغلق القائمة للتصميم الجديد */
-    function toggleDrawer() {
+    // دالة فتح/إغلاق القائمة
+    function toggleMobileDrawer() {
         var drawer = document.getElementById("mobileDrawer");
         drawer.classList.toggle("open");
-        document.body.classList.toggle("drawer-open"); // لإضافة تأثير على الزر إذا أردت
     }
 
-    /* دالة الإغلاق الأصلية (للاحتياط أو إذا نقر المستخدم على رابط) */
-    function closeDrawer() {
+    // دالة إغلاق القائمة (عند الضغط على X أو الغطاء)
+    function closeMobileDrawer() {
         var drawer = document.getElementById("mobileDrawer");
-        drawer.classList.remove("open");
-        document.body.classList.remove("drawer-open");
+        if(drawer) drawer.classList.remove("open");
         
-        // إذا كان لديك غطاء في نسخة الكمبيوتر، أغلقه أيضاً
         var overlay = document.getElementById("drawerOverlay");
-        if (overlay) {
-            overlay.style.display = 'none';
-        }
+        if (overlay) overlay.style.display = 'none';
     }
 </script>
