@@ -1,3 +1,37 @@
+<style>
+    /* تخصيص شاشات الجوال (عرض الشاشة 768 بكسل فأقل) */
+    @media (max-width: 768px) {
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* توسيط العناصر مبدئياً */
+            position: relative; /* ضروري لضبط تموضع الشعار وزر القائمة */
+            min-height: 60px; /* تأكد من وجود ارتفاع مناسب لشريط التنقل */
+        }
+
+        /* إخفاء روابط سطح المكتب على الجوال لتجنب التزاحم */
+        .nav-links {
+            display: none;
+        }
+
+        /* توسيط الشعار في المنتصف تماماً */
+        .brand {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0;
+        }
+
+        /* تثبيت زر القائمة في الجانب الأيمن (مناسب للمواقع باللغة العربية RTL) */
+        .menu-toggle-btn {
+            position: absolute;
+            right: 15px; 
+            /* إذا أردت الزر على اليسار، استخدم: left: 15px; واحذف right */
+            z-index: 10; /* لضمان بقائه قابلاً للنقر فوق أي عناصر أخرى */
+        }
+    }
+</style>
+
 <header class="top-navbar">
     <div class="container navbar-content">
         <div class="brand">
