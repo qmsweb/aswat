@@ -1,5 +1,12 @@
 <style>
+    /* تنسيقات عامة (موجودة سابقاً) لضمان عمل الشعار */
+    .top-navbar .brand-logo {
+        max-height: 40px; /* أو أي ارتفاع مناسب */
+    }
+
+    /* ========================================================= */
     /* تخصيص شاشات الجوال (عرض الشاشة 768 بكسل فأقل) */
+    /* ========================================================= */
     @media (max-width: 768px) {
         .navbar-content {
             display: flex;
@@ -9,7 +16,7 @@
             min-height: 60px; /* تأكد من وجود ارتفاع مناسب لشريط التنقل */
         }
 
-        /* إخفاء روابط سطح المكتب على الجوال لتجنب التزاحم */
+        /* إخفاء روابط سطح المكتب على الجوال */
         .nav-links {
             display: none;
         }
@@ -20,14 +27,114 @@
             left: 50%;
             transform: translateX(-50%);
             margin: 0;
+            display: flex;
+            align-items: center;
         }
 
-        /* تثبيت زر القائمة في الجانب الأيمن (مناسب للمواقع باللغة العربية RTL) */
+        /* تنسيق زر القائمة الجديد (على اليمين للغة العربية) */
         .menu-toggle-btn {
             position: absolute;
             right: 15px; 
-            /* إذا أردت الزر على اليسار، استخدم: left: 15px; واحذف right */
-            z-index: 10; /* لضمان بقائه قابلاً للنقر فوق أي عناصر أخرى */
+            z-index: 1001; /* فوق كل شيء لفتحه وإغلاقه */
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            /* توسيط محتوى الزر */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* تغيير لون وحجم أيقونة SVG الجديدة */
+        .menu-toggle-btn svg {
+            fill: #333; /* يمكنك تغيير اللون من هنا */
+            width: 30px;
+            height: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        /* تدوير الأيقونة عند فتح القائمة (اختياري، يعمل مع الـ JS) */
+        body.drawer-open .menu-toggle-btn svg {
+            transform: rotate(90deg);
+        }
+
+        /* --------------------------------------------------------- */
+        /* تصميم القائمة الجديد (خلفية Blur شفافة فقط) */
+        /* --------------------------------------------------------- */
+        
+        /* إخفاء غطاء التعتيم القديم */
+        .drawer-overlay {
+            display: none !important;
+        }
+
+        /* تنسيق القائمة الجانبية لتصبح ملء الشاشة وشفافة */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* تأثير الخلفية الضبابية والشفافية */
+            background-color: rgba(255, 255, 255, 0.5); /* شفافية عالية */
+            backdrop-filter: blur(20px); /* تأثير الضباب */
+            -webkit-backdrop-filter: blur(20px); /* لدعم متصفح Safari */
+            
+            z-index: 1000; /* تحت زر القائمة وفوق محتوى الصفحة */
+            
+            /* إخفاءها في البداية */
+            display: none; 
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            
+            /* توسيط الروابط في منتصف الشاشة */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+            /* إلغاء أي تنسيقات قديمة أخرى */
+            box-shadow: none;
+            border: none;
+            padding: 0;
+        }
+
+        /* عرض القائمة عند تفعيل الفئة 'open' (يتم إضافتها بواسطة JS) */
+        .mobile-drawer.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* حذف عناصر التصميم القديمة */
+        .drawer-header,
+        .drawer-footer {
+            display: none !important;
+        }
+
+        /* تنسيق قائمة الروابط الجديدة */
+        .drawer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* مسافة كبيرة بين الروابط */
+            text-align: center;
+            width: 100%;
+        }
+
+        /* تنسيق الروابط نفسها */
+        .drawer-links a {
+            font-size: 24px; /* حجم كبير للروابط */
+            font-weight: bold;
+            color: #1a1a1a; /* لون غامق ليكون واضحاً */
+            text-decoration: none;
+            padding: 10px 20px;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: block;
+        }
+
+        /* تأثير عند تمرير الماوس أو النقر (على الجوال) */
+        .drawer-links a:active,
+        .drawer-links a:hover {
+            color: #007bff; /* أو لون هوية الموقع */
+            transform: scale(1.05);
         }
     }
 </style>
@@ -44,7 +151,11 @@
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
         </nav>
 
-        <button class="menu-toggle-btn" onclick="openDrawer()">☰</button>
+        <button class="menu-toggle-btn" onclick="toggleDrawer()" aria-label="قائمة التنقل">
+            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                <path d="M160 256h704a32 32 0 0 1 0 64H160a32 32 0 0 1 0-64zm192 192h512a32 32 0 0 1 0 64H352a32 32 0 0 1 0-64zm-192 192h704a32 32 0 0 1 0 64H160a32 32 0 0 1 0-64z"/>
+            </svg>
+        </button>
     </div>
 </header>
 
@@ -64,3 +175,25 @@
         أداة صوامت © 2026
     </div>
 </div>
+
+<script>
+    /* دالة موحدة لفتح وغلق القائمة للتصميم الجديد */
+    function toggleDrawer() {
+        var drawer = document.getElementById("mobileDrawer");
+        drawer.classList.toggle("open");
+        document.body.classList.toggle("drawer-open"); // لإضافة تأثير على الزر إذا أردت
+    }
+
+    /* دالة الإغلاق الأصلية (للاحتياط أو إذا نقر المستخدم على رابط) */
+    function closeDrawer() {
+        var drawer = document.getElementById("mobileDrawer");
+        drawer.classList.remove("open");
+        document.body.classList.remove("drawer-open");
+        
+        // إذا كان لديك غطاء في نسخة الكمبيوتر، أغلقه أيضاً
+        var overlay = document.getElementById("drawerOverlay");
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
+    }
+</script>
