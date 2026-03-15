@@ -38,11 +38,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 0 !important; /* إلغاء الـ radius */
         }
 
         /* أيقونة القائمة باللون الأبيض */
         .menu-toggle-btn svg {
-            fill: #ffffff; /* اللون الأبيض */
+            fill: #ffffff !important;
             width: 32px;
             height: 32px;
         }
@@ -65,23 +66,25 @@
             height: 100vh;
             
             /* خلفية زجاجية ضبابية شفافة */
-            background-color: rgba(0, 0, 0, 0.4); /* لون داكن شفاف لإبراز النص الأبيض */
+            background-color: rgba(0, 0, 0, 0.4); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             
             z-index: 1000;
             display: none; /* مخفية افتراضياً */
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease; /* سرعة ظهور الخلفية */
             
             flex-direction: column;
             justify-content: center;
             align-items: center;
             
-            /* إزالة أي تنسيقات قديمة */
-            box-shadow: none;
-            border: none;
+            /* إزالة أي تنسيقات قديمة أو انحناءات */
+            box-shadow: none !important;
+            border: none !important;
+            border-radius: 0 !important; /* إلغاء الـ radius */
             padding: 0;
+            margin: 0;
         }
 
         /* عرض القائمة عند النقر */
@@ -113,12 +116,13 @@
         .close-drawer-btn {
             background: transparent;
             border: none;
-            color: #ffffff; /* لون أبيض */
+            color: #ffffff;
             font-size: 45px;
             font-weight: 300;
             cursor: pointer;
             line-height: 1;
             padding: 0;
+            border-radius: 0 !important; /* إلغاء الـ radius */
         }
 
         /* إخفاء الفوتر القديم في الجوال */
@@ -127,25 +131,49 @@
         }
 
         /* --------------------------------------------------------- */
-        /* نصوص الروابط (بدون خلفية) */
+        /* نصوص الروابط (بدون خلفية والتوسيط) */
         /* --------------------------------------------------------- */
         .drawer-links {
             display: flex;
             flex-direction: column;
-            gap: 35px; /* مسافة بين العناصر */
-            text-align: center;
+            align-items: center; /* توسيط العناصر في المنتصف */
+            justify-content: center;
+            gap: 35px;
             width: 100%;
+            padding: 0;
+            margin: 0;
+            list-style: none !important; /* إزالة أي نقاط افتراضية */
         }
 
+        /* إعداد حالة الروابط قبل الفتح (لعمل التأثير التتابعي) */
         .drawer-links a {
-            background: transparent !important; /* بدون خلفية */
-            color: #ffffff !important; /* لون النص أبيض */
-            font-size: 26px; /* حجم خط كبير وواضح */
+            background: transparent !important;
+            color: #ffffff !important;
+            font-size: 26px;
             font-weight: 500;
             text-decoration: none;
+            text-align: center; /* توسيط النص */
             padding: 10px;
-            display: inline-block;
+            display: block;
+            border-radius: 0 !important; /* إلغاء الـ radius */
+            
+            /* إعدادات الحركة من الأسفل للأعلى */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
+
+        /* تنفيذ الحركة عند فتح القائمة (ظهور في مكانه الطبيعي) */
+        .mobile-drawer.open .drawer-links a {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* أوقات التأخير لعمل التأثير التتابعي لكل عنصر */
+        .mobile-drawer.open .drawer-links a:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-drawer.open .drawer-links a:nth-child(2) { transition-delay: 0.2s; }
+        .mobile-drawer.open .drawer-links a:nth-child(3) { transition-delay: 0.3s; }
+        /* إذا كان لديك روابط إضافية يمكنك إضافة nth-child(4) وهكذا بزيادة الوقت */
     }
 </style>
 
