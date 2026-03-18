@@ -1,5 +1,13 @@
 <style>
     /* ========================================================= */
+    /* إعدادات الشاشات الكبيرة (سطح المكتب) */
+    /* ========================================================= */
+    /* إخفاء عناصر الجوال في الشاشات الكبيرة للحفاظ على التصميم المثالي */
+    .menu-toggle-btn, .mobile-drawer, .drawer-overlay {
+        display: none !important;
+    }
+
+    /* ========================================================= */
     /* تخصيص شاشات الجوال (عرض الشاشة 768 بكسل فأقل) */
     /* ========================================================= */
     @media (max-width: 768px) {
@@ -13,7 +21,7 @@
 
         /* إخفاء روابط سطح المكتب على الجوال */
         .nav-links {
-            display: none;
+            display: none !important;
         }
 
         /* توسيط الشعار في المنتصف تماماً */
@@ -35,10 +43,10 @@
             border: none;
             cursor: pointer;
             padding: 0;
-            display: flex;
+            display: flex !important;
             align-items: center;
             justify-content: center;
-            border-radius: 0 !important; /* إلغاء الـ radius */
+            border-radius: 0 !important;
         }
 
         /* أيقونة القائمة باللون الأبيض */
@@ -49,7 +57,7 @@
         }
 
         /* --------------------------------------------------------- */
-        /* تصميم القائمة الزجاجية (Blur) */
+        /* تصميم القائمة الزجاجية (Blur) وفرض السيطرة على الكود القديم */
         /* --------------------------------------------------------- */
         
         /* إخفاء غطاء التعتيم القديم الخاص بالكمبيوتر */
@@ -59,37 +67,42 @@
 
         /* حاوية القائمة ملء الشاشة */
         .mobile-drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100% !important;
+            height: 100vh !important;
+            max-width: 100% !important; /* لكسر أي عرض محدد مسبقاً للقائمة القديمة */
             
             /* خلفية زجاجية ضبابية شفافة */
-            background-color: rgba(0, 0, 0, 0.4); 
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background-color: rgba(0, 0, 0, 0.5) !important; 
+            backdrop-filter: blur(15px) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
             
-            z-index: 1000;
-            display: none; /* مخفية افتراضياً */
+            z-index: 9999 !important; /* ضمان ظهورها فوق كل العناصر */
+            
+            /* استخدام visibility و opacity لعمل حركة ظهور ناعمة بدلاً من display */
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            visibility: hidden;
             opacity: 0;
-            transition: opacity 0.4s ease; /* سرعة ظهور الخلفية */
-            
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            transition: opacity 0.4s ease, visibility 0.4s ease !important;
             
             /* إزالة أي تنسيقات قديمة أو انحناءات */
             box-shadow: none !important;
             border: none !important;
-            border-radius: 0 !important; /* إلغاء الـ radius */
-            padding: 0;
-            margin: 0;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
 
         /* عرض القائمة عند النقر */
         .mobile-drawer.open {
-            display: flex;
+            visibility: visible;
             opacity: 1;
         }
 
@@ -97,14 +110,15 @@
         /* زر الإغلاق (X) في الأعلى يساراً */
         /* --------------------------------------------------------- */
         .drawer-header {
-            position: absolute;
-            top: 25px;
-            left: 25px; /* تم وضعه في اليسار */
-            width: auto;
-            background: transparent;
-            border: none;
-            padding: 0;
-            margin: 0;
+            position: absolute !important;
+            top: 25px !important;
+            left: 25px !important;
+            width: auto !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: block !important;
         }
 
         /* إخفاء عنوان القائمة القديم */
@@ -114,15 +128,20 @@
 
         /* تصميم زر X */
         .close-drawer-btn {
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 45px;
-            font-weight: 300;
-            cursor: pointer;
-            line-height: 1;
-            padding: 0;
-            border-radius: 0 !important; /* إلغاء الـ radius */
+            background: transparent !important;
+            border: none !important;
+            color: #ffffff !important;
+            font-size: 45px !important;
+            font-weight: 300 !important;
+            cursor: pointer !important;
+            line-height: 1 !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            transition: transform 0.3s ease !important;
+        }
+
+        .close-drawer-btn:hover {
+            transform: scale(1.1) !important;
         }
 
         /* إخفاء الفوتر القديم في الجوال */
@@ -134,33 +153,38 @@
         /* نصوص الروابط (بدون خلفية والتوسيط) */
         /* --------------------------------------------------------- */
         .drawer-links {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* توسيط العناصر في المنتصف */
-            justify-content: center;
-            gap: 35px;
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            list-style: none !important; /* إزالة أي نقاط افتراضية */
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important; 
+            justify-content: center !important;
+            gap: 35px !important;
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            list-style: none !important;
         }
 
         /* إعداد حالة الروابط قبل الفتح (لعمل التأثير التتابعي) */
         .drawer-links a {
             background: transparent !important;
             color: #ffffff !important;
-            font-size: 26px;
-            font-weight: 500;
-            text-decoration: none;
-            text-align: center; /* توسيط النص */
-            padding: 10px;
-            display: block;
-            border-radius: 0 !important; /* إلغاء الـ radius */
+            font-size: 26px !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            text-align: center !important;
+            padding: 10px !important;
+            display: block !important;
+            border-radius: 0 !important;
             
             /* إعدادات الحركة من الأسفل للأعلى */
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s ease !important;
+        }
+
+        /* تأثير لطيف عند لمس الرابط */
+        .drawer-links a:hover {
+            color: #cccccc !important;
         }
 
         /* تنفيذ الحركة عند فتح القائمة (ظهور في مكانه الطبيعي) */
@@ -170,10 +194,9 @@
         }
 
         /* أوقات التأخير لعمل التأثير التتابعي لكل عنصر */
-        .mobile-drawer.open .drawer-links a:nth-child(1) { transition-delay: 0.1s; }
-        .mobile-drawer.open .drawer-links a:nth-child(2) { transition-delay: 0.2s; }
-        .mobile-drawer.open .drawer-links a:nth-child(3) { transition-delay: 0.3s; }
-        /* إذا كان لديك روابط إضافية يمكنك إضافة nth-child(4) وهكذا بزيادة الوقت */
+        .mobile-drawer.open .drawer-links a:nth-child(1) { transition-delay: 0.1s !important; }
+        .mobile-drawer.open .drawer-links a:nth-child(2) { transition-delay: 0.2s !important; }
+        .mobile-drawer.open .drawer-links a:nth-child(3) { transition-delay: 0.3s !important; }
     }
 </style>
 
@@ -220,15 +243,21 @@
     // دالة فتح/إغلاق القائمة
     function toggleMobileDrawer() {
         var drawer = document.getElementById("mobileDrawer");
-        drawer.classList.toggle("open");
+        if (drawer) {
+            drawer.classList.toggle("open");
+        }
     }
 
     // دالة إغلاق القائمة (عند الضغط على X أو الغطاء)
     function closeMobileDrawer() {
         var drawer = document.getElementById("mobileDrawer");
-        if(drawer) drawer.classList.remove("open");
+        if(drawer) {
+            drawer.classList.remove("open");
+        }
         
         var overlay = document.getElementById("drawerOverlay");
-        if (overlay) overlay.style.display = 'none';
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
     }
 </script>
