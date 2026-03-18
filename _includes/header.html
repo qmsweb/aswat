@@ -106,7 +106,7 @@
         }
 
         /* --------------------------------------------------------- */
-        /* زر الإغلاق (X) في الأعلى يساراً */
+        /* زر الإغلاق (X) في الأعلى يساراً وشعار القائمة في اليمين */
         /* --------------------------------------------------------- */
         .drawer-header {
             position: absolute !important;
@@ -118,11 +118,6 @@
             padding: 0 !important;
             margin: 0 !important;
             display: block !important;
-        }
-
-        /* إخفاء عنوان القائمة القديم */
-        .drawer-title {
-            display: none !important;
         }
 
         /* تصميم زر X */
@@ -141,6 +136,20 @@
 
         .close-drawer-btn:hover {
             transform: scale(1.1) !important;
+        }
+
+        /* الشعار في أعلى اليمين */
+        .drawer-logo {
+            position: absolute !important;
+            top: 25px !important;
+            right: 25px !important;
+            max-height: 40px !important; /* الحجم متناسق مع الشعار العلوي */
+            z-index: 10 !important;
+        }
+
+        /* إخفاء عنوان القائمة القديم */
+        .drawer-title {
+            display: none !important;
         }
 
         /* إخفاء الفوتر القديم في الجوال */
@@ -236,6 +245,9 @@
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeMobileDrawer()"></div>
 
 <div class="mobile-drawer" id="mobileDrawer">
+    
+    <img src="/icons/favicon.png" alt="شعار صوامت" class="drawer-logo">
+
     <div class="drawer-header">
         <h2 class="drawer-title">القائمة الرئيسية</h2>
         <button class="close-drawer-btn" onclick="closeMobileDrawer()">×</button>
