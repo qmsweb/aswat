@@ -149,7 +149,7 @@
         }
 
         /* --------------------------------------------------------- */
-        /* نصوص الروابط (بدون خلفية والتوسيط) */
+        /* نصوص الروابط (بدون خلفية وبدون بطاقات) */
         /* --------------------------------------------------------- */
         .drawer-links {
             display: flex !important;
@@ -165,16 +165,21 @@
 
         /* إعداد حالة الروابط قبل الفتح */
         .drawer-links a {
-            background: transparent !important;
+            /* 🔴 إزالة أي خلفيات أو حواف أو ظلال نهائياً */
+            background: none !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
+            
             color: #ffffff !important;
             font-size: 26px !important;
             font-weight: 500 !important;
             text-decoration: none !important;
             text-align: center !important;
             padding: 10px !important;
-            display: block !important;
+            display: inline-block !important; /* كي لا تأخذ عرض الشاشة بالكامل وتظهر كبطاقة */
             border-radius: 0 !important;
-            position: relative !important; /* لضمان التحكم في العناصر الفرعية إن وجدت */
+            position: relative !important; 
             
             /* إعدادات الحركة من الأسفل للأعلى */
             opacity: 0;
@@ -182,7 +187,7 @@
             transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s ease !important;
         }
 
-        /* 🔴 إخفاء النقطة البنفسجية نهائياً (إلغاء أي أكواد ::before أو ::after قديمة) */
+        /* إخفاء النقطة البنفسجية أو أي عناصر وهمية نهائياً */
         .drawer-links a::before,
         .drawer-links a::after {
             display: none !important;
