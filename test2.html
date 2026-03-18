@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توضيح المخرج الصوتي</title>
+    <style>
+        /* تنسيقات عامة لتوسيط المحتوى */
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #F8F9FA;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #7B2CBF;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* تنسيقات الرسم التوضيحي (Anatomy) */
+        .anatomy-container {
+            background: #FFFFFF;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            width: 350px;
+            max-width: 90%;
+        }
+
+        .anatomy-container h3 {
+            color: #7B2CBF;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .anatomy-svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .anatomy-point {
+            fill: #DEE2E6;
+            transition: all 0.4s ease;
+        }
+
+        .anatomy-label {
+            font-family: inherit;
+            font-size: 10px;
+            fill: #ADB5BD;
+            transition: all 0.4s ease;
+        }
+
+        /* الأنميشن واللون عند التفعيل */
+        .anatomy-point.active {
+            fill: #38B000;
+            filter: drop-shadow(0 0 6px #38B000);
+            r: 10;
+        }
+
+        .anatomy-label.active {
+            fill: #38B000;
+            font-weight: bold;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="search-box">
+        <input type="text" id="charInput" placeholder="أدخل حرفاً صامتاً (مثل: ب، ق)" maxlength="1">
+        <button onclick="testAnatomy()">عرض المخرج</button>
+    </div>
+
+    <div class="anatomy-container" id="anatomySection">
+        <h3>توضيح المخرج الصوتي</h3>
+        <svg class="anatomy-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 180 20 C 100 20, 40 80, 40 140 C 40 170, 60 190, 70 210 L 70 280 L 250 280 L 250 20 Z" fill="none" stroke="#E9ECEF" stroke-width="4"/>
+            <path d="M 60 160 C 90 160, 150 140, 150 100 C 150 60, 120 40, 90 40" fill="none" stroke="#E9ECEF" stroke-width="2" stroke-dasharray="5,5"/>
+            <path d="M 60 180 C 100 180, 140 180, 160 210 L 160 280" fill="none" stroke="#E9ECEF" stroke-width="2"/>
+            
+            <circle id="pt-lips" class="anatomy-point" cx="50" cy="170" r="7" />
+            <text id="lbl-lips" class="anatomy-label" x="15" y="174">شفوي</text>
+            
+            <circle id="pt-teeth" class="anatomy-point" cx="65" cy="155" r="7" />
+            <text id="lbl-teeth" class="anatomy-label" x="20" y="150">أسناني</text>
+
+            <circle id="pt-alveolar" class="anatomy-point" cx="80" cy="140" r="7" />
+            <text id="lbl-alveolar" class="anatomy-label" x="45" y="130">لثوي</text>
+
+            <circle id="pt-palatal" class="anatomy-point" cx="115" cy="120" r="7" />
+            <text id="lbl-palatal" class="anatomy-label" x="90" y="110">غاري</text>
+
+            <circle id="pt-velar" class="anatomy-point" cx="155" cy="130" r="7" />
+            <text id="lbl-velar" class="anatomy-label" x="170" y="135">طبقي</text>
+
+            <circle id="pt-uvular" class="anatomy-point" cx="165" cy="155" r="7" />
+            <text id="lbl-uvular" class="anatomy-label" x="180" y="160">لهوي</text>
+
+            <circle id="pt-pharyngeal" class="anatomy-point" cx="165" cy="195" r="7" />
+            <text id="lbl-pharyngeal" class="anatomy-label" x="180" y="200">حلقي</text>
+
+            <circle id="pt-glottal" class="anatomy-point" cx="165" cy="240" r="7" />
+            <text id="lbl-glottal" class="anatomy-label" x="180" y="245">حنجري</text>
+
+            <circle id="pt-nasal" class="anatomy-point" cx="110" cy="80" r="7" />
+            <text id="lbl-nasal" class="anatomy-label" x="125" y="75">أنفي (خيشوم)</text>
+        </svg>
+    </div>
+
+    <script>
+        // 1. بيانات الحروف
+        const phoneticsData = {
+            "أ": { "التسمية": "حرف الألف (الهمزة)", "المخرج": "حنجري", "طريقة النطق": "شديد (انفجاري)", "اهتزاز الوترين": "مجهور", "شكل اللسان": "غير مطبق", "ملخَّص": "صوت حنجري انفجاري مجهور" },
+            "ب": { "التسمية": "حرف الباء", "المخرج": "شفوي", "طريقة النطق": "شديد (انفجاري)" },
+            "ت": { "التسمية": "حرف التاء", "المخرج": "أسناني لثوي", "طريقة النطق": "شديد (انفجاري)" },
+            "ث": { "التسمية": "حرف الثاء", "المخرج": "بين أسناني", "طريقة النطق": "رخو (احتكاكي)" },
+            "ج": { "التسمية": "حرف الجيم", "المخرج": "غاري", "طريقة النطق": "شديد / رخو" },
+            "ح": { "التسمية": "حرف الحاء", "المخرج": "حلقي", "طريقة النطق": "رخو (احتكاكي)" },
+            "خ": { "التسمية": "حرف الخاء", "المخرج": "طبقي", "طريقة النطق": "رخو (احتكاكي)" },
+            "د": { "التسمية": "حرف الدال", "المخرج": "أسناني لثوي", "طريقة النطق": "شديد (انفجاري)" },
+            "ذ": { "التسمية": "حرف الذال", "المخرج": "بين أسناني", "طريقة النطق": "رخو (احتكاكي)" },
+            "ر": { "التسمية": "حرف الراء", "المخرج": "لثوي", "طريقة النطق": "تكراري" },
+            "ز": { "التسمية": "حرف الزاي", "المخرج": "أسناني لثوي", "طريقة النطق": "رخو (احتكاكي / صفير)" },
+            "س": { "التسمية": "حرف السين", "المخرج": "أسناني لثوي", "طريقة النطق": "رخو (احتكاكي / صفير)" },
+            "ش": { "التسمية": "حرف الشين", "المخرج": "غاري", "طريقة النطق": "رخو (متفشٍّ)" },
+            "ص": { "التسمية": "حرف الصاد", "المخرج": "أسناني لثوي", "طريقة النطق": "رخو (احتكاكي / صفير)" },
+            "ض": { "التسمية": "حرف الضاد", "المخرج": "أسناني لثوي", "طريقة النطق": "شديد (انفجاري)" },
+            "ط": { "التسمية": "حرف الطاء", "المخرج": "أسناني لثوي", "طريقة النطق": "شديد (انفجاري)" },
+            "ظ": { "التسمية": "حرف الظاء", "المخرج": "بين أسناني", "طريقة النطق": "رخو (احتكاكي)" },
+            "ع": { "التسمية": "حرف العين", "المخرج": "حلقي", "طريقة النطق": "رخو (احتكاكي)" },
+            "غ": { "التسمية": "حرف الغين", "المخرج": "طبقي", "طريقة النطق": "رخو (احتكاكي)" },
+            "ف": { "التسمية": "حرف الفاء", "المخرج": "شفوي أسناني", "طريقة النطق": "رخو (احتكاكي)" },
+            "ق": { "التسمية": "حرف القاف", "المخرج": "لهوي", "طريقة النطق": "شديد (انفجاري)" },
+            "ك": { "التسمية": "حرف الكاف", "المخرج": "طبقي", "طريقة النطق": "شديد (انفجاري)" },
+            "ل": { "التسمية": "حرف اللام", "المخرج": "لثوي", "طريقة النطق": "جانبي" },
+            "م": { "التسمية": "حرف الميم", "المخرج": "شفوي", "طريقة النطق": "أنفي" },
+            "ن": { "التسمية": "حرف النون", "المخرج": "أسناني لثوي", "طريقة النطق": "أنفي" },
+            "ه": { "التسمية": "حرف الهاء", "المخرج": "حنجري", "طريقة النطق": "رخو (احتكاكي)" },
+            "و": { "التسمية": "حرف الواو", "المخرج": "شفوي", "طريقة النطق": "لين" },
+            "ي": { "التسمية": "حرف الياء", "المخرج": "غاري", "طريقة النطق": "لين" }
+        };
+
+        // 2. دالة تشغيل الاختبار
+        function testAnatomy() {
+            let inputChar = document.getElementById('charInput').value.trim();
+            // توحيد أشكال الهمزة
+            if (['أ', 'إ', 'آ', 'ء', 'ؤ', 'ئ'].includes(inputChar)) {
+                inputChar = 'أ';
+            }
+            
+            let charData = phoneticsData[inputChar];
+            
+            if (charData) {
+                updateAnatomy(charData["المخرج"], charData["طريقة النطق"]);
+            } else {
+                alert("الرجاء إدخال حرف صحيح");
+            }
+        }
+
+        // 3. دالة تفعيل الرسم التوضيحي
+        function updateAnatomy(mokhraj, manner) {
+            // إعادة تعيين جميع النقاط
+            document.querySelectorAll('.anatomy-point, .anatomy-label').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            let activeTargets = [];
+
+            if (mokhraj.includes('حنجري')) activeTargets.push('glottal');
+            if (mokhraj.includes('حلقي')) activeTargets.push('pharyngeal');
+            if (mokhraj.includes('لهوي')) activeTargets.push('uvular');
+            if (mokhraj.includes('طبقي')) activeTargets.push('velar');
+            if (mokhraj.includes('غاري')) activeTargets.push('palatal');
+            
+            if (mokhraj.includes('لثوي')) activeTargets.push('alveolar');
+            if (mokhraj.includes('أسناني') || mokhraj.includes('أسنان')) activeTargets.push('teeth');
+            if (mokhraj.includes('شفوي')) activeTargets.push('lips');
+
+            if (manner.includes('أنفي')) activeTargets.push('nasal');
+
+            // تفعيل النقاط
+            activeTargets.forEach(target => {
+                let point = document.getElementById(`pt-${target}`);
+                let label = document.getElementById(`lbl-${target}`);
+                if (point) point.classList.add('active');
+                if (label) label.classList.add('active');
+            });
+        }
+    </script>
+</body>
+</html>
