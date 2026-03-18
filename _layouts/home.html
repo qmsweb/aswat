@@ -97,7 +97,7 @@
         .char-display { font-size: 5.5rem; font-weight: 700; line-height: 1; color: #ffffff; margin-bottom: 15px; }
         .char-name { font-size: 1.6rem; font-weight: 600; color: rgba(255, 255, 255, 0.9); margin: 0; }
         
-        /* === التصميم الجديد لشبكة وبطاقات التفاصيل === */
+        /* === تصميم بطاقات التفاصيل === */
         .details-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -106,37 +106,15 @@
             background-color: #ffffff; 
         }
         .detail-card { 
-            padding: 24px 20px; 
-            border-radius: 16px; 
-            background: linear-gradient(145deg, #fdfbfd, #f4eef5); /* خلفية بتدرج خفيف وناعم */
-            border: 1px solid rgba(127, 40, 143, 0.08); /* حد خفيف جداً بلون الهوية */
-            text-align: right; 
+            padding: 20px 15px; 
+            border-radius: 12px; 
+            background-color: #f8f9fa; /* لون رمادي فاتح مسطح بدون تدرج */
+            border: 1px solid var(--border-color); /* حد قياسي بسيط */
+            text-align: center; 
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
-            position: relative;
-        }
-        .detail-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 4px;
-            height: 100%;
-            background-color: var(--primary-color);
-            border-radius: 0 16px 16px 0;
-            opacity: 0.8;
-        }
-        .detail-card::after {
-            content: '';
-            position: absolute;
-            top: 24px;
-            left: 20px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            opacity: 0.2;
+            align-items: center;
         }
         .detail-title { 
             font-size: 0.95rem; 
@@ -145,7 +123,7 @@
             font-weight: 500; 
         }
         .detail-value { 
-            font-size: 1.3rem; 
+            font-size: 1.2rem; 
             font-weight: 700; 
             color: var(--text-main); 
         }
@@ -196,7 +174,7 @@
             .search-input { width: 100%; }
             .search-btn { padding: 15px; }
             
-            /* إرجاع شكل الشبكة (Grid) في الجوال لبطاقات التفاصيل بعمودين */
+            /* شكل الشبكة (Grid) في الجوال لبطاقات التفاصيل بعمودين */
             .details-grid { 
                 grid-template-columns: repeat(2, 1fr); 
                 padding: 20px; 
@@ -204,10 +182,6 @@
             }
             .detail-card {
                 padding: 15px;
-            }
-            .detail-card::after {
-                top: 15px;
-                left: 15px;
             }
 
             .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
@@ -220,7 +194,7 @@
         /* للهواتف الصغيرة جداً */
         @media (max-width: 480px) {
             .details-grid { 
-                grid-template-columns: 1fr; /* عمود واحد فقط للشاشات الضيقة جداً لضمان وضوح النص */
+                grid-template-columns: 1fr; 
             }
         }
     </style>
