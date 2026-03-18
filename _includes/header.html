@@ -74,16 +74,16 @@
             bottom: 0 !important;
             width: 100% !important;
             height: 100vh !important;
-            max-width: 100% !important; /* لكسر أي عرض محدد مسبقاً للقائمة القديمة */
+            max-width: 100% !important; 
             
             /* خلفية زجاجية ضبابية شفافة */
             background-color: rgba(0, 0, 0, 0.5) !important; 
             backdrop-filter: blur(15px) !important;
             -webkit-backdrop-filter: blur(15px) !important;
             
-            z-index: 9999 !important; /* ضمان ظهورها فوق كل العناصر */
+            z-index: 9999 !important; 
             
-            /* استخدام visibility و opacity لعمل حركة ظهور ناعمة بدلاً من display */
+            /* استخدام visibility و opacity لعمل حركة ظهور ناعمة */
             display: flex !important;
             flex-direction: column !important;
             justify-content: center !important;
@@ -92,7 +92,6 @@
             opacity: 0;
             transition: opacity 0.4s ease, visibility 0.4s ease !important;
             
-            /* إزالة أي تنسيقات قديمة أو انحناءات */
             box-shadow: none !important;
             border: none !important;
             border-radius: 0 !important;
@@ -164,7 +163,7 @@
             list-style: none !important;
         }
 
-        /* إعداد حالة الروابط قبل الفتح (لعمل التأثير التتابعي) */
+        /* إعداد حالة الروابط قبل الفتح */
         .drawer-links a {
             background: transparent !important;
             color: #ffffff !important;
@@ -175,11 +174,20 @@
             padding: 10px !important;
             display: block !important;
             border-radius: 0 !important;
+            position: relative !important; /* لضمان التحكم في العناصر الفرعية إن وجدت */
             
             /* إعدادات الحركة من الأسفل للأعلى */
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s ease !important;
+        }
+
+        /* 🔴 إخفاء النقطة البنفسجية نهائياً (إلغاء أي أكواد ::before أو ::after قديمة) */
+        .drawer-links a::before,
+        .drawer-links a::after {
+            display: none !important;
+            content: none !important;
+            background: none !important;
         }
 
         /* تأثير لطيف عند لمس الرابط */
