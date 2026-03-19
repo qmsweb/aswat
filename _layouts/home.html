@@ -29,7 +29,6 @@
             --text-muted: #666666;
             --border-color: #e5e5e5;
             --card-bg: #ffffff;
-            --accent-success: #38B000;
         }
         
         * {
@@ -63,6 +62,23 @@
         .nav-links { display: flex; gap: 25px; align-items: center; }
         .nav-links a { font-weight: 500; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; }
         .nav-links a:hover { color: #ffffff; }
+        .menu-toggle-btn { display: none; background: none; border: none; color: #ffffff; font-size: 1.8rem; cursor: pointer; padding: 0; }
+
+        /* === القائمة الجانبية (للموبايل) === */
+        .mobile-drawer { position: fixed; top: 0; right: -320px; width: 320px; max-width: 100%; height: 100vh; background-color: var(--bg-color); z-index: 1000; box-shadow: -5px 0 15px rgba(0,0,0,0.05); transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1); display: flex; flex-direction: column; border-top-left-radius: 24px; border-bottom-left-radius: 24px; }
+        .mobile-drawer.open { right: 0; }
+        .drawer-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); padding: 30px 25px; display: flex; justify-content: space-between; align-items: center; border-top-left-radius: 24px; }
+        .drawer-title { margin: 0; color: #ffffff; font-size: 1.4rem; font-weight: 700; }
+        .close-drawer-btn { background: rgba(255, 255, 255, 0.2); border: none; color: #ffffff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; }
+        .close-drawer-btn:hover { background: rgba(255, 255, 255, 0.4); }
+        .drawer-links { padding: 30px 20px; display: flex; flex-direction: column; gap: 15px; flex: 1; }
+        .drawer-links a { font-size: 1.1rem; color: var(--primary-color); background-color: var(--primary-light); font-weight: 600; padding: 15px 20px; border-radius: 12px; display: flex; align-items: center; transition: all 0.3s ease; }
+        .drawer-links a::before { content: ''; display: inline-block; width: 8px; height: 8px; background-color: var(--primary-color); border-radius: 50%; margin-left: 15px; transition: all 0.3s ease; }
+        .drawer-links a:hover { background-color: var(--primary-color); color: #ffffff; }
+        .drawer-links a:hover::before { background-color: #ffffff; }
+        .drawer-footer { padding: 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem; }
+        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out; backdrop-filter: blur(2px); }
+        .drawer-overlay.open { opacity: 1; visibility: visible; }
 
         /* === قسم البحث === */
         .hero-section { text-align: center; padding: 60px 20px 40px; }
@@ -70,100 +86,127 @@
         .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; }
         .search-container { max-width: 500px; margin: 0 auto; background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid var(--border-color); }
         .search-box { display: flex; gap: 15px; justify-content: center; align-items: stretch; }
-        .search-input { font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 2rem; padding: 10px; width: 100px; text-align: center; border: 2px solid var(--border-color); border-radius: 12px; color: var(--primary-color); font-weight: 700; transition: all 0.3s ease; }
+        .search-input { font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 2rem; padding: 10px; width: 80px; text-align: center; border: 2px solid var(--border-color); border-radius: 12px; color: var(--primary-color); font-weight: 700; transition: all 0.3s ease; }
         .search-input:focus { border-color: var(--primary-color); outline: none; }
         .search-btn { font-family: 'IBM Plex Sans Arabic', sans-serif; background-color: var(--primary-color); color: white; border: none; padding: 0 35px; font-size: 1.1rem; font-weight: 600; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; }
         .search-btn:hover { background-color: var(--primary-hover); }
 
-        /* === قسم النتائج المحسن === */
-        .result-section { display: none; max-width: 900px; margin: 0 auto 50px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        /* === قسم النتائج وتخطيط المحتوى === */
+        .content-wrapper { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 1100px; margin: 0 auto 50px; }
+        .result-section { display: none; margin: 0; flex: 1; min-width: 300px; max-width: 600px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden; }
         .result-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); padding: 40px 30px; text-align: center; }
         .char-display { font-size: 5.5rem; font-weight: 700; line-height: 1; color: #ffffff; margin-bottom: 15px; }
         .char-name { font-size: 1.6rem; font-weight: 600; color: rgba(255, 255, 255, 0.9); margin: 0; }
         
-        .result-body { display: flex; flex-direction: column; gap: 0; }
-        
-        /* === قسم الرسم التشريحي === */
-        .anatomy-visualization {
-            padding: 30px;
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .image-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
-        }
-        .speech-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 12px;
-        }
-        .point {
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            background-color: #DEE2E6;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 2;
-        }
-        .point .label {
-            position: absolute;
-            top: -24px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 11px;
-            color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.9);
-            padding: 2px 8px;
-            border-radius: 4px;
-            white-space: nowrap;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            pointer-events: none;
-            opacity: 0.7;
-        }
-        .point.active {
-            background-color: var(--accent-success);
-            box-shadow: 0 0 15px 5px rgba(56, 176, 0, 0.4);
-            transform: translate(-50%, -50%) scale(1.4);
-            z-index: 10;
-        }
-        .point.active .label {
-            color: var(--accent-success);
-            font-weight: 700;
-            opacity: 1;
-            top: -30px;
-            background: #fff;
-            border: 1px solid var(--accent-success);
-        }
+        /* === تنسيقات حاوية الرسم التوضيحي === */
+        .anatomy-container { background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); text-align: center; width: 400px; max-width: 100%; display: none; }
+        .anatomy-container h3 { color: var(--primary-color); margin-top: 0; margin-bottom: 20px; font-weight: 700;}
+        .image-wrapper { position: relative; width: 100%; display: inline-block; }
+        .speech-image { width: 100%; height: auto; display: block; border-radius: 10px; }
+        .point { position: absolute; width: 14px; height: 14px; background-color: #DEE2E6; border-radius: 50%; transform: translate(-50%, -50%); transition: all 0.4s ease; z-index: 2; }
+        .point .label { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 11px; color: #6C757D; background: rgba(255, 255, 255, 0.85); padding: 2px 6px; border-radius: 4px; white-space: nowrap; transition: all 0.4s ease; pointer-events: none; }
+        .point.active { background-color: #38B000; box-shadow: 0 0 12px 4px rgba(56, 176, 0, 0.5); transform: translate(-50%, -50%) scale(1.3); z-index: 10; }
+        .point.active .label { color: #38B000; font-weight: bold; font-size: 13px; top: -28px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        /* === بطاقات التفاصيل === */
-        .details-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 30px; background-color: #ffffff; }
-        .detail-card { padding: 15px; border-radius: 12px; background-color: #f8f9fa; border: 1px solid var(--border-color); text-align: center; }
-        .detail-title { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 5px; font-weight: 500; }
-        .detail-value { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+        /* === تصميم بطاقات التفاصيل === */
+        .details-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 20px; 
+            padding: 30px; 
+            background-color: #ffffff; 
+        }
+        .detail-card { 
+            padding: 20px 15px; 
+            border-radius: 12px; 
+            background-color: #f8f9fa; /* لون رمادي فاتح مسطح بدون تدرج */
+            border: 1px solid var(--border-color); /* حد قياسي بسيط */
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+        }
+        .detail-title { 
+            font-size: 0.95rem; 
+            color: var(--text-muted); 
+            margin-bottom: 8px; 
+            font-weight: 500; 
+        }
+        .detail-value { 
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            color: var(--text-main); 
+        }
+        .error-message { color: #e74c3c; text-align: center; font-size: 1.1rem; padding: 30px; font-weight: 500; }
 
         /* === قسم التصنيفات === */
         .classification-section { margin: 60px 0; }
         .section-header { text-align: center; margin-bottom: 40px; }
         .section-title { font-size: 2rem; color: var(--text-main); display: inline-block; position: relative; }
         .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--primary-color); border-radius: 2px; }
-        .classification-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .classification-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
         .class-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 25px; }
-        .class-title { font-size: 1.2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .class-list { list-style: none; }
-        .class-list li { padding: 8px 0; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
-        .class-list li:last-child { border-bottom: none; }
+        
+        .class-title { font-size: 1.3rem; font-weight: 700; color: var(--primary-color); margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .class-title::before { 
+            content: '■ ■'; 
+            font-size: 0.7rem; 
+            letter-spacing: 2px; 
+            display: inline-block; 
+            transform: rotate(45deg); 
+        }
+        
+        .class-list { list-style: none; padding: 0; margin: 0; }
+        .class-list li { padding: 10px 0; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
+        .class-list li:last-child { border-bottom: none; padding-bottom: 0; }
+        .class-list strong { color: var(--text-main); font-weight: 600; margin-left: 5px; }
 
+        /* === التذييل === */
+        .site-footer { background-color: #fafafa; border-top: 1px solid var(--border-color); padding: 60px 0 20px; margin-top: 60px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .footer-col h3 { font-size: 1.2rem; color: var(--primary-color); margin-bottom: 20px; font-weight: 700; }
+        .footer-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; }
+        .footer-links-list { list-style: none; padding: 0; margin: 0; }
+        .footer-links-list li { margin-bottom: 12px; }
+        .footer-links-list a { color: var(--text-muted); }
+        .footer-links-list a:hover { color: var(--primary-color); padding-right: 5px; }
+        .footer-logos { display: flex; flex-direction: column; gap: 15px; }
+        .logo-placeholder { height: 50px; background-color: white; border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem; font-weight: 500; padding: 5px 15px; }
+        .logo-placeholder img { max-height: 100%; max-width: 100%; object-fit: contain; }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem; }
+
+        /* === التجاوب === */
         @media (max-width: 768px) {
-            .details-grid { grid-template-columns: repeat(2, 1fr); padding: 15px; }
-            .hero-title { font-size: 1.8rem; }
-            .search-input { width: 80px; }
+            .nav-links { display: none; }
+            .menu-toggle-btn { display: block; font-size: 1.5rem; }
+            .hero-title { font-size: 2rem; }
+            .search-box { flex-direction: column; }
+            .search-input { width: 100%; }
+            .search-btn { padding: 15px; }
+            
+            /* شكل الشبكة (Grid) في الجوال لبطاقات التفاصيل بعمودين */
+            .details-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                padding: 20px; 
+                gap: 15px; 
+            }
+            .detail-card {
+                padding: 15px;
+            }
+
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+            .footer-logos { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+            
+            .top-navbar { padding: 5px 0; } 
+            .brand-logo { height: 32px; } 
+        }
+        
+        /* للهواتف الصغيرة جداً */
+        @media (max-width: 480px) {
+            .details-grid { 
+                grid-template-columns: 1fr; 
+            }
         }
     </style>
 </head>
@@ -178,152 +221,196 @@
         <div id="main-content-area">
             <section class="hero-section">
                 <h2 class="hero-title">محرك البحث في الصوامت</h2>
-                <p class="hero-subtitle">اكتشف مخرج الحرف وطريقة نطقه مع التوضيح التشريحي التفاعلي.</p>
+                <p class="hero-subtitle">أدخل أي حرف عربي صامت لمعرفة مخرجه، طريقة نطقه، والمزيد من التفاصيل الدقيقة.</p>
                 
                 <div class="search-container">
                     <div class="search-box">
-                        <input type="text" id="charInput" class="search-input" maxlength="1" placeholder="ق" onkeyup="if(event.key === 'Enter') searchPhonetic()">
-                        <button type="button" onclick="searchPhonetic()" class="search-btn">ابحث</button>
+                        <input type="text" id="charInput" class="search-input" maxlength="2" placeholder="أ" onkeyup="if(event.key === 'Enter') searchPhonetic()">
+                        <button type="button" onclick="searchPhonetic()" class="search-btn">ابحث الآن</button>
                     </div>
                 </div>
             </section>
             
-            <section class="result-section" id="resultSection">
-                <div class="result-header">
-                    <div id="charDisplay" class="char-display"></div>
-                    <h3 id="charName" class="char-name"></h3>
-                </div>
-
-                <div class="result-body">
-                    <div class="anatomy-visualization">
-                        <div class="image-wrapper">
-                            <img src="{{ '/images/speech.jpg' | relative_url }}" alt="المخارج الصوتية" class="speech-image">
-                            
-                            <div id="pt-lips" class="point" style="top: 48%; left: 12%;"><span class="label">شفوي</span></div>
-                            <div id="pt-teeth" class="point" style="top: 50%; left: 23%;"><span class="label">أسناني</span></div>
-                            <div id="pt-alveolar" class="point" style="top: 43%; left: 26%;"><span class="label">لثوي</span></div>
-                            <div id="pt-palatal" class="point" style="top: 32%; left: 45%;"><span class="label">غاري</span></div>
-                            <div id="pt-velar" class="point" style="top: 34%; left: 65%;"><span class="label">طبقي</span></div>
-                            <div id="pt-uvular" class="point" style="top: 45%; left: 70%;"><span class="label">لهوي</span></div>
-                            <div id="pt-pharyngeal" class="point" style="top: 65%; left: 75%;"><span class="label">حلقي</span></div>
-                            <div id="pt-glottal" class="point" style="top: 92%; left: 70%;"><span class="label">حنجري</span></div>
-                            <div id="pt-nasal" class="point" style="top: 20%; left: 40%;"><span class="label">أنفي</span></div>
-                        </div>
+            <div class="content-wrapper">
+                
+                <div class="anatomy-container" id="anatomySection">
+                    <h3>المخرج على الجهاز النطقي</h3>
+                    <div class="image-wrapper">
+                        <img src="{{ '/images/speech.jpg' | relative_url }}" alt="المخارج الصوتية" class="speech-image">
+                        
+                        <div id="pt-lips" class="point" style="top: 48%; left: 12%;"><span class="label">شفوي</span></div>
+                        <div id="pt-teeth" class="point" style="top: 50%; left: 23%;"><span class="label">أسناني</span></div>
+                        <div id="pt-alveolar" class="point" style="top: 43%; left: 26%;"><span class="label">لثوي</span></div>
+                        <div id="pt-palatal" class="point" style="top: 32%; left: 45%;"><span class="label">غاري</span></div>
+                        <div id="pt-velar" class="point" style="top: 34%; left: 65%;"><span class="label">طبقي</span></div>
+                        <div id="pt-uvular" class="point" style="top: 45%; left: 70%;"><span class="label">لهوي</span></div>
+                        <div id="pt-pharyngeal" class="point" style="top: 65%; left: 75%;"><span class="label">حلقي</span></div>
+                        <div id="pt-glottal" class="point" style="top: 92%; left: 70%;"><span class="label">حنجري</span></div>
+                        <div id="pt-nasal" class="point" style="top: 20%; left: 40%;"><span class="label">الخيشوم</span></div>
                     </div>
-
-                    <div class="details-grid" id="resultDetails">
-                        </div>
                 </div>
-            </section>
+
+                <section class="result-section" id="resultSection">
+                    <div class="result-header">
+                        <div id="charDisplay" class="char-display"></div>
+                        <h3 id="charName" class="char-name"></h3>
+                    </div>
+                    
+                    <div class="details-grid" id="resultDetails">
+                    </div>
+                </section>
+
+            </div>
             
             <section class="classification-section">
                 <div class="section-header">
-                    <h2 class="section-title">دليل الصوامت</h2>
+                    <h2 class="section-title">تصنيف الصوامت</h2>
                 </div>
+                
                 <div class="classification-grid">
+                    
                     <div class="class-card">
                         <h3 class="class-title">حسب المخرج</h3>
                         <ul class="class-list">
-                            <li><strong>الشفوية:</strong> ب، م، و</li>
-                            <li><strong>الأسنانية اللثوية:</strong> ت، د، ز، س، ص، ض، ط، ن</li>
-                            <li><strong>الحلقية:</strong> ح، ع</li>
-                            <li><strong>الحنجرية:</strong> أ، هـ</li>
+                            <li><strong>الشفوية:</strong> الباء، الميم، الواو</li>
+                            <li><strong>الشفوية الأسنانية:</strong> الفاء</li>
+                            <li><strong>بين الأسنانية:</strong> الثاء، الذال، الظاء</li>
+                            <li><strong>الأسنانية اللثوية:</strong> التاء، الدال، الزاي، السين، الصاد، الضاد، الطاء، النون</li>
+                            <li><strong>اللثوية:</strong> الراء، اللام</li>
+                            <li><strong>الغارية:</strong> الجيم، الشين، الياء</li>
+                            <li><strong>الطبقية:</strong> الخاء، الغين، الكاف</li>
+                            <li><strong>اللهوية:</strong> القاف</li>
+                            <li><strong>الحلقية:</strong> الحاء، العين</li>
+                            <li><strong>الحنجرية:</strong> الهمزة، الهاء</li>
                         </ul>
                     </div>
+                    
+                    <div class="class-card">
+                        <h3 class="class-title">حسب اهتزاز الوترين</h3>
+                        <ul class="class-list">
+                            <li><strong>المجهورة (17 حرفًا):</strong><br>
+                            الهمزة، الباء، الجيم، الدال، الذال، الراء، الزاي، الضاد، الطاء، الظاء، العين، الغين، اللام، الميم، النون، الواو، الياء</li>
+                            <li><strong>المهموسة (11 حرفًا):</strong><br>
+                            التاء، الثاء، الحاء، الخاء، السين، الشين، الصاد، الفاء، القاف، الكاف، الهاء</li>
+                        </ul>
                     </div>
+                    
+                    <div class="class-card">
+                        <h3 class="class-title">حسب طريقة النطق</h3>
+                        <ul class="class-list">
+                            <li><strong>الشديدة (الانفجارية):</strong> الهمزة، الباء، التاء، الدال، الضاد، الطاء، القاف، الكاف</li>
+                            <li><strong>الرخوة (الاحتكاكية):</strong> الثاء، الحاء، الخاء، الذال، الزاي، السين، الشين، الصاد، الظاء، العين، الغين، الفاء، الهاء</li>
+                            <li><strong>المركبة (شديدة رخوة):</strong> الجيم</li>
+                            <li><strong>التكرارية:</strong> الراء</li>
+                            <li><strong>الجانبية:</strong> اللام</li>
+                            <li><strong>الأنفية:</strong> الميم، النون</li>
+                            <li><strong>اللينة:</strong> الواو، الياء</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="class-card">
+                        <h3 class="class-title">حسب شكل اللسان</h3>
+                        <ul class="class-list">
+                            <li><strong>المطبقة:</strong><br>
+                            الصاد، الضاد، الطاء، الظاء</li>
+                            <li><strong>غير المطبقة:</strong><br>
+                            بقية الأحرف (24 حرفاً)</li>
+                        </ul>
+                    </div>
+                    
+                </div>
             </section>
         </div>
+
     </main>
 
     {% include footer.html %}
 
     <script>
-        // قاعدة البيانات الشاملة
-        const phoneticsData = {
-            "أ": { "اسم": "الهمزة", "مخرج": "حنجري", "طريقة": "شديد (انفجاري)", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "ب": { "اسم": "الباء", "مخرج": "شفوي", "طريقة": "شديد (انفجاري)", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "ت": { "اسم": "التاء", "مخرج": "أسناني لثوي", "طريقة": "شديد (انفجاري)", "وترين": "مهموس", "لسان": "غير مطبق" },
-            "ث": { "اسم": "الثاء", "مخرج": "بين أسناني", "طريقة": "رخو (احتكاكي)", "وترين": "مهموس", "لسان": "غير مطبق" },
-            "ج": { "اسم": "الجيم", "مخرج": "غاري", "طريقة": "مركب (شديد رخو)", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "ح": { "اسم": "الحاء", "مخرج": "حلقي", "طريقة": "رخو (احتكاكي)", "وترين": "مهموس", "لسان": "غير مطبق" },
-            "خ": { "اسم": "الخاء", "مخرج": "طبقي", "طريقة": "رخو (احتكاكي)", "وترين": "مهموس", "لسان": "غير مطبق" },
-            "د": { "اسم": "الدال", "مخرج": "أسناني لثوي", "طريقة": "شديد (انفجاري)", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "ذ": { "اسم": "الذال", "مخرج": "بين أسناني", "طريقة": "رخو (احتكاكي)", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "ر": { "اسم": "الراء", "مخرج": "لثوي", "طريقة": "تكراري", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "ز": { "اسم": "الزاي", "مخرج": "أسناني لثوي", "طريقة": "رخو (احتكاكي)", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "س": { "اسم": "السين", "مخرج": "أسناني لثوي", "طريقة": "رخو (احتكاكي)", "وترين": "مهموس", "لسان": "غير مطبق" },
-            "ش": { "اسم": "الشين", "مخرج": "غاري", "طريقة": "رخو (احتكاكي)", "وترين": "مهموس", "لسان": "غير مطبق" },
-            "ص": { "اسم": "الصاد", "مخرج": "أسناني لثوي", "طريقة": "رخو (احتكاكي)", "وترين": "مهموس", "لسان": "مطبق" },
-            "ض": { "اسم": "الضاد", "مخرج": "أسناني لثوي", "طريقة": "شديد (انفجاري)", "وترين": "مجهور", "لسان": "مطبق" },
-            "ط": { "اسم": "الطاء", "مخرج": "أسناني لثوي", "طريقة": "شديد (انفجاري)", "وترين": "مجهور", "لسان": "مطبق" },
-            "ظ": { "اسم": "الظاء", "مخرج": "بين أسناني", "طريقة": "رخو (احتكاكي)", "وترين": "مجهور", "لسان": "مطبق" },
-            "ع": { "اسم": "العين", "مخرج": "حلقي", "طريقة": "رخو (احتكاكي)", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "غ": { "اسم": "الغين", "مخرج": "طبقي", "طريقة": "رخو (احتكاكي)", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "ف": { "اسم": "الفاء", "مخرج": "شفوي أسناني", "طريقة": "رخو (احتكاكي)", "وترين": "مهموس", "لسان": "غير مطبق" },
-            "ق": { "اسم": "القاف", "مخرج": "لهوي", "طريقة": "شديد (انفجاري)", "وترين": "مهموس", "لسان": "غير مطبق" },
-            "ك": { "اسم": "الكاف", "مخرج": "طبقي", "طريقة": "شديد (انفجاري)", "وترين": "مهموس", "لسان": "غير مطبق" },
-            "ل": { "اسم": "اللام", "مخرج": "لثوي", "طريقة": "جانبي", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "م": { "اسم": "الميم", "مخرج": "شفوي", "طريقة": "أنفي", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "ن": { "اسم": "النون", "مخرج": "أسناني لثوي", "طريقة": "أنفي", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "ه": { "اسم": "الهاء", "مخرج": "حنجري", "طريقة": "رخو (احتكاكي)", "وترين": "مهموس", "لسان": "غير مطبق" },
-            "و": { "اسم": "الواو", "مخرج": "شفوي", "طريقة": "لين / شبه صامت", "وترين": "مجهور", "لسان": "غير مطبق" },
-            "ي": { "اسم": "الياء", "مخرج": "غاري", "طريقة": "لين / شبه صامت", "وترين": "مجهور", "لسان": "غير مطبق" }
-        };
-
-        function searchPhonetic() {
-            let input = document.getElementById('charInput').value.trim();
-            // توحيد أشكال الهمزة
-            if (['أ', 'إ', 'آ', 'ء', 'ؤ', 'ئ'].includes(input)) input = 'أ';
-
-            const data = phoneticsData[input];
-            const resultSection = document.getElementById('resultSection');
-
-            if (data) {
-                // 1. تحديث النصوص
-                document.getElementById('charDisplay').textContent = input;
-                document.getElementById('charName').textContent = data.اسم;
-                
-                const detailsGrid = document.getElementById('resultDetails');
-                detailsGrid.innerHTML = `
-                    <div class="detail-card"><div class="detail-title">المخرج</div><div class="detail-value">${data.مخرج}</div></div>
-                    <div class="detail-card"><div class="detail-title">طريقة النطق</div><div class="detail-value">${data.طريقة}</div></div>
-                    <div class="detail-card"><div class="detail-title">الوترين</div><div class="detail-value">${data.وترين}</div></div>
-                    <div class="detail-card"><div class="detail-title">شكل اللسان</div><div class="detail-value">${data.لسان}</div></div>
-                `;
-
-                resultSection.style.display = 'block';
-                
-                // 2. تحديث النقاط على الرسم
-                updateAnatomyPoints(data.مخرج, data.طريقة);
-                
-                // سكرول تلقائي للنتيجة
-                resultSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else {
-                alert("يرجى إدخال حرف صامت صحيح");
-            }
+        function openDrawer() {
+            document.getElementById('mobileDrawer').classList.add('open');
+            document.getElementById('drawerOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden'; 
         }
 
-        function updateAnatomyPoints(mokhraj, manner) {
-            // مسح التفعيل السابق
-            document.querySelectorAll('.point').forEach(p => p.classList.remove('active'));
+        function closeDrawer() {
+            document.getElementById('mobileDrawer').classList.remove('open');
+            document.getElementById('drawerOverlay').classList.remove('open');
+            document.body.style.overflow = 'auto'; 
+        }
 
-            let targets = [];
-            if (mokhraj.includes('حنجري')) targets.push('glottal');
-            if (mokhraj.includes('حلقي')) targets.push('pharyngeal');
-            if (mokhraj.includes('لهوي')) targets.push('uvular');
-            if (mokhraj.includes('طبقي')) targets.push('velar');
-            if (mokhraj.includes('غاري')) targets.push('palatal');
-            if (mokhraj.includes('لثوي')) targets.push('alveolar');
-            if (mokhraj.includes('أسناني')) targets.push('teeth');
-            if (mokhraj.includes('شفوي')) targets.push('lips');
-            if (manner.includes('أنفي')) targets.push('nasal');
+        // دالة تحديث نقاط الجهاز النطقي (مضافة حديثاً)
+        function updateAnatomy(mokhraj, manner) {
+            document.querySelectorAll('.point').forEach(el => el.classList.remove('active'));
+            let activeTargets = [];
+            
+            if (!mokhraj) mokhraj = '';
+            if (!manner) manner = '';
 
-            targets.forEach(t => {
-                const pt = document.getElementById(`pt-${t}`);
-                if (pt) pt.classList.add('active');
+            if (mokhraj.includes('حنجري')) activeTargets.push('glottal');
+            if (mokhraj.includes('حلقي')) activeTargets.push('pharyngeal');
+            if (mokhraj.includes('لهوي')) activeTargets.push('uvular');
+            if (mokhraj.includes('طبقي')) activeTargets.push('velar');
+            if (mokhraj.includes('غاري')) activeTargets.push('palatal');
+            if (mokhraj.includes('لثوي')) activeTargets.push('alveolar');
+            if (mokhraj.includes('أسناني') || mokhraj.includes('أسنان')) activeTargets.push('teeth');
+            if (mokhraj.includes('شفوي')) activeTargets.push('lips');
+            if (manner.includes('أنفي')) activeTargets.push('nasal');
+
+            activeTargets.forEach(target => {
+                let point = document.getElementById(`pt-${target}`);
+                if (point) point.classList.add('active');
             });
         }
+
+        // مراقبة ظهور قسم النتائج لاستخراج البيانات تلقائياً من المخرجات (مضافة حديثاً)
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultSection = document.getElementById('resultSection');
+            const anatomySection = document.getElementById('anatomySection');
+            
+            if (resultSection && anatomySection) {
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.attributeName === "style") {
+                            const displayStyle = window.getComputedStyle(resultSection).display;
+                            if (displayStyle !== 'none') {
+                                anatomySection.style.display = 'block';
+                                
+                                // استخراج المخرج وطريقة النطق من DOM بعد أن يملأه script.js الخاص بك
+                                setTimeout(() => {
+                                    let extractedMokhraj = '';
+                                    let extractedManner = '';
+                                    
+                                    const details = document.querySelectorAll('.detail-card');
+                                    details.forEach(card => {
+                                        const title = card.querySelector('.detail-title');
+                                        const value = card.querySelector('.detail-value');
+                                        if (title && value) {
+                                            if (title.innerText.includes('المخرج')) {
+                                                extractedMokhraj = value.innerText;
+                                            }
+                                            if (title.innerText.includes('طريقة النطق')) {
+                                                extractedManner = value.innerText;
+                                            }
+                                        }
+                                    });
+                                    
+                                    updateAnatomy(extractedMokhraj, extractedManner);
+                                }, 50); // تأخير بسيط لضمان تحديث الواجهة
+                            } else {
+                                anatomySection.style.display = 'none';
+                                document.querySelectorAll('.point').forEach(el => el.classList.remove('active'));
+                            }
+                        }
+                    });
+                });
+                
+                observer.observe(resultSection, { attributes: true });
+            }
+        });
     </script>
+
+    <script src="{{ '/script.js' | relative_url }}"></script>
 
 </body>
 </html>
