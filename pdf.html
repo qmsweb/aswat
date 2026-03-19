@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وثيقة متطلبات المنتج - ابن فارس</title>
+    <style>
+        /* التنسيقات الأساسية للشاشة */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #1a1a1a;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 35px;
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 5px;
+        }
+        ul {
+            margin-bottom: 20px;
+            padding-right: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .header-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+        .header-info p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        .print-btn {
+            display: block;
+            width: 200px;
+            margin: 0 auto 30px auto;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: #ffffff;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .print-btn:hover {
+            background-color: #1a252f;
+        }
+
+        /* تنسيقات الطباعة - تم الإصلاح */
+        @media print {
+            html, body {
+                width: 100% !important;
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: none !important; /* إلغاء التقييد بالعرض للسماح بتعدد الصفحات */
+                overflow: visible !important; /* ضمان ظهور كل المحتوى */
+                background-color: #ffffff;
+                font-size: 12pt; /* حجم خط قياسي للطباعة */
+            }
+            .print-btn {
+                display: none !important;
+            }
+            .header-info {
+                border: 1px solid #cccccc;
+                background-color: transparent;
+                break-inside: avoid; /* منع انقسام صندوق المعلومات بين صفحتين */
+                page-break-inside: avoid;
+            }
+            h1, h2 {
+                break-after: avoid; /* منع وجود عنوان في آخر الصفحة وفقرته في الصفحة التالية */
+                page-break-after: avoid;
+                margin-top: 20px;
+            }
+            p, li {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            /* إعداد هوامش ورقة الـ PDF */
+            @page {
+                margin: 2cm;
+                size: A4;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">🖨️ حفظ كـ PDF</button>
+
+    <h1>وثيقة متطلبات المنتج (PRD)</h1>
+    
+    <div class="header-info">
+        <p>اسم المشروع: ابن فارس - من نجم</p>
+        <p>إعداد: جاسم الفارسي</p>
+        <p>تاريخ الإصدار: مارس 2026</p>
+    </div>
+
+    <h2>1. الرؤية والملخص التنفيذي (Executive Summary)</h2>
+    <p>"ابن فارس - من نجم" هو منصة محادثة ذكية (AI Chatbot) متخصصة وحصرية في علوم "فقه اللغة العربية". يهدف المشروع إلى سد فجوة تقنية وأكاديمية واضحة في أدوات البحث اللغوي، ليكون المساعد الرقمي الأول الذي يعتمد عليه الباحثون والطلبة لاستنباط المعلومات الدقيقة من أمهات الكتب التراثية، بعيداً عن "هلوسات" النماذج اللغوية العامة. يمثل هذا المشروع مبادرة رائدة ومبتكرة تسبق أي تحرك تقني مشابه في البيئة الأكاديمية المستهدفة.</p>
+
+    <h2>2. الجمهور المستهدف (Target Audience)</h2>
+    <ul>
+        <li><strong>الشريحة الأساسية:</strong> طلبة قسم اللغة العربية في جامعة الشرقية بسلطنة عمان.</li>
+        <li><strong>المشكلة (Pain Points):</strong>
+            <ul>
+                <li>النماذج اللغوية الحالية تخلط بين علم اللغة الحديث وفقه اللغة التراثي.</li>
+                <li>صعوبة الوصول السريع إلى شواهد واقتباسات دقيقة من مراجع مثل "الصاحبي في فقه اللغة" أو "الخصائص".</li>
+                <li>عدم وجود ابتكار تقني أو منصة ذكاء اصطناعي مخصصة لخدمة طلبة القسم في الجامعة.</li>
+            </ul>
+        </li>
+        <li><strong>القيمة المضافة (UVP):</strong> مساعد أكاديمي موثوق، يفهم المصطلحات التراثية، ويوفر بيئة دراسية خالية من المشتتات.</li>
+    </ul>
+
+    <h2>3. البنية التقنية (Technical Architecture)</h2>
+    <ul>
+        <li><strong>الواجهة الأمامية (Frontend):</strong> تقنيات الويب الأساسية (HTML, CSS, JavaScript) لتقليل الاعتماديات، مع استضافة عبر GitHub Pages كخيار مجاني وسريع لنسخة الـ MVP.</li>
+        <li><strong>الواجهة الخلفية وقاعدة البيانات (Backend & DB):</strong> استخدام Supabase لإدارة مصادقة المستخدمين بأمان، وإنشاء قاعدة بيانات قوية لحفظ سجلات المحادثات وإدارتها.</li>
+        <li><strong>محرك الذكاء الاصطناعي (AI Engine):</strong> الاعتماد على واجهة برمجة تطبيقات OpenRouter، وتحديداً النموذج اللغوي MiniMax 2.7 نظراً لأدائه القوي وتكلفته الاقتصادية التي تناسب المشاريع الطلابية.</li>
+    </ul>
+
+    <h2>4. استراتيجية البيانات والذكاء الاصطناعي (Data & AI Strategy)</h2>
+    <ul>
+        <li><strong>أوامر النظام (System Prompts):</strong> توجيه دقيق يحدد شخصية النموذج كعالم متخصص في فقه اللغة، ويقيده باستخدام المصطلحات التراثية.</li>
+        <li><strong>التوليد المعزز بالاسترجاع (RAG):</strong> ربط النموذج بقاعدة معرفية تضم مقررات الجامعة وأمهات الكتب لاستدعاء النصوص الحرفية عند الحاجة.</li>
+    </ul>
+
+    <h2>5. تجربة المستخدم والميزات الأساسية (UX & Core Features)</h2>
+    <ul>
+        <li><strong>الميزات الأساسية:</strong> واجهة محادثة متخصصة، نظام تسجيل الدخول وحفظ السجلات عبر Supabase، وزر مخصص لتصدير المحادثات كملفات PDF للمذاكرة.</li>
+        <li><strong>واجهة المستخدم (UI):</strong> تصميم أكاديمي مسطح ونظيف (Flat Design)، يبتعد تماماً عن التدرجات اللونية المعقدة لضمان التركيز التام على المادة العلمية.</li>
+    </ul>
+
+    <h2>6. استراتيجية الإطلاق والتسويق (Launch Strategy)</h2>
+    <ul>
+        <li>التركيز التسويقي داخل الحرم الجامعي على أن المشروع يمثل "محيطاً أزرق" وأول ابتكار ذكاء اصطناعي لطلاب قسم اللغة العربية.</li>
+        <li>إطلاق نسخة تجريبية (Beta) مع نخبة من الزملاء لاختبار دقة النموذج مع مصطلحات فقه اللغة قبل الإطلاق الرسمي.</li>
+    </ul>
+
+</body>
+</html>
