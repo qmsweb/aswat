@@ -93,13 +93,10 @@
 
         /* === قسم النتائج وتخطيط المحتوى === */
         .content-wrapper { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 1100px; margin: 0 auto 50px; }
-        /* === قسم النتائج وتخطيط المحتوى === */
-        .content-wrapper { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 1100px; margin: 0 auto 50px; }
         
-        /* استبدل كلاس result-section الحالي بهذا */
         .result-section { display: none; margin: 0; flex: 1; min-width: 300px; max-width: 600px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden; }
         
-        /* === تنسيقات حاوية الرسم التوضيحي (جديد) === */
+        /* === تنسيقات حاوية الرسم التوضيحي === */
         .anatomy-container { background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); text-align: center; width: 400px; max-width: 100%; display: none; }
         .anatomy-container h3 { color: var(--primary-color); margin-top: 0; margin-bottom: 20px; font-weight: 700;}
         .image-wrapper { position: relative; width: 100%; display: inline-block; }
@@ -112,16 +109,6 @@
         .result-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); padding: 40px 30px; text-align: center; }
         .char-display { font-size: 5.5rem; font-weight: 700; line-height: 1; color: #ffffff; margin-bottom: 15px; }
         .char-name { font-size: 1.6rem; font-weight: 600; color: rgba(255, 255, 255, 0.9); margin: 0; }
-        
-        /* === تنسيقات حاوية الرسم التوضيحي === */
-        .anatomy-container { background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); text-align: center; width: 400px; max-width: 100%; display: none; }
-        .anatomy-container h3 { color: var(--primary-color); margin-top: 0; margin-bottom: 20px; font-weight: 700;}
-        .image-wrapper { position: relative; width: 100%; display: inline-block; }
-        .speech-image { width: 100%; height: auto; display: block; border-radius: 10px; }
-        .point { position: absolute; width: 14px; height: 14px; background-color: #DEE2E6; border-radius: 50%; transform: translate(-50%, -50%); transition: all 0.4s ease; z-index: 2; }
-        .point .label { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 11px; color: #6C757D; background: rgba(255, 255, 255, 0.85); padding: 2px 6px; border-radius: 4px; white-space: nowrap; transition: all 0.4s ease; pointer-events: none; }
-        .point.active { background-color: #38B000; box-shadow: 0 0 12px 4px rgba(56, 176, 0, 0.5); transform: translate(-50%, -50%) scale(1.3); z-index: 10; }
-        .point.active .label { color: #38B000; font-weight: bold; font-size: 13px; top: -28px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
         /* === تصميم بطاقات التفاصيل === */
         .details-grid { 
@@ -134,8 +121,8 @@
         .detail-card { 
             padding: 20px 15px; 
             border-radius: 12px; 
-            background-color: #f8f9fa; /* لون رمادي فاتح مسطح بدون تدرج */
-            border: 1px solid var(--border-color); /* حد قياسي بسيط */
+            background-color: #f8f9fa;
+            border: 1px solid var(--border-color);
             text-align: center; 
             display: flex; 
             flex-direction: column; 
@@ -200,15 +187,12 @@
             .search-input { width: 100%; }
             .search-btn { padding: 15px; }
             
-            /* شكل الشبكة (Grid) في الجوال لبطاقات التفاصيل بعمودين */
             .details-grid { 
                 grid-template-columns: repeat(2, 1fr); 
                 padding: 20px; 
                 gap: 15px; 
             }
-            .detail-card {
-                padding: 15px;
-            }
+            .detail-card { padding: 15px; }
 
             .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
             .footer-logos { flex-direction: row; justify-content: center; flex-wrap: wrap; }
@@ -217,11 +201,8 @@
             .brand-logo { height: 32px; } 
         }
         
-        /* للهواتف الصغيرة جداً */
         @media (max-width: 480px) {
-            .details-grid { 
-                grid-template-columns: 1fr; 
-            }
+            .details-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -354,7 +335,6 @@
             document.body.style.overflow = 'auto'; 
         }
 
-        // دالة تحديث نقاط الجهاز النطقي (مضافة حديثاً)
         function updateAnatomy(mokhraj, manner) {
             document.querySelectorAll('.point').forEach(el => el.classList.remove('active'));
             let activeTargets = [];
@@ -378,49 +358,46 @@
             });
         }
 
-        // مراقبة ظهور قسم النتائج لاستخراج البيانات تلقائياً من المخرجات (مضافة حديثاً)
         document.addEventListener('DOMContentLoaded', function() {
             const resultSection = document.getElementById('resultSection');
             const anatomySection = document.getElementById('anatomySection');
             
             if (resultSection && anatomySection) {
                 const observer = new MutationObserver(function(mutations) {
-                    mutations.forEach(function(mutation) {
-                        if (mutation.attributeName === "style") {
-                            const displayStyle = window.getComputedStyle(resultSection).display;
-                            if (displayStyle !== 'none') {
-                                anatomySection.style.display = 'block';
-                                
-                                // استخراج المخرج وطريقة النطق من DOM بعد أن يملأه script.js الخاص بك
-                                setTimeout(() => {
-                                    let extractedMokhraj = '';
-                                    let extractedManner = '';
-                                    
-                                    const details = document.querySelectorAll('.detail-card');
-                                    details.forEach(card => {
-                                        const title = card.querySelector('.detail-title');
-                                        const value = card.querySelector('.detail-value');
-                                        if (title && value) {
-                                            if (title.innerText.includes('المخرج')) {
-                                                extractedMokhraj = value.innerText;
-                                            }
-                                            if (title.innerText.includes('طريقة النطق')) {
-                                                extractedManner = value.innerText;
-                                            }
-                                        }
-                                    });
-                                    
-                                    updateAnatomy(extractedMokhraj, extractedManner);
-                                }, 50); // تأخير بسيط لضمان تحديث الواجهة
-                            } else {
-                                anatomySection.style.display = 'none';
-                                document.querySelectorAll('.point').forEach(el => el.classList.remove('active'));
-                            }
-                        }
-                    });
+                    // التحقق الدائم من حالة العرض سواء تغيرت السمة أم تغير المحتوى
+                    const displayStyle = window.getComputedStyle(resultSection).display;
+                    
+                    if (displayStyle !== 'none') {
+                        anatomySection.style.display = 'block';
+                        
+                        setTimeout(() => {
+                            let extractedMokhraj = '';
+                            let extractedManner = '';
+                            
+                            const details = document.querySelectorAll('.detail-card');
+                            details.forEach(card => {
+                                const title = card.querySelector('.detail-title');
+                                const value = card.querySelector('.detail-value');
+                                if (title && value) {
+                                    if (title.innerText.includes('المخرج')) {
+                                        extractedMokhraj = value.innerText;
+                                    }
+                                    if (title.innerText.includes('طريقة النطق')) {
+                                        extractedManner = value.innerText;
+                                    }
+                                }
+                            });
+                            
+                            updateAnatomy(extractedMokhraj, extractedManner);
+                        }, 50); 
+                    } else {
+                        anatomySection.style.display = 'none';
+                        document.querySelectorAll('.point').forEach(el => el.classList.remove('active'));
+                    }
                 });
                 
-                observer.observe(resultSection, { attributes: true });
+                // تمت إضافة childList و subtree لضمان عمل الدالة عند كل تغيير في البيانات
+                observer.observe(resultSection, { attributes: true, childList: true, subtree: true });
             }
         });
     </script>
