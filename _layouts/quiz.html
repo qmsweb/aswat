@@ -13,17 +13,18 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="{{ '/topbar.css' | relative_url }}" />
+    <link rel="stylesheet" href="/css/style.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    <meta property="og:title" content="{{ page.title }} - روافد" id="og-title">
+    <meta property="og:title" content="{{ page.title }} - صوامت" id="og-title">
     <meta property="og:description" content="{{ page.description | default: 'تصفح مستندات وفيديوهات وملاحظات المقررات الدراسية بسهولة.' }}" id="og-description">
     <meta property="og:image" content="{{ page.image | default: '/images/cover3.png' | relative_url }}" id="og-image">
     <meta property="og:url" content="{{ page.url | absolute_url }}">
     <meta property="og:type" content="website">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ page.title }} - روافد">
+    <meta name="twitter:title" content="{{ page.title }} - صوامت">
     <meta name="twitter:description" content="{{ page.description | default: 'تصفح مستندات وفيديوهات وملاحظات المقررات الدراسية بسهولة.' }}">
     <meta name="twitter:image" content="{{ page.image | default: '/images/cover3.png' | relative_url }}">
 
@@ -31,7 +32,7 @@
 
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('rawafed-theme');
+            const savedTheme = localStorage.getItem('sawamet-theme');
             const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             if (savedTheme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
@@ -44,14 +45,14 @@
     <style>
         :root {
             /* الوضع الفاتح */
-            --primary-color: #1a2ac6;
+            --primary-color: #7F288F;
             --bg-body: #ffffff;
             --bg-card: #ffffff;
             --bg-secondary: #f8f9fa;
             --text-main: #2d2d2d;
             --text-muted: #666666;
             --border-color: #e7e7e7;
-            --hover-bg: #e0e7ff;
+            --hover-bg: #f4e8f6;
             
             /* ألوان الحالة */
             --correct-bg: #4CAF50;
@@ -66,14 +67,14 @@
 
         /* الوضع الداكن */
         [data-theme="dark"] {
-            --primary-color: #7986cb;
+            --primary-color: #a85eb3;
             --bg-body: #1e1e1e;
             --bg-card: #1e1e1e;
             --bg-secondary: #2c2c2c;
             --text-main: #e0e0e0;
             --text-muted: #a0a0a0;
             --border-color: #333333;
-            --hover-bg: #2c2e3e;
+            --hover-bg: #352a38;
 
             --correct-bg: #388e3c;
             --correct-text: #ffffff;
@@ -410,7 +411,6 @@
             border: 2px dashed var(--border-color);
             border-radius: 12px;
             background: var(--bg-secondary);
-            text-align: right;
             text-align: justify;
             color: var(--text-main);
         }
@@ -440,7 +440,7 @@
         .tf-print-header {
             display: flex;
             justify-content: space-between;
-            align-items: center; /* تم التعديل هنا: لضمان توسط الدرجة عمودياً */
+            align-items: center; 
             font-weight: bold;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
@@ -496,7 +496,6 @@
                 display: none !important;
             }
 
-            /* إظهار حاوية الصح والخطأ في الطباعة */
             .tf-print-container {
                 display: block !important;
                 border: 1px solid #000 !important;
@@ -572,7 +571,6 @@
                 color: #000 !important;
             }
             
-            /* إخفاء الراديو وإظهار الحروف في الطباعة */
             .choice-radio { display: none !important; }
             .print-letter { 
                 display: inline-block !important; 
@@ -641,21 +639,20 @@
                 page-break-inside: avoid;
                 text-align: center;
                 
-                /* تم تعديل الهوامش ليظهر بشكل مناسب داخل الصفحة الأولى */
                 margin-top: 20px;
                 padding: 20px;
-                width: 60%; /* تم تصغير العرض قليلاً ليتناسب مع الجدول */
+                width: 60%; 
                 margin-left: auto;
                 margin-right: auto;
                 
-                background-color: #e0e7ff !important; 
-                border: 2px solid #1a2ac6 !important;
+                background-color: #f4e8f6 !important; 
+                border: 2px solid #7F288F !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
 
             #printable-qr-section h3 {
-                color: #1a2ac6 !important;
+                color: #7F288F !important;
                 font-size: 18px; 
                 margin-top: 10px;
                 font-weight: bold;
@@ -665,7 +662,7 @@
                 padding: 10px;
                 background: white;
                 border-radius: 8px;
-                border: 1px solid #1a2ac6;
+                border: 1px solid #7F288F;
             }
         }
 
@@ -676,13 +673,13 @@
     
     {% include header.html %}
 
-    <div class="container">
+    <main class="container">
         
         {{ content }}
 
         <div class="quiz-front-page">
             <div id="print-only-logo">
-                <img src="{{ '/images/rawafid-blue.png' | relative_url }}" alt="روافد" style="max-width: 150px; height: auto;">
+                <img src="{{ '/images/sawamet-logo.png' | relative_url }}" alt="صوامت" style="max-width: 150px; height: auto;">
             </div>
             
             <div class="quiz-header">
@@ -753,7 +750,7 @@
         <button id="submit-btn">تأكيد الإجابات</button>
         <button id="review-btn">مراجعة الإجابات</button>
         <div id="result"></div>
-    </div>
+    </main>
 
     {% include footer.html %}
 
@@ -762,7 +759,7 @@
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('rawafed-theme', newTheme);
+            localStorage.setItem('sawamet-theme', newTheme);
         }
 
         const questionsContainer = document.getElementById('questions-container');
@@ -852,7 +849,6 @@
             qrText.textContent = "امسح للوصول إلى النسخة التفاعلية";
             qrDiv.appendChild(qrText);
 
-            // === التعديل هنا: إضافة QR Code إلى داخل div الواجهة بدلاً من نهاية المستند ===
             const frontPageContainer = document.querySelector('.quiz-front-page');
             frontPageContainer.appendChild(qrDiv);
 
@@ -860,7 +856,7 @@
                 text: window.location.href,
                 width: 128, 
                 height: 128,
-                colorDark : "#1a2ac6", 
+                colorDark : "#7F288F", 
                 colorLight : "#ffffff",
                 correctLevel : QRCode.CorrectLevel.H
             });
@@ -916,7 +912,7 @@
                 if (quizData[currentQuiz]) {
                     if (quizData[currentQuiz].title) {
                         quizTitleElement.textContent = quizData[currentQuiz].title;
-                        document.title = quizData[currentQuiz].title + ' | روافد';
+                        document.title = quizData[currentQuiz].title + ' | صوامت';
                     }
                     
                     subjectNameElement.textContent = quizData[currentQuiz]['subject-name'] || 'غير محدد';
@@ -999,7 +995,7 @@
                         titleSpan.textContent = "ضع علامة صح أو خطأ في المربع للإجابة:";
                         
                         currentTfScoreSpan = document.createElement('span');
-                        currentTfScoreSpan.className = 'points-badge'; // === تم إضافة الكلاس هنا ===
+                        currentTfScoreSpan.className = 'points-badge';
                         currentTfScoreSpan.textContent = "";
                         
                         headerDiv.appendChild(titleSpan);
