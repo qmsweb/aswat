@@ -12,23 +12,20 @@
     <link rel="icon" href="{{ '/images/favicon.png' | relative_url }}" type="image/jpg">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="{{ '/topbar.css' | relative_url }}" />
-    <link rel="stylesheet" href="/css/style.css" />
-
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
     <meta property="og:title" content="{{ page.title }} - صوامت" id="og-title">
-    <meta property="og:description" content="{{ page.description | default: 'تصفح مستندات وفيديوهات وملاحظات المقررات الدراسية بسهولة.' }}" id="og-description">
+    <meta property="og:description" content="{{ page.description | default: 'تصفح واستخدم أداة الصوامت العربية بسهولة.' }}" id="og-description">
     <meta property="og:image" content="{{ page.image | default: '/images/cover3.png' | relative_url }}" id="og-image">
     <meta property="og:url" content="{{ page.url | absolute_url }}">
     <meta property="og:type" content="website">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ page.title }} - صوامت">
-    <meta name="twitter:description" content="{{ page.description | default: 'تصفح مستندات وفيديوهات وملاحظات المقررات الدراسية بسهولة.' }}">
+    <meta name="twitter:description" content="{{ page.description | default: 'تصفح واستخدم أداة الصوامت العربية بسهولة.' }}">
     <meta name="twitter:image" content="{{ page.image | default: '/images/cover3.png' | relative_url }}">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
     <script>
         (function() {
@@ -46,6 +43,8 @@
         :root {
             /* الوضع الفاتح */
             --primary-color: #7F288F;
+            --primary-hover: #671d75;
+            --primary-light: #f6ecf8;
             --bg-body: #ffffff;
             --bg-card: #ffffff;
             --bg-secondary: #f8f9fa;
@@ -54,7 +53,7 @@
             --border-color: #e7e7e7;
             --hover-bg: #f4e8f6;
             
-            /* ألوان الحالة */
+            /* ألوان الحالة (للاختبار) */
             --correct-bg: #4CAF50;
             --correct-text: #ffffff;
             --wrong-bg: #F44336;
@@ -68,6 +67,8 @@
         /* الوضع الداكن */
         [data-theme="dark"] {
             --primary-color: #a85eb3;
+            --primary-hover: #9647a1;
+            --primary-light: #352a38;
             --bg-body: #1e1e1e;
             --bg-card: #1e1e1e;
             --bg-secondary: #2c2c2c;
@@ -90,385 +91,158 @@
             padding: 0;
             box-sizing: border-box;
             font-family: "IBM Plex Sans Arabic", sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
-            font-family: "IBM Plex Sans Arabic", sans-serif;
             line-height: 1.6;
             display: flex;
             flex-direction: column;
             direction: rtl;
         }
 
+        a { text-decoration: none; color: var(--primary-color); transition: color 0.3s; }
+        a:hover { color: var(--primary-hover); }
+
+        /* حاوية الهيدر والفوتر */
         .container {
-            max-width: 800px;
+            max-width: 1100px;
             margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* حاوية الاختبار المنفصلة */
+        .quiz-container {
+            max-width: 800px;
+            margin: 40px auto;
             padding: 30px 20px;
             background: var(--bg-card);
             flex: 1;
             width: 100%;
-        }
-
-        /* إخفاء العناصر الخاصة بالطباعة في العرض العادي */
-        #print-only-logo, #print-eval-table, .print-essay-lines, #printable-qr-section, .tf-print-container, .print-letter {
-            display: none;
-        }
-
-        .quiz-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            flex-direction: row-reverse;
-            flex-wrap: wrap; 
-            gap: 10px;
-        }
-
-        .quiz-header img {
-            width: 35px;
-            height: 35px;
-            margin-left: 10px;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 25px;
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        #print-btn {
-            background-color: var(--text-muted);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-family: inherit;
-            margin-right: auto;
-        }
-        #print-btn:hover {
-            background-color: var(--primary-color);
-        }
-
-        .divider-text {
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin: 40px 0 20px;
-            padding-top: 20px;
-            border-top: 2px solid var(--border-color);
-        }
-
-        .info-header {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-            text-align: center;
-        }
-
-        .info-description {
-            font-size: 16px;
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 20px;
-            line-height: 1.7;
-        }
-
-        .question-item {
-            margin-bottom: 30px;
-            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            background: var(--bg-card);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .question-text {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: var(--text-main);
-            width: 100%;
-        }
+        /* === الشريط العلوي (من الصفحة الرئيسية) === */
+        .top-navbar { background-color: var(--primary-color); padding: 15px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .navbar-content { display: flex; justify-content: space-between; align-items: center; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-logo { height: 45px; width: auto; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { font-weight: 500; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; }
+        .nav-links a:hover { color: #ffffff; }
+        .menu-toggle-btn { display: none; background: none; border: none; color: #ffffff; font-size: 1.8rem; cursor: pointer; padding: 0; }
 
-        .question-content-span {
-            flex: 1;
-            text-align: right;
-            padding-left: 15px;
-        }
+        /* === القائمة الجانبية للموبايل (من الصفحة الرئيسية) === */
+        .mobile-drawer { position: fixed; top: 0; right: -320px; width: 320px; max-width: 100%; height: 100vh; background-color: var(--bg-body); z-index: 1000; box-shadow: -5px 0 15px rgba(0,0,0,0.05); transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1); display: flex; flex-direction: column; border-top-left-radius: 24px; border-bottom-left-radius: 24px; }
+        .mobile-drawer.open { right: 0; }
+        .drawer-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); padding: 30px 25px; display: flex; justify-content: space-between; align-items: center; border-top-left-radius: 24px; }
+        .drawer-title { margin: 0; color: #ffffff; font-size: 1.4rem; font-weight: 700; }
+        .close-drawer-btn { background: rgba(255, 255, 255, 0.2); border: none; color: #ffffff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; }
+        .close-drawer-btn:hover { background: rgba(255, 255, 255, 0.4); }
+        .drawer-links { padding: 30px 20px; display: flex; flex-direction: column; gap: 15px; flex: 1; }
+        .drawer-links a { font-size: 1.1rem; color: var(--primary-color); background-color: var(--primary-light); font-weight: 600; padding: 15px 20px; border-radius: 12px; display: flex; align-items: center; transition: all 0.3s ease; }
+        .drawer-links a::before { content: ''; display: inline-block; width: 8px; height: 8px; background-color: var(--primary-color); border-radius: 50%; margin-left: 15px; transition: all 0.3s ease; }
+        .drawer-links a:hover { background-color: var(--primary-color); color: #ffffff; }
+        .drawer-links a:hover::before { background-color: #ffffff; }
+        .drawer-footer { padding: 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem; }
+        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out; backdrop-filter: blur(2px); }
+        .drawer-overlay.open { opacity: 1; visibility: visible; }
 
-        .question-subtext {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-top: -10px;
-            margin-bottom: 15px;
-            font-weight: normal;
-            text-align: right;
-        }
+        /* === التذييل (من الصفحة الرئيسية) === */
+        .site-footer { background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 60px 0 20px; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .footer-col h3 { font-size: 1.2rem; color: var(--primary-color); margin-bottom: 20px; font-weight: 700; }
+        .footer-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; }
+        .footer-links-list { list-style: none; padding: 0; margin: 0; }
+        .footer-links-list li { margin-bottom: 12px; }
+        .footer-links-list a { color: var(--text-muted); }
+        .footer-links-list a:hover { color: var(--primary-color); padding-right: 5px; }
+        .footer-logos { display: flex; flex-direction: column; gap: 15px; }
+        .logo-placeholder { height: 50px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem; font-weight: 500; padding: 5px 15px; }
+        .logo-placeholder img { max-height: 100%; max-width: 100%; object-fit: contain; }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem; }
 
-        .points-badge {
-            flex-shrink: 0;
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            white-space: nowrap;
-        }
+        /* === تنسيقات الاختبار === */
+        #print-only-logo, #print-eval-table, .print-essay-lines, #printable-qr-section, .tf-print-container, .print-letter { display: none; }
+        
+        .quiz-header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; flex-direction: row-reverse; flex-wrap: wrap; gap: 10px; }
+        .quiz-header img { width: 35px; height: 35px; margin-left: 10px; }
+        
+        h1 { text-align: center; font-size: 25px; color: var(--primary-color); font-weight: 600; }
 
-        .choices-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        #print-btn { background-color: var(--text-muted); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; font-family: inherit; margin-right: auto; }
+        #print-btn:hover { background-color: var(--primary-color); }
 
-        .choice-label {
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--bg-secondary);
-            color: var(--text-main);
-            cursor: pointer;
-            text-align: right;
-            justify-content: flex-start;
-        }
+        .divider-text { text-align: center; font-size: 20px; font-weight: bold; color: var(--primary-color); margin: 40px 0 20px; padding-top: 20px; border-top: 2px solid var(--border-color); }
+        .info-header { font-size: 20px; font-weight: bold; color: var(--primary-color); margin-bottom: 5px; text-align: center; }
+        .info-description { font-size: 16px; color: var(--text-muted); text-align: center; margin-bottom: 20px; line-height: 1.7; }
+        
+        .question-item { margin-bottom: 30px; padding: 20px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-card); }
+        .question-text { display: flex; justify-content: space-between; align-items: flex-start; font-size: 18px; font-weight: bold; margin-bottom: 15px; color: var(--text-main); width: 100%; }
+        .question-content-span { flex: 1; text-align: right; padding-left: 15px; }
+        .question-subtext { font-size: 14px; color: var(--text-muted); margin-top: -10px; margin-bottom: 15px; font-weight: normal; text-align: right; }
+        .points-badge { flex-shrink: 0; display: inline-block; background-color: var(--primary-color); color: white; padding: 4px 10px; border-radius: 8px; font-size: 13px; white-space: nowrap; }
+        .choices-container { display: flex; flex-direction: column; gap: 10px; }
+        .choice-label { display: flex; align-items: center; padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-secondary); color: var(--text-main); cursor: pointer; text-align: right; justify-content: flex-start; }
+        .choice-label:hover { background-color: var(--hover-bg); color: var(--primary-color); border-color: var(--primary-color); }
+        .choice-label.correct { background-color: var(--correct-bg); color: var(--correct-text); border-color: var(--correct-bg); }
+        .choice-label.wrong { background-color: var(--wrong-bg); color: var(--wrong-text); border-color: var(--wrong-bg); }
+        .choice-radio { margin-left: 10px; margin-right: 0; }
 
-        .choice-label:hover {
-            background-color: var(--hover-bg);
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
+        .essay-buttons { display: flex; gap: 10px; margin-top: 15px; justify-content: flex-end; }
+        .essay-btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; position: relative; overflow: hidden; }
+        .essay-btn.selected-essay { border: 2px solid var(--primary-color); background-color: var(--hover-bg); color: var(--primary-color); }
+        .essay-btn.selected-essay::after { content: "✓"; margin-right: 5px; font-weight: bold; }
+        .essay-btn.show-answer-btn, .essay-btn.dont-know-btn { background-color: var(--btn-essay-bg); color: var(--primary-color); border: 1px solid var(--btn-essay-border); }
+        .essay-btn.selected-essay.show-answer-btn, .essay-btn.selected-essay.dont-know-btn { background-color: var(--hover-bg); color: var(--primary-color); border: 2px solid var(--primary-color); }
+        .essay-answer { margin-top: 15px; padding: 15px; background-color: var(--bg-secondary); border-radius: 8px; border-right: 4px solid var(--primary-color); display: none; text-align: right; direction: rtl; color: var(--text-main); white-space: pre-wrap; line-height: 1.8; }
 
-        .choice-label.correct {
-            background-color: var(--correct-bg);
-            color: var(--correct-text);
-            border-color: var(--correct-bg);
-        }
-
-        .choice-label.wrong {
-            background-color: var(--wrong-bg);
-            color: var(--wrong-text);
-            border-color: var(--wrong-bg);
-        }
-
-        .choice-radio {
-            margin-left: 10px;
-            margin-right: 0;
-        }
-
-        .essay-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: flex-end;
-        }
-
-        .essay-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .essay-btn.selected-essay {
-            border: 2px solid var(--primary-color);
-            background-color: var(--hover-bg);
-            color: var(--primary-color);
-        }
-
-        .essay-btn.selected-essay::after {
-            content: "✓";
-            margin-right: 5px;
-            font-weight: bold;
-        }
-
-        .essay-btn.show-answer-btn,
-        .essay-btn.dont-know-btn {
-            background-color: var(--btn-essay-bg);
-            color: var(--primary-color);
-            border: 1px solid var(--btn-essay-border);
-        }
-
-        .essay-btn.selected-essay.show-answer-btn,
-        .essay-btn.selected-essay.dont-know-btn {
-            background-color: var(--hover-bg);
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-        }
-
-        .essay-answer {
-            margin-top: 15px;
-            padding: 15px;
-            background-color: var(--bg-secondary);
-            border-radius: 8px;
-            border-right: 4px solid var(--primary-color);
-            display: none;
-            text-align: right;
-            direction: rtl;
-            color: var(--text-main);
-            white-space: pre-wrap;
-            line-height: 1.8;
-        }
-
-        #submit-btn, #review-btn {
-            display: block;
-            margin: 25px auto 10px;
-            padding: 12px 30px;
-            font-size: 16px;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: "IBM Plex Sans Arabic", sans-serif;
-            background-color: var(--primary-color);
-        }
-
+        #submit-btn, #review-btn { display: block; margin: 25px auto 10px; padding: 12px 30px; font-size: 16px; color: white; border: none; border-radius: 8px; cursor: pointer; font-family: "IBM Plex Sans Arabic", sans-serif; background-color: var(--primary-color); }
         #submit-btn:hover, #review-btn:hover { opacity: 0.9; }
         #review-btn { background-color: #FF9800; display: none; }
 
-        #result {
-            margin-top: 30px;
-            padding: 20px;
-            display: none;
-            border-radius: 12px;
-            background-color: var(--bg-secondary);
-            text-align: right;
-            direction: rtl;
-            color: var(--text-main);
-        }
-
-        #result .score {
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-            color: var(--primary-color);
-        }
-
+        #result { margin-top: 30px; padding: 20px; display: none; border-radius: 12px; background-color: var(--bg-secondary); text-align: right; direction: rtl; color: var(--text-main); }
+        #result .score { font-size: 20px; font-weight: bold; text-align: center; color: var(--primary-color); }
         #result h3 { margin-top: 20px; font-size: 18px; color: var(--text-main); }
         #result ul { list-style: none; padding: 0; }
-        #result li {
-            margin-bottom: 15px;
-            padding: 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--bg-card);
-        }
-
+        #result li { margin-bottom: 15px; padding: 15px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-card); }
         .wrong { color: var(--wrong-bg); }
         .correct { color: var(--correct-bg); }
 
-        .quiz-info-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-bottom: 25px;
-            text-align: center;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            font-family: "IBM Plex Sans Arabic", sans-serif;
-        }
-
-        .quiz-info-table th, .quiz-info-table td {
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            color: var(--text-main);
-        }
-
+        .quiz-info-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 25px; text-align: center; border-radius: 12px; overflow: hidden; font-family: "IBM Plex Sans Arabic", sans-serif; border: 1px solid var(--border-color); }
+        .quiz-info-table th, .quiz-info-table td { border-bottom: 1px solid var(--border-color); border-left: 1px solid var(--border-color); padding: 12px; color: var(--text-main); }
+        .quiz-info-table th:last-child, .quiz-info-table td:last-child { border-left: none; }
+        .quiz-info-table tr:last-child td { border-bottom: none; }
         .quiz-info-table th { background-color: var(--primary-color); color: white; font-weight: 600; }
         .quiz-info-table tbody td { background-color: var(--bg-secondary); }
 
-        .question-image {
-            width: 100%;
-            max-width: 500px;
-            margin: 15px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            display: block;
-        }
-
+        .question-image { width: 100%; max-width: 500px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: block; }
         .image-question-container { text-align: center; margin: 15px 0; }
 
-        .instructions-question {
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 2px dashed var(--border-color);
-            border-radius: 12px;
-            background: var(--bg-secondary);
-            text-align: justify;
-            color: var(--text-main);
-        }
+        .instructions-question { margin-bottom: 30px; padding: 20px; border: 2px dashed var(--border-color); border-radius: 12px; background: var(--bg-secondary); text-align: justify; color: var(--text-main); }
+        .instructions-header { font-size: 22px; font-weight: bold; color: var(--text-main); margin-bottom: 15px; }
+        .instructions-description { font-size: 16px; color: var(--text-main); line-height: 1.7; }
 
-        .instructions-header {
-            font-size: 22px;
-            font-weight: bold;
-            color: var(--text-main);
-            margin-bottom: 15px;
-        }
+        .tf-print-container { border: 1px solid var(--text-main); padding: 15px; margin-bottom: 20px; break-inside: avoid; background-color: transparent; }
+        .tf-print-header { display: flex; justify-content: space-between; align-items: center; font-weight: bold; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px; font-size: 16px; }
+        .tf-print-row { display: flex; align-items: flex-start; margin-bottom: 12px; direction: rtl; gap: 15px; flex-direction: row-reverse; text-align: right; }
+        .tf-box { width: 25px; height: 25px; border: 1px solid #000; flex-shrink: 0; }
+        .tf-text { flex-grow: 1; font-weight: bold; line-height: 1.5; }
 
-        .instructions-description {
-            font-size: 16px;
-            color: var(--text-main);
-            line-height: 1.7;
-        }
-
-        /* تنسيقات خاصة بمجموعة الصح والخطأ في الطباعة */
-        .tf-print-container {
-            border: 1px solid var(--text-main);
-            padding: 15px;
-            margin-bottom: 20px;
-            break-inside: avoid;
-            background-color: transparent;
-        }
-        
-        .tf-print-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center; 
-            font-weight: bold;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .tf-print-row {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            direction: rtl; 
-            gap: 15px;
-            flex-direction: row-reverse;
-            text-align: right;
-        }
-
-        .tf-box {
-            width: 25px;
-            height: 25px;
-            border: 1px solid #000;
-            flex-shrink: 0;
-        }
-
-        .tf-text {
-            flex-grow: 1;
-            font-weight: bold;
-            line-height: 1.5;
+        /* === التجاوب === */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle-btn { display: block; font-size: 1.5rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+            .footer-logos { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+            .top-navbar { padding: 5px 0; } 
+            .brand-logo { height: 32px; } 
+            .quiz-container { margin: 20px auto; border-radius: 0; border-left: none; border-right: none; }
         }
 
         /* === إعدادات الطباعة === */
@@ -484,186 +258,45 @@
                 --hover-bg: #ffffff !important;
             }
 
-            header, footer, #submit-btn, #review-btn, #result, .essay-buttons, #print-btn, .top-bar, .site-header {
+            .top-navbar, .site-footer, .mobile-drawer, .drawer-overlay, #submit-btn, #review-btn, #result, .essay-buttons, #print-btn {
                 display: none !important;
             }
 
-            #questions-container {
-                display: block !important;
-            }
+            #questions-container { display: block !important; }
+            .screen-only-item { display: none !important; }
 
-            .screen-only-item {
-                display: none !important;
-            }
+            .tf-print-container { display: block !important; border: 1px solid #000 !important; box-shadow: none !important; background-color: transparent !important; }
+            .tf-print-header { border-bottom: 1px solid #000 !important; }
+            .tf-box { border: 1px solid #000 !important; }
 
-            .tf-print-container {
-                display: block !important;
-                border: 1px solid #000 !important;
-                box-shadow: none !important;
-                background-color: transparent !important;
-            }
+            body { background-color: #ffffff !important; color: #000000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; direction: rtl !important; }
 
-            .tf-print-header {
-                border-bottom: 1px solid #000 !important;
-            }
+            .quiz-container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; border: none !important; }
 
-            .tf-box {
-                border: 1px solid #000 !important;
-            }
-
-            body {
-                background-color: #ffffff !important;
-                color: #000000 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-                direction: rtl !important;
-            }
-
-            .container {
-                max-width: 100% !important;
-                width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                box-shadow: none !important;
-                border: none !important;
-            }
-
-            table, .quiz-info-table, #print-eval-table {
-                width: 100% !important;
-                border-collapse: collapse !important;
-                margin-bottom: 25px !important;
-                border: 1px solid #000 !important;
-                box-shadow: none !important;
-                border-radius: 0 !important;
-            }
-
-            th, td {
-                border: 1px solid #000 !important;
-                padding: 10px !important;
-                color: #000 !important;
-                text-align: center !important;
-                background-color: transparent !important;
-            }
-
-            th {
-                background-color: #f0f0f0 !important;
-                font-weight: bold !important;
-            }
+            table, .quiz-info-table, #print-eval-table { width: 100% !important; border-collapse: collapse !important; margin-bottom: 25px !important; border: 1px solid #000 !important; box-shadow: none !important; border-radius: 0 !important; }
+            th, td { border: 1px solid #000 !important; padding: 10px !important; color: #000 !important; text-align: center !important; background-color: transparent !important; }
+            th { background-color: #f0f0f0 !important; font-weight: bold !important; }
 
             #print-only-logo { display: block !important; text-align: center; margin-bottom: 20px; }
             #print-eval-table { display: table !important; }
 
-            .question-item, .instructions-question {
-                border: 1px solid #000 !important;
-                border-radius: 0 !important;
-                box-shadow: none !important;
-                background-color: #fff !important;
-                margin-bottom: 15px !important;
-                break-inside: avoid;
-                page-break-inside: avoid;
-                padding: 15px !important;
-            }
-
-            .choice-label {
-                background-color: transparent !important;
-                border: none !important;
-                padding: 5px 0 !important;
-                color: #000 !important;
-            }
-            
+            .question-item, .instructions-question { border: 1px solid #000 !important; border-radius: 0 !important; box-shadow: none !important; background-color: #fff !important; margin-bottom: 15px !important; break-inside: avoid; page-break-inside: avoid; padding: 15px !important; }
+            .choice-label { background-color: transparent !important; border: none !important; padding: 5px 0 !important; color: #000 !important; }
             .choice-radio { display: none !important; }
-            .print-letter { 
-                display: inline-block !important; 
-                margin-left: 8px; 
-                font-weight: bold;
-            }
-
-            .points-badge {
-                background-color: transparent !important;
-                color: #000 !important;
-                border: 1px solid #000 !important;
-                padding: 2px 8px !important;
-            }
-
-            .quiz-front-page {
-                display: block;
-                width: 100%;
-                break-after: page; 
-                page-break-after: always;
-                min-height: 90vh;
-            }
-
+            .print-letter { display: inline-block !important; margin-left: 8px; font-weight: bold; }
+            .points-badge { background-color: transparent !important; color: #000 !important; border: 1px solid #000 !important; padding: 2px 8px !important; }
+            .quiz-front-page { display: block; width: 100%; break-after: page; page-break-after: always; min-height: 90vh; }
             .essay-answer { display: none !important; }
+            .print-essay-lines { display: block !important; margin-top: 20px; width: 100%; }
+            .writing-line { border-bottom: 2px dotted #999; height: 40px; width: 100%; margin-bottom: 10px; }
+            .full-page-question { break-before: page; page-break-before: always; min-height: 95vh; display: flex; flex-direction: column; }
+            .full-page-question .print-essay-lines { flex-grow: 1; }
 
-            .print-essay-lines {
-                display: block !important;
-                margin-top: 20px;
-                width: 100%;
-            }
+            #printable-answer-key { display: block !important; break-before: page; page-break-before: always; direction: rtl; padding-top: 50px; color: #000 !important; }
 
-            .writing-line {
-                border-bottom: 2px dotted #999;
-                height: 40px;
-                width: 100%;
-                margin-bottom: 10px;
-            }
-            
-            .full-page-question {
-                break-before: page;
-                page-break-before: always;
-                min-height: 95vh;
-                display: flex;
-                flex-direction: column;
-            }
-            
-            .full-page-question .print-essay-lines {
-                flex-grow: 1;
-            }
-
-            #printable-answer-key {
-                display: block !important;
-                break-before: page;
-                page-break-before: always;
-                direction: rtl;
-                padding-top: 50px;
-                color: #000 !important;
-            }
-
-            /* === تنسيق قسم QR Code المعدل === */
-            #printable-qr-section {
-                display: flex !important;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                break-before: auto;
-                page-break-inside: avoid;
-                text-align: center;
-                
-                margin-top: 20px;
-                padding: 20px;
-                width: 60%; 
-                margin-left: auto;
-                margin-right: auto;
-                
-                background-color: #f4e8f6 !important; 
-                border: 2px solid #7F288F !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            #printable-qr-section h3 {
-                color: #7F288F !important;
-                font-size: 18px; 
-                margin-top: 10px;
-                font-weight: bold;
-            }
-            
-            #qrcode-container {
-                padding: 10px;
-                background: white;
-                border-radius: 8px;
-                border: 1px solid #7F288F;
-            }
+            #printable-qr-section { display: flex !important; flex-direction: column; align-items: center; justify-content: center; break-before: auto; page-break-inside: avoid; text-align: center; margin-top: 20px; padding: 20px; width: 60%; margin-left: auto; margin-right: auto; background-color: #f4e8f6 !important; border: 2px solid #7F288F !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            #printable-qr-section h3 { color: #7F288F !important; font-size: 18px; margin-top: 10px; font-weight: bold; }
+            #qrcode-container { padding: 10px; background: white; border-radius: 8px; border: 1px solid #7F288F; }
         }
 
         #printable-answer-key { display: none; }
@@ -673,7 +306,7 @@
     
     {% include header.html %}
 
-    <main class="container">
+    <main class="quiz-container">
         
         {{ content }}
 
@@ -744,7 +377,7 @@
                     </tr>
                 </tbody>
             </table>
-            </div>
+        </div>
 
         <div id="questions-container"></div>
         <button id="submit-btn">تأكيد الإجابات</button>
@@ -755,6 +388,19 @@
     {% include footer.html %}
 
     <script>
+        // === دوال الهيدر والقائمة الجانبية ===
+        function openDrawer() {
+            document.getElementById('mobileDrawer').classList.add('open');
+            document.getElementById('drawerOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeDrawer() {
+            document.getElementById('mobileDrawer').classList.remove('open');
+            document.getElementById('drawerOverlay').classList.remove('open');
+            document.body.style.overflow = 'auto'; 
+        }
+
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -762,6 +408,7 @@
             localStorage.setItem('sawamet-theme', newTheme);
         }
 
+        // === دوال الاختبار ===
         const questionsContainer = document.getElementById('questions-container');
         const submitButton = document.getElementById('submit-btn');
         const reviewButton = document.getElementById('review-btn');
@@ -834,10 +481,9 @@
 
             keyHTML += `</tbody></table>`;
             keyDiv.innerHTML = keyHTML;
-            // إضافة نموذج الإجابة في نهاية الصفحة
-            document.querySelector('.container').appendChild(keyDiv);
+            document.querySelector('.quiz-container').appendChild(keyDiv);
 
-            // 2. إنشاء قسم QR Code (تم التعديل لإضافته في صفحة الواجهة)
+            // 2. إنشاء قسم QR Code
             const qrDiv = document.createElement('div');
             qrDiv.id = 'printable-qr-section';
             
@@ -861,13 +507,13 @@
                 correctLevel : QRCode.CorrectLevel.H
             });
 
-            // 3. إعداد الصفحة للطباعة (إخفاء التحديدات)
+            // 3. إعداد الصفحة للطباعة
             const allRadios = document.querySelectorAll('input[type="radio"]');
             const checkedStates = new Map();
             allRadios.forEach((radio, index) => {
                 if(radio.checked) {
                     checkedStates.set(index, true);
-                    radio.checked = false; // إلغاء التحديد للطباعة
+                    radio.checked = false;
                 }
             });
 
@@ -982,7 +628,6 @@
                     return; 
                 }
                 
-                // === منطق تجميع أسئلة TF للطباعة ===
                 if (q.type === 'tf') {
                     if (!currentTfContainer) {
                         currentTfContainer = document.createElement('div');
@@ -1026,7 +671,6 @@
                     currentTfContainer.appendChild(tfRow);
                 }
 
-                // === العرض العادي ===
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question-item';
                 if (q.type === 'info') questionDiv.classList.add('info-question');
@@ -1137,10 +781,8 @@
                         const label = document.createElement('label');
                         label.className = 'choice-label';
                         
-                        // إضافة عنصر الـ span للحرف (يظهر في الطباعة فقط)
                         const printLetterSpan = document.createElement('span');
                         printLetterSpan.className = 'print-letter';
-                        // نستخدم المصفوفة، وإذا زادت الخيارات عن المصفوفة نستخدم الرقم
                         const letter = arabicLetters[cIndex] || (cIndex + 1);
                         printLetterSpan.textContent = letter + '- ';
                         label.appendChild(printLetterSpan);
