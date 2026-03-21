@@ -550,7 +550,7 @@
             }
 
             try {
-                const res = await fetch(`{{ '/assets/online/' | relative_url }}${examCode}.yaml`);
+                const res = await fetch(`{{ '/data/' | relative_url }}${examCode}.yaml`);
                 if (!res.ok) throw new Error('تعذر تحميل بيانات الاختبار');
                 const yamlText = await res.text();
                 quizData = jsyaml.load(yamlText);
