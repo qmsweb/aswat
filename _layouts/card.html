@@ -1,0 +1,335 @@
+---
+layout: default
+title: بطاقات الأسئلة - صوامت
+---
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="بطاقات اختبار لمعلومات علم الأصوات - منصة الصوامت العربية">
+    <title>{{ page.title | default: "بطاقات الأسئلة - منصة الصوامت العربية" }}</title>
+
+    <meta property="og:title" content="{{ page.title | default: 'بطاقات الأسئلة' }}" />
+    <meta property="og:description" content="اختبر معلوماتك في علم الأصوات عبر بطاقات تفاعلية" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ page.url | absolute_url }}" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ '/icons/favicon.png' | relative_url }}" type="image/jpg">
+    
+    <style>
+        :root {
+            --primary-color: #7F288F;
+            --primary-hover: #671d75;
+            --primary-light: #f6ecf8;
+            --bg-color: #ffffff;
+            --text-main: #222222;
+            --text-muted: #666666;
+            --border-color: #e5e5e5;
+            --card-bg: #ffffff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* === قسم الترويسة للأسئلة === */
+        .hero-section { text-align: center; padding: 60px 20px 40px; }
+        .hero-title { font-size: 2.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 10px; margin-top: 0; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; }
+
+        /* === شبكة البطاقات === */
+        .flashcards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        /* === تصميم بطاقة السؤال (تأثير القلب) === */
+        .flashcard {
+            background-color: transparent;
+            perspective: 1000px;
+            height: 220px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            border-radius: 16px;
+        }
+
+        .flashcard-front {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .flashcard-front h3 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .flashcard-front p {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: #ffffff;
+            transform: rotateY(180deg);
+            border: 1px solid var(--primary-hover);
+        }
+
+        .flashcard-back h3 {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .flashcard-back p {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        /* تلميح النقر */
+        .click-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 15px;
+            opacity: 0.7;
+        }
+        .flashcard-back .click-hint {
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* === التجاوب === */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .flashcards-grid { gap: 20px; }
+            .flashcard { height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    {% include header.html %}
+
+    <main class="container">
+        
+        {{ content }}
+        
+        <div id="main-content-area">
+            <section class="hero-section">
+                <h2 class="hero-title">اختبر معلوماتك</h2>
+                <p class="hero-subtitle">انقر على البطاقة لعرض الإجابة الصحيحة.</p>
+            </section>
+            
+            <section class="flashcards-grid">
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>السؤال الأول</h3>
+                            <p>ما هو مخرج حرف الباء؟</p>
+                            <span class="click-hint">انقر لمعرفة الإجابة</span>
+                        </div>
+                        <div class="flashcard-back">
+                            <h3>الإجابة</h3>
+                            <p>شفوي</p>
+                            <span class="click-hint">انقر للعودة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>السؤال الثاني</h3>
+                            <p>هل حرف السين مجهور أم مهموس؟</p>
+                            <span class="click-hint">انقر لمعرفة الإجابة</span>
+                        </div>
+                        <div class="flashcard-back">
+                            <h3>الإجابة</h3>
+                            <p>مهموس</p>
+                            <span class="click-hint">انقر للعودة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>السؤال الثالث</h3>
+                            <p>اذكر حرفاً من الحروف اللهوية.</p>
+                            <span class="click-hint">انقر لمعرفة الإجابة</span>
+                        </div>
+                        <div class="flashcard-back">
+                            <h3>الإجابة</h3>
+                            <p>حرف القاف</p>
+                            <span class="click-hint">انقر للعودة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>السؤال الرابع</h3>
+                            <p>ما هي طريقة نطق حرف الميم؟</p>
+                            <span class="click-hint">انقر لمعرفة الإجابة</span>
+                        </div>
+                        <div class="flashcard-back">
+                            <h3>الإجابة</h3>
+                            <p>أنفية</p>
+                            <span class="click-hint">انقر للعودة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>السؤال الخامس</h3>
+                            <p>ما هو الحرف الذي يعتبر "شديد رخو" (مركب)؟</p>
+                            <span class="click-hint">انقر لمعرفة الإجابة</span>
+                        </div>
+                        <div class="flashcard-back">
+                            <h3>الإجابة</h3>
+                            <p>حرف الجيم</p>
+                            <span class="click-hint">انقر للعودة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>السؤال السادس</h3>
+                            <p>ما هي الحروف المطبقة؟</p>
+                            <span class="click-hint">انقر لمعرفة الإجابة</span>
+                        </div>
+                        <div class="flashcard-back">
+                            <h3>الإجابة</h3>
+                            <p>الصاد، الضاد، الطاء، الظاء</p>
+                            <span class="click-hint">انقر للعودة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>السؤال السابع</h3>
+                            <p>من أين يخرج حرف الهمزة؟</p>
+                            <span class="click-hint">انقر لمعرفة الإجابة</span>
+                        </div>
+                        <div class="flashcard-back">
+                            <h3>الإجابة</h3>
+                            <p>حنجري</p>
+                            <span class="click-hint">انقر للعودة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>السؤال الثامن</h3>
+                            <p>ما هما الحرفان الاستمراريان؟</p>
+                            <span class="click-hint">انقر لمعرفة الإجابة</span>
+                        </div>
+                        <div class="flashcard-back">
+                            <h3>الإجابة</h3>
+                            <p>الواو، الياء</p>
+                            <span class="click-hint">انقر للعودة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>السؤال التاسع</h3>
+                            <p>ما هي الحروف بين الأسنانية؟</p>
+                            <span class="click-hint">انقر لمعرفة الإجابة</span>
+                        </div>
+                        <div class="flashcard-back">
+                            <h3>الإجابة</h3>
+                            <p>الثاء، الذال، الظاء</p>
+                            <span class="click-hint">انقر للعودة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>السؤال العاشر</h3>
+                            <p>هل حرف الضاد شديد (انفجاري) أم رخو (احتكاكي)؟</p>
+                            <span class="click-hint">انقر لمعرفة الإجابة</span>
+                        </div>
+                        <div class="flashcard-back">
+                            <h3>الإجابة</h3>
+                            <p>شديد (انفجاري)</p>
+                            <span class="click-hint">انقر للعودة</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+    </main>
+
+    {% include footer.html %}
+
+    <script src="{{ '/script.js' | relative_url }}"></script>
+
+</body>
+</html>
