@@ -8,7 +8,7 @@ title: بطاقات الأسئلة - صوامت
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="بطاقات اختبار لمعلومات علم الأصوات - منصة الصوامت العربية">
-    <title>{{ page.title | default: "بطاقات الأسئلة - منصة الصوامت العربية" }}</title>
+    <title>{{ page.title | default: "بطاقات الأسئلة - صوامت" }}</title>
 
     <meta property="og:title" content="{{ page.title | default: 'بطاقات الأسئلة' }}" />
     <meta property="og:description" content="اختبر معلوماتك في علم الأصوات عبر بطاقات تفاعلية" />
@@ -18,14 +18,18 @@ title: بطاقات الأسئلة - صوامت
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="icon" href="{{ '/icons/favicon.png' | relative_url }}" type="image/jpg">
     
     <style>
+        /* === المتغيرات والتنسيقات الأساسية الأصلية === */
         :root {
             --primary-color: #7F288F;
             --primary-hover: #671d75;
             --primary-light: #f6ecf8;
-            --bg-color: #ffffff;
+            --bg-color: #f9f9fb; /* تم تعديل لون الخلفية قليلاً لإبراز البطاقة */
             --text-main: #222222;
             --text-muted: #666666;
             --border-color: #e5e5e5;
@@ -44,33 +48,70 @@ title: بطاقات الأسئلة - صوامت
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
+        
+        a { text-decoration: none; color: var(--primary-color); transition: color 0.3s; }
+        a:hover { color: var(--primary-hover); }
 
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
+            flex: 1; /* لجعل المحتوى يملأ الشاشة ويدفع الفوتر للأسفل */
+            display: flex;
+            flex-direction: column;
         }
 
-        /* === قسم الترويسة للأسئلة === */
-        .hero-section { text-align: center; padding: 60px 20px 40px; }
-        .hero-title { font-size: 2.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 10px; margin-top: 0; }
-        .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; }
+        /* === الشريط العلوي والقائمة الجانبية (من كودك الأصلي) === */
+        .top-navbar { background-color: var(--primary-color); padding: 15px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .navbar-content { display: flex; justify-content: space-between; align-items: center; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-logo { height: 45px; width: auto; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { font-weight: 500; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; }
+        .nav-links a:hover { color: #ffffff; }
+        .menu-toggle-btn { display: none; background: none; border: none; color: #ffffff; font-size: 1.8rem; cursor: pointer; padding: 0; }
 
-        /* === شبكة البطاقات === */
-        .flashcards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
+        .mobile-drawer { position: fixed; top: 0; right: -320px; width: 320px; max-width: 100%; height: 100vh; background-color: var(--bg-color); z-index: 1000; box-shadow: -5px 0 15px rgba(0,0,0,0.05); transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1); display: flex; flex-direction: column; border-top-left-radius: 24px; border-bottom-left-radius: 24px; }
+        .mobile-drawer.open { right: 0; }
+        .drawer-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); padding: 30px 25px; display: flex; justify-content: space-between; align-items: center; border-top-left-radius: 24px; }
+        .drawer-title { margin: 0; color: #ffffff; font-size: 1.4rem; font-weight: 700; }
+        .close-drawer-btn { background: rgba(255, 255, 255, 0.2); border: none; color: #ffffff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; }
+        .close-drawer-btn:hover { background: rgba(255, 255, 255, 0.4); }
+        .drawer-links { padding: 30px 20px; display: flex; flex-direction: column; gap: 15px; flex: 1; }
+        .drawer-links a { font-size: 1.1rem; color: var(--primary-color); background-color: var(--primary-light); font-weight: 600; padding: 15px 20px; border-radius: 12px; display: flex; align-items: center; transition: all 0.3s ease; }
+        .drawer-links a::before { content: ''; display: inline-block; width: 8px; height: 8px; background-color: var(--primary-color); border-radius: 50%; margin-left: 15px; transition: all 0.3s ease; }
+        .drawer-links a:hover { background-color: var(--primary-color); color: #ffffff; }
+        .drawer-links a:hover::before { background-color: #ffffff; }
+        .drawer-footer { padding: 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem; }
+        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out; backdrop-filter: blur(2px); }
+        .drawer-overlay.open { opacity: 1; visibility: visible; }
+
+        /* === قسم الترويسة للبطاقة === */
+        .hero-section { text-align: center; padding: 40px 20px 20px; }
+        .hero-title { font-size: 2.2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 10px; margin-top: 0; }
+
+        /* === حاوية البطاقة الواحدة === */
+        .flashcard-wrapper {
+            max-width: 650px;
+            width: 100%;
+            margin: 0 auto 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* === تصميم بطاقة السؤال (تأثير القلب) === */
         .flashcard {
             background-color: transparent;
             perspective: 1000px;
-            height: 220px;
+            width: 100%;
+            height: 380px;
             cursor: pointer;
+            margin-bottom: 30px;
         }
 
         .flashcard-inner {
@@ -80,11 +121,11 @@ title: بطاقات الأسئلة - صوامت
             text-align: center;
             transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
             transform-style: preserve-3d;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
-        .flashcard.flipped .flashcard-inner {
+        .flashcard-inner.flipped {
             transform: rotateY(180deg);
         }
 
@@ -97,63 +138,141 @@ title: بطاقات الأسئلة - صوامت
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 25px;
-            border-radius: 16px;
+            padding: 40px;
+            border-radius: 20px;
         }
 
         .flashcard-front {
             background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             color: var(--text-main);
         }
 
         .flashcard-front h3 {
-            color: var(--primary-color);
+            color: var(--text-muted);
             font-size: 1.2rem;
-            margin-bottom: 15px;
-            font-weight: 700;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
 
         .flashcard-front p {
-            font-size: 1rem;
-            color: var(--text-muted);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1.5;
         }
 
         .flashcard-back {
             background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
             color: #ffffff;
             transform: rotateY(180deg);
-            border: 1px solid var(--primary-hover);
+            border: 2px solid var(--primary-hover);
         }
 
         .flashcard-back h3 {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            margin-bottom: 25px;
             font-weight: 600;
         }
 
         .flashcard-back p {
-            font-size: 1.3rem;
+            font-size: 2.2rem;
             font-weight: 700;
+            line-height: 1.5;
         }
 
         /* تلميح النقر */
         .click-hint {
-            font-size: 0.8rem;
+            position: absolute;
+            bottom: 25px;
+            font-size: 0.95rem;
             color: var(--text-muted);
-            margin-top: 15px;
             opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .flashcard-back .click-hint {
             color: rgba(255,255,255,0.7);
         }
 
+        /* === أزرار التحكم بالأسفل === */
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-btn {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--primary-color);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #f1f1f1;
+            color: #999;
+        }
+
+        .card-counter {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* === التذييل (من كودك الأصلي) === */
+        .site-footer { background-color: #ffffff; border-top: 1px solid var(--border-color); padding: 60px 0 20px; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .footer-col h3 { font-size: 1.2rem; color: var(--primary-color); margin-bottom: 20px; font-weight: 700; }
+        .footer-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; }
+        .footer-links-list { list-style: none; padding: 0; margin: 0; }
+        .footer-links-list li { margin-bottom: 12px; }
+        .footer-links-list a { color: var(--text-muted); }
+        .footer-links-list a:hover { color: var(--primary-color); padding-right: 5px; }
+        .footer-logos { display: flex; flex-direction: column; gap: 15px; }
+        .logo-placeholder { height: 50px; background-color: white; border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem; font-weight: 500; padding: 5px 15px; }
+        .logo-placeholder img { max-height: 100%; max-width: 100%; object-fit: contain; }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem; }
+
         /* === التجاوب === */
         @media (max-width: 768px) {
-            .hero-title { font-size: 2rem; }
-            .flashcards-grid { gap: 20px; }
-            .flashcard { height: 200px; }
+            .nav-links { display: none; }
+            .menu-toggle-btn { display: block; font-size: 1.5rem; }
+            .hero-title { font-size: 1.8rem; }
+            .flashcard { height: 300px; }
+            .flashcard-front p { font-size: 1.5rem; }
+            .flashcard-back p { font-size: 1.6rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+            .footer-logos { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+            .top-navbar { padding: 5px 0; } 
+            .brand-logo { height: 32px; } 
         }
     </style>
 </head>
@@ -165,169 +284,121 @@ title: بطاقات الأسئلة - صوامت
         
         {{ content }}
         
-        <div id="main-content-area">
-            <section class="hero-section">
-                <h2 class="hero-title">اختبر معلوماتك</h2>
-                <p class="hero-subtitle">انقر على البطاقة لعرض الإجابة الصحيحة.</p>
-            </section>
-            
-            <section class="flashcards-grid">
-                <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="flashcard-front">
-                            <h3>السؤال الأول</h3>
-                            <p>ما هو مخرج حرف الباء؟</p>
-                            <span class="click-hint">انقر لمعرفة الإجابة</span>
-                        </div>
-                        <div class="flashcard-back">
-                            <h3>الإجابة</h3>
-                            <p>شفوي</p>
-                            <span class="click-hint">انقر للعودة</span>
-                        </div>
+        <section class="hero-section">
+            <h2 class="hero-title">اختبر معلوماتك</h2>
+        </section>
+        
+        <div class="flashcard-wrapper">
+            <div class="flashcard" onclick="toggleFlip()">
+                <div class="flashcard-inner" id="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>السؤال</h3>
+                        <p id="question-text">جاري التحميل...</p>
+                        <span class="click-hint"><i class="fa-solid fa-hand-pointer"></i> انقر لمعرفة الإجابة</span>
+                    </div>
+                    <div class="flashcard-back">
+                        <h3>الإجابة</h3>
+                        <p id="answer-text"></p>
+                        <span class="click-hint"><i class="fa-solid fa-rotate-left"></i> انقر للعودة</span>
                     </div>
                 </div>
+            </div>
 
-                <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="flashcard-front">
-                            <h3>السؤال الثاني</h3>
-                            <p>هل حرف السين مجهور أم مهموس؟</p>
-                            <span class="click-hint">انقر لمعرفة الإجابة</span>
-                        </div>
-                        <div class="flashcard-back">
-                            <h3>الإجابة</h3>
-                            <p>مهموس</p>
-                            <span class="click-hint">انقر للعودة</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="flashcard-front">
-                            <h3>السؤال الثالث</h3>
-                            <p>اذكر حرفاً من الحروف اللهوية.</p>
-                            <span class="click-hint">انقر لمعرفة الإجابة</span>
-                        </div>
-                        <div class="flashcard-back">
-                            <h3>الإجابة</h3>
-                            <p>حرف القاف</p>
-                            <span class="click-hint">انقر للعودة</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="flashcard-front">
-                            <h3>السؤال الرابع</h3>
-                            <p>ما هي طريقة نطق حرف الميم؟</p>
-                            <span class="click-hint">انقر لمعرفة الإجابة</span>
-                        </div>
-                        <div class="flashcard-back">
-                            <h3>الإجابة</h3>
-                            <p>أنفية</p>
-                            <span class="click-hint">انقر للعودة</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="flashcard-front">
-                            <h3>السؤال الخامس</h3>
-                            <p>ما هو الحرف الذي يعتبر "شديد رخو" (مركب)؟</p>
-                            <span class="click-hint">انقر لمعرفة الإجابة</span>
-                        </div>
-                        <div class="flashcard-back">
-                            <h3>الإجابة</h3>
-                            <p>حرف الجيم</p>
-                            <span class="click-hint">انقر للعودة</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="flashcard-front">
-                            <h3>السؤال السادس</h3>
-                            <p>ما هي الحروف المطبقة؟</p>
-                            <span class="click-hint">انقر لمعرفة الإجابة</span>
-                        </div>
-                        <div class="flashcard-back">
-                            <h3>الإجابة</h3>
-                            <p>الصاد، الضاد، الطاء، الظاء</p>
-                            <span class="click-hint">انقر للعودة</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="flashcard-front">
-                            <h3>السؤال السابع</h3>
-                            <p>من أين يخرج حرف الهمزة؟</p>
-                            <span class="click-hint">انقر لمعرفة الإجابة</span>
-                        </div>
-                        <div class="flashcard-back">
-                            <h3>الإجابة</h3>
-                            <p>حنجري</p>
-                            <span class="click-hint">انقر للعودة</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="flashcard-front">
-                            <h3>السؤال الثامن</h3>
-                            <p>ما هما الحرفان الاستمراريان؟</p>
-                            <span class="click-hint">انقر لمعرفة الإجابة</span>
-                        </div>
-                        <div class="flashcard-back">
-                            <h3>الإجابة</h3>
-                            <p>الواو، الياء</p>
-                            <span class="click-hint">انقر للعودة</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="flashcard-front">
-                            <h3>السؤال التاسع</h3>
-                            <p>ما هي الحروف بين الأسنانية؟</p>
-                            <span class="click-hint">انقر لمعرفة الإجابة</span>
-                        </div>
-                        <div class="flashcard-back">
-                            <h3>الإجابة</h3>
-                            <p>الثاء، الذال، الظاء</p>
-                            <span class="click-hint">انقر للعودة</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="flashcard-front">
-                            <h3>السؤال العاشر</h3>
-                            <p>هل حرف الضاد شديد (انفجاري) أم رخو (احتكاكي)؟</p>
-                            <span class="click-hint">انقر لمعرفة الإجابة</span>
-                        </div>
-                        <div class="flashcard-back">
-                            <h3>الإجابة</h3>
-                            <p>شديد (انفجاري)</p>
-                            <span class="click-hint">انقر للعودة</span>
-                        </div>
-                    </div>
-                </div>
-
-            </section>
+            <div class="controls">
+                <button class="nav-btn" id="btn-prev" onclick="prevCard()" title="السؤال السابق">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                
+                <span class="card-counter" id="card-counter">1 / 10</span>
+                
+                <button class="nav-btn" id="btn-next" onclick="nextCard()" title="السؤال التالي">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
         </div>
 
     </main>
 
     {% include footer.html %}
+
+    <script>
+        // دوال القائمة الجانبية (من كودك الأصلي)
+        function openDrawer() {
+            document.getElementById('mobileDrawer').classList.add('open');
+            document.getElementById('drawerOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeDrawer() {
+            document.getElementById('mobileDrawer').classList.remove('open');
+            document.getElementById('drawerOverlay').classList.remove('open');
+            document.body.style.overflow = 'auto'; 
+        }
+
+        // بيانات البطاقات الـ 10
+        const flashcardsData = [
+            { q: "ما هو مخرج حرف الباء؟", a: "شفوي" },
+            { q: "هل حرف السين مجهور أم مهموس؟", a: "مهموس" },
+            { q: "اذكر حرفاً من الحروف اللهوية.", a: "حرف القاف" },
+            { q: "ما هي طريقة نطق حرف الميم؟", a: "أنفية" },
+            { q: "ما هو الحرف الذي يعتبر (شديد رخو) مركب؟", a: "حرف الجيم" },
+            { q: "ما هي الحروف المطبقة؟", a: "الصاد، الضاد، الطاء، الظاء" },
+            { q: "من أين يخرج حرف الهمزة؟", a: "مخرج حنجري" },
+            { q: "ما هما الحرفان الاستمراريان؟", a: "الواو والياء" },
+            { q: "ما هي الحروف بين الأسنانية؟", a: "الثاء، الذال، الظاء" },
+            { q: "هل حرف الضاد شديد (انفجاري) أم رخو؟", a: "شديد (انفجاري)" }
+        ];
+
+        let currentIndex = 0;
+
+        const questionEl = document.getElementById('question-text');
+        const answerEl = document.getElementById('answer-text');
+        const counterEl = document.getElementById('card-counter');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const cardInner = document.getElementById('flashcard-inner');
+
+        // تحديث محتوى البطاقة بناءً على الفهرس الحالي
+        function loadCard() {
+            // إزالة تأثير القلب إذا كان موجوداً لتجنب كشف الإجابة الجديدة
+            cardInner.classList.remove('flipped');
+            
+            // مهلة بسيطة لضمان التفاف البطاقة قبل تغيير النص
+            setTimeout(() => {
+                questionEl.innerText = flashcardsData[currentIndex].q;
+                answerEl.innerText = flashcardsData[currentIndex].a;
+                counterEl.innerText = `${currentIndex + 1} / ${flashcardsData.length}`;
+                
+                // تفعيل/تعطيل الأزرار
+                btnPrev.disabled = currentIndex === 0;
+                btnNext.disabled = currentIndex === flashcardsData.length - 1;
+            }, 200);
+        }
+
+        // قلب البطاقة
+        function toggleFlip() {
+            cardInner.classList.toggle('flipped');
+        }
+
+        // البطاقة التالية
+        function nextCard() {
+            if (currentIndex < flashcardsData.length - 1) {
+                currentIndex++;
+                loadCard();
+            }
+        }
+
+        // البطاقة السابقة
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCard();
+            }
+        }
+
+        // تحميل أول بطاقة عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', loadCard);
+    </script>
 
     <script src="{{ '/script.js' | relative_url }}"></script>
 
