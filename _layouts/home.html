@@ -43,20 +43,6 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.7;
-            position: relative;
-            z-index: 0;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='90' height='90' viewBox='0 0 90 90' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%237F288F' fill-opacity='0.04' fill-rule='evenodd'%3E%3Cpath d='M10 35h5v20h-5zM25 15h5v60h-5zM40 25h5v40h-5zM55 10h5v70h-5zM70 30h5v30h-5zM85 40h5v10h-5z'/%3E%3C/g%3E%3C/svg%3E");
-            z-index: -1;
-            pointer-events: none;
         }
         
         a { text-decoration: none; color: var(--primary-color); transition: color 0.3s; }
@@ -384,3 +370,41 @@
                     const displayStyle = window.getComputedStyle(resultSection).display;
                     
                     if (displayStyle !== 'none') {
+                        anatomySection.style.display = 'block';
+                        
+                        setTimeout(() => {
+                            let extractedMokhraj = '';
+                            let extractedManner = '';
+                            
+                            const details = document.querySelectorAll('.detail-card');
+                            details.forEach(card => {
+                                const title = card.querySelector('.detail-title');
+                                const value = card.querySelector('.detail-value');
+                                if (title && value) {
+                                    if (title.innerText.includes('المخرج')) {
+                                        extractedMokhraj = value.innerText;
+                                    }
+                                    if (title.innerText.includes('طريقة النطق')) {
+                                        extractedManner = value.innerText;
+                                    }
+                                }
+                            });
+                            
+                            updateAnatomy(extractedMokhraj, extractedManner);
+                        }, 50); 
+                    } else {
+                        anatomySection.style.display = 'none';
+                        document.querySelectorAll('.point').forEach(el => el.classList.remove('active'));
+                    }
+                });
+                
+                // تمت إضافة childList و subtree لضمان عمل الدالة عند كل تغيير في البيانات
+                observer.observe(resultSection, { attributes: true, childList: true, subtree: true });
+            }
+        });
+    </script>
+
+    <script src="{{ '/script.js' | relative_url }}"></script>
+
+</body>
+</html>
