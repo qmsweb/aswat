@@ -96,10 +96,44 @@
         
         .result-section { display: none; margin: 0; flex: 1; min-width: 300px; max-width: 600px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden; }
         
-        /* === تنسيقات حاوية الرسم التوضيحي === */
+        /* === تنسيقات حاوية الرسم التوضيحي والتكبير === */
         .anatomy-container { background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); text-align: center; width: 400px; max-width: 100%; display: none; }
         .anatomy-container h3 { color: var(--primary-color); margin-top: 0; margin-bottom: 20px; font-weight: 700;}
-        .image-wrapper { position: relative; width: 100%; display: inline-block; }
+        
+        .zoom-controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .zoom-controls button {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .zoom-controls button:hover {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
+        .zoom-wrapper {
+            width: 100%;
+            overflow: auto;
+            border-radius: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--primary-light);
+        }
+
+        .image-wrapper { position: relative; width: 100%; display: inline-block; transition: width 0.3s ease; }
         .speech-image { width: 100%; height: auto; display: block; border-radius: 10px; }
         
         /* تعديلات لون النقاط للبنفسجي */
@@ -233,19 +267,28 @@
                 
                 <div class="anatomy-container" id="anatomySection">
                     <h3>المخرج على الجهاز النطقي</h3>
-                    <div class="image-wrapper">
-                        <img src="{{ '/images/speech.jpg' | relative_url }}" alt="المخارج الصوتية" class="speech-image">
-                        
-                        <div id="pt-lips" class="point" style="top: 48%; left: 17%;"><span class="label">شفوي</span></div>
-                        <div id="pt-teeth" class="point" style="top: 46%; left: 25%;"><span class="label">أسناني</span></div>
-                        <div id="pt-lower-teeth" class="point" style="top: 56%; left: 29%;"><span class="label">أسناني لثوي</span></div>
-                        <div id="pt-alveolar" class="point" style="top: 43%; left: 28%;"><span class="label">لثوي</span></div>
-                        <div id="pt-palatal" class="point" style="top: 32%; left: 49%;"><span class="label">غاري</span></div>
-                        <div id="pt-velar" class="point" style="top: 35%; left: 62%;"><span class="label">طبقي</span></div>
-                        <div id="pt-uvular" class="point" style="top: 45%; left: 70%;"><span class="label">لهوي</span></div>
-                        <div id="pt-pharyngeal" class="point" style="top: 65%; left: 75%;"><span class="label">حلقي</span></div>
-                        <div id="pt-glottal" class="point" style="top: 92%; left: 70%;"><span class="label">حنجري</span></div>
-                        <div id="pt-nasal" class="point" style="top: 20%; left: 40%;"><span class="label">الخيشوم</span></div>
+                    
+                    <div class="zoom-controls">
+                        <button type="button" onclick="zoomIn()" title="تكبير">+</button>
+                        <button type="button" onclick="resetZoom()" title="الوضع الافتراضي">↺</button>
+                        <button type="button" onclick="zoomOut()" title="تصغير">-</button>
+                    </div>
+
+                    <div class="zoom-wrapper">
+                        <div class="image-wrapper" id="imageWrapper">
+                            <img src="{{ '/images/speech.jpg' | relative_url }}" alt="المخارج الصوتية" class="speech-image">
+                            
+                            <div id="pt-lips" class="point" style="top: 48%; left: 17%;"><span class="label">شفوي</span></div>
+                            <div id="pt-teeth" class="point" style="top: 46%; left: 25%;"><span class="label">أسناني</span></div>
+                            <div id="pt-lower-teeth" class="point" style="top: 56%; left: 29%;"><span class="label">أسناني لثوي</span></div>
+                            <div id="pt-alveolar" class="point" style="top: 43%; left: 28%;"><span class="label">لثوي</span></div>
+                            <div id="pt-palatal" class="point" style="top: 32%; left: 49%;"><span class="label">غاري</span></div>
+                            <div id="pt-velar" class="point" style="top: 35%; left: 62%;"><span class="label">طبقي</span></div>
+                            <div id="pt-uvular" class="point" style="top: 45%; left: 70%;"><span class="label">لهوي</span></div>
+                            <div id="pt-pharyngeal" class="point" style="top: 65%; left: 75%;"><span class="label">حلقي</span></div>
+                            <div id="pt-glottal" class="point" style="top: 92%; left: 70%;"><span class="label">حنجري</span></div>
+                            <div id="pt-nasal" class="point" style="top: 20%; left: 40%;"><span class="label">الخيشوم</span></div>
+                        </div>
                     </div>
                 </div>
 
@@ -341,6 +384,9 @@
         }
 
         function updateAnatomy(mokhraj, manner, charValue) {
+            // إعادة حجم الصورة للوضع الطبيعي قبل عرض حرف جديد
+            resetZoom();
+
             document.querySelectorAll('.point').forEach(el => el.classList.remove('active'));
             let activeTargets = [];
             
@@ -419,6 +465,38 @@
                 observer.observe(resultSection, { attributes: true, childList: true, subtree: true });
             }
         });
+
+        // دوال التحكم في التكبير والتصغير
+        let currentZoomPercent = 100;
+        const zoomStep = 30; // نسبة الزيادة في كل ضغطة (30%)
+        const maxZoom = 250; // الحد الأقصى للتكبير (250%)
+        const minZoom = 100; // الحد الأدنى (الوضع الأصلي 100%)
+
+        function zoomIn() {
+            if (currentZoomPercent < maxZoom) {
+                currentZoomPercent += zoomStep;
+                applyZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (currentZoomPercent > minZoom) {
+                currentZoomPercent -= zoomStep;
+                applyZoom();
+            }
+        }
+
+        function resetZoom() {
+            currentZoomPercent = 100;
+            applyZoom();
+        }
+
+        function applyZoom() {
+            const wrapper = document.getElementById('imageWrapper');
+            if (wrapper) {
+                wrapper.style.width = `${currentZoomPercent}%`;
+            }
+        }
     </script>
 
     <script src="{{ '/script.js' | relative_url }}"></script>
