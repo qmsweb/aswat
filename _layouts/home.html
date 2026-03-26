@@ -101,10 +101,12 @@
         .anatomy-container h3 { color: var(--primary-color); margin-top: 0; margin-bottom: 20px; font-weight: 700;}
         .image-wrapper { position: relative; width: 100%; display: inline-block; }
         .speech-image { width: 100%; height: auto; display: block; border-radius: 10px; }
+        
+        /* تعديلات لون النقاط للبنفسجي */
         .point { position: absolute; width: 14px; height: 14px; background-color: #DEE2E6; border-radius: 50%; transform: translate(-50%, -50%); transition: all 0.4s ease; z-index: 2; }
         .point .label { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 11px; color: #6C757D; background: rgba(255, 255, 255, 0.85); padding: 2px 6px; border-radius: 4px; white-space: nowrap; transition: all 0.4s ease; pointer-events: none; }
-        .point.active { background-color: #38B000; box-shadow: 0 0 12px 4px rgba(56, 176, 0, 0.5); transform: translate(-50%, -50%) scale(1.3); z-index: 10; }
-        .point.active .label { color: #38B000; font-weight: bold; font-size: 13px; top: -28px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .point.active { background-color: var(--primary-color); box-shadow: 0 0 12px 4px rgba(127, 40, 143, 0.5); transform: translate(-50%, -50%) scale(1.3); z-index: 10; }
+        .point.active .label { color: var(--primary-color); font-weight: bold; font-size: 13px; top: -28px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
         .result-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); padding: 40px 30px; text-align: center; }
         .char-display { font-size: 5.5rem; font-weight: 700; line-height: 1; color: #ffffff; margin-bottom: 15px; }
@@ -236,6 +238,7 @@
                         
                         <div id="pt-lips" class="point" style="top: 48%; left: 17%;"><span class="label">شفوي</span></div>
                         <div id="pt-teeth" class="point" style="top: 46%; left: 25%;"><span class="label">أسناني</span></div>
+                        <div id="pt-lower-teeth" class="point" style="top: 56%; left: 24%;"><span class="label">أسلي (سفلي)</span></div>
                         <div id="pt-alveolar" class="point" style="top: 43%; left: 28%;"><span class="label">لثوي</span></div>
                         <div id="pt-palatal" class="point" style="top: 32%; left: 49%;"><span class="label">غاري</span></div>
                         <div id="pt-velar" class="point" style="top: 35%; left: 62%;"><span class="label">طبقي</span></div>
@@ -337,20 +340,31 @@
             document.body.style.overflow = 'auto'; 
         }
 
-        function updateAnatomy(mokhraj, manner) {
+        // تم التعديل لتستقبل الحرف (charValue) كمعامل ثالث
+        function updateAnatomy(mokhraj, manner, charValue) {
             document.querySelectorAll('.point').forEach(el => el.classList.remove('active'));
             let activeTargets = [];
             
             if (!mokhraj) mokhraj = '';
             if (!manner) manner = '';
+            if (!charValue) charValue = '';
 
+            // استثناء الحروف الأسلية وتوجيهها للنقطة السفلية
+            if (['س', 'ص', 'ز'].includes(charValue)) {
+                activeTargets.push('lower-teeth');
+            } 
+            // القواعد العادية لبقية الحروف
+            else {
+                if (mokhraj.includes('أسناني') || mokhraj.includes('أسنان')) activeTargets.push('teeth');
+                if (mokhraj.includes('لثوي')) activeTargets.push('alveolar');
+            }
+
+            // بقية المخارج
             if (mokhraj.includes('حنجري')) activeTargets.push('glottal');
             if (mokhraj.includes('حلقي')) activeTargets.push('pharyngeal');
             if (mokhraj.includes('لهوي')) activeTargets.push('uvular');
             if (mokhraj.includes('طبقي')) activeTargets.push('velar');
             if (mokhraj.includes('غاري')) activeTargets.push('palatal');
-            if (mokhraj.includes('لثوي')) activeTargets.push('alveolar');
-            if (mokhraj.includes('أسناني') || mokhraj.includes('أسنان')) activeTargets.push('teeth');
             if (mokhraj.includes('شفوي')) activeTargets.push('lips');
             if (manner.includes('أنفي')) activeTargets.push('nasal');
 
@@ -366,7 +380,6 @@
             
             if (resultSection && anatomySection) {
                 const observer = new MutationObserver(function(mutations) {
-                    // التحقق الدائم من حالة العرض سواء تغيرت السمة أم تغير المحتوى
                     const displayStyle = window.getComputedStyle(resultSection).display;
                     
                     if (displayStyle !== 'none') {
@@ -375,6 +388,12 @@
                         setTimeout(() => {
                             let extractedMokhraj = '';
                             let extractedManner = '';
+                            // قراءة الحرف المعروض حالياً لتمريره للدالة
+                            let currentChar = '';
+                            const charDisplayEl = document.getElementById('charDisplay');
+                            if (charDisplayEl) {
+                                currentChar = charDisplayEl.innerText.trim();
+                            }
                             
                             const details = document.querySelectorAll('.detail-card');
                             details.forEach(card => {
@@ -390,7 +409,8 @@
                                 }
                             });
                             
-                            updateAnatomy(extractedMokhraj, extractedManner);
+                            // تمرير الحرف مع المخرج وطريقة النطق
+                            updateAnatomy(extractedMokhraj, extractedManner, currentChar);
                         }, 50); 
                     } else {
                         anatomySection.style.display = 'none';
@@ -398,7 +418,6 @@
                     }
                 });
                 
-                // تمت إضافة childList و subtree لضمان عمل الدالة عند كل تغيير في البيانات
                 observer.observe(resultSection, { attributes: true, childList: true, subtree: true });
             }
         });
