@@ -188,16 +188,21 @@
         
         .class-title { font-size: 1.3rem; font-weight: 700; color: var(--primary-color); margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         
-        /* التعديل تم هنا لاستبدال المربعين بالأيقونة المطلوبة */
+        /* التعديل لفرض اللون البنفسجي على الأيقونة باستخدام خاصية mask */
         .class-title::before { 
             content: ''; 
             display: inline-block;
             width: 24px; /* يمكنك تعديل العرض حسب الحاجة */
             height: 24px; /* يمكنك تعديل الارتفاع حسب الحاجة */
-            background-image: url("{{ '/icons/s2-icon.png' | relative_url }}");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+            background-color: var(--primary-color); /* تطبيق اللون البنفسجي العام */
+            -webkit-mask-image: url("{{ '/icons/s2-icon.png' | relative_url }}");
+            mask-image: url("{{ '/icons/s2-icon.png' | relative_url }}");
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
         }
         
         .class-list { list-style: none; padding: 0; margin: 0; }
