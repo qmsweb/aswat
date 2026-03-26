@@ -1,0 +1,146 @@
+<style>
+    /* تنسيقات التذييل الأساسية */
+    .site-footer {
+        background-color: #f8f9fa;
+        padding: 40px 0 20px;
+        direction: rtl;
+        font-family: sans-serif;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+
+    /* ضمان محاذاة كل محتويات الأعمدة لليمين في الشاشات الكبيرة */
+    .footer-col {
+        text-align: right; 
+    }
+
+    .footer-col h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+    }
+
+    /* --- تنسيق الشعارات --- */
+    .footer-logos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px; /* المسافة بين الشعارات */
+        justify-content: flex-start; /* محاذاة الشعارات لليمين تحت العنوان مباشرة */
+        align-items: flex-start;
+    }
+
+    .logo-link {
+        display: block; /* تغيير ليتناسب مع أبعاد البطاقة */
+        width: 140px; /* العرض */
+        height: 70px; /* الارتفاع بنسبة 2:1 */
+        border-radius: 8px; /* الانحناء المطلوب */
+        overflow: hidden; /* يضمن عدم خروج أطراف الصورة عن الانحناء */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* ظل خفيف للبطاقة */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: transparent;
+        padding: 0; 
+    }
+
+    .logo-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .partner-logo {
+        display: block;
+        width: 100%; /* تأخذ عرض الرابط بالكامل 140px */
+        height: 100%; /* تأخذ ارتفاع الرابط بالكامل 70px */
+        object-fit: cover; /* تغطي المساحة بالكامل بدون تشوه */
+        border: none;
+        padding: 0; 
+        margin: 0;
+    }
+
+    /* تنسيق الجزء السفلي */
+    .footer-bottom {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        text-align: center;
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+        color: #777;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        gap: 20px;
+    }
+
+    .dev-logo {
+        height: 40px;
+        margin-bottom: 10px;
+    }
+
+     .dr-logo {
+        height: 70px;
+        margin-bottom: 10px;
+    }
+
+    /* تعديلات الشاشات الصغيرة (الهاتف) */
+    @media (max-width: 600px) {
+        .footer-grid {
+            gap: 40px; /* زيادة المسافة بين الأقسام لترتيب أفضل */
+        }
+        
+        .footer-col {
+            text-align: center; /* توسيط النصوص في الجوال */
+        }
+
+        .footer-logos {
+            flex-direction: column; /* جعل الشعارات كقائمة عمودية (فوق بعضها) */
+            align-items: center; /* توسيط الشعارات في منتصف الشاشة */
+            justify-content: center;
+        }
+
+        .logo-link {
+            width: 100px; /* تصغير العرض في الجوال */
+            height: 50px; /* تصغير الارتفاع في الجوال */
+        }
+    }
+</style>
+
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            
+            <div class="footer-col">
+                <h3>مواقع شقيقة</h3>
+                <div class="footer-logos">
+                    <a href="https://rawafid.jassim.one/" target="_blank" class="logo-link">
+                        <img src="images/rwfd-logo.jpg" alt="روافد" class="partner-logo">
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="footer-bottom">
+            <div>
+                <img src="images/dr-ali.png" alt="Dr Ali" class="dr-logo">
+                <br>
+                بالتعاون مع الدكتور علي إسماعيل عبدالله
+            </div>
+            <div>
+                <img src="images/jassim-black.png" alt="Jassim Logo" class="dev-logo">
+                <br>
+                فكرة وبرمجة وتطوير جاسم الفارسي - جميع الحقوق محفوظة © 2026
+            </div>
+        </div>
+    </div>
+</footer>
