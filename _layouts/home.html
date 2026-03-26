@@ -187,12 +187,17 @@
         .class-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 25px; }
         
         .class-title { font-size: 1.3rem; font-weight: 700; color: var(--primary-color); margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        /* التعديل تم هنا لاستبدال المربعين بالأيقونة المطلوبة */
         .class-title::before { 
-            content: '■ ■'; 
-            font-size: 0.7rem; 
-            letter-spacing: 2px; 
-            display: inline-block; 
-            transform: rotate(45deg); 
+            content: ''; 
+            display: inline-block;
+            width: 24px; /* يمكنك تعديل العرض حسب الحاجة */
+            height: 24px; /* يمكنك تعديل الارتفاع حسب الحاجة */
+            background-image: url("{{ '/icons/s2-icon.png' | relative_url }}");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
         
         .class-list { list-style: none; padding: 0; margin: 0; }
