@@ -95,12 +95,17 @@
 
     /* تنسيق الجزء السفلي */
     .footer-bottom {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
         text-align: center;
         border-top: 1px solid #ddd;
         padding-top: 20px;
         color: #777;
         font-size: 0.9rem;
         line-height: 1.6;
+        gap: 20px;
     }
 
     .dev-logo {
@@ -127,6 +132,11 @@
             flex-direction: column; /* جعل الشعارات كقائمة عمودية (فوق بعضها) */
             align-items: center; /* توسيط الشعارات في منتصف الشاشة */
             justify-content: center;
+        }
+
+        .logo-link {
+            width: 100px; /* تصغير العرض في الجوال */
+            height: 50px; /* تصغير الارتفاع في الجوال */
         }
     }
 </style>
@@ -171,20 +181,22 @@
             <div class="footer-col">
                 <h3>شكر خاص</h3>
                 <p class="footer-text">
-للدكتور محمد الجامودي                </p>
+للدكتور <strong>محمد الجامودي</strong>                </p>
             </div>
             
         </div>
         
         <div class="footer-bottom">
-            <img src="images/dr-ali.png" alt="Dr Ali" class="dr-logo">
-            <br>
-بالتعاون مع الدكتور علي إسماعيل عبدالله        </div>
-
-           <div class="footer-bottom">
-            <img src="images/jassim-black.png" alt="Jassim Logo" class="dev-logo">
-            <br>
-            فكرة وبرمجة وتطوير جاسم الفارسي - جميع الحقوق محفوظة © 2026
+            <div>
+                <img src="images/dr-ali.png" alt="Dr Ali" class="dr-logo">
+                <br>
+                بالتعاون مع الدكتور علي إسماعيل عبدالله
+            </div>
+            <div>
+                <img src="images/jassim-black.png" alt="Jassim Logo" class="dev-logo">
+                <br>
+                فكرة وبرمجة وتطوير جاسم الفارسي - جميع الحقوق محفوظة © 2026
+            </div>
         </div>
     </div>
 </footer>
