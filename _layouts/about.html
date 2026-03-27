@@ -83,7 +83,7 @@
         .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out; backdrop-filter: blur(2px); }
         .drawer-overlay.open { opacity: 1; visibility: visible; }
 
-        /* === قسم المحتوى (تم إزالة الحاوية وتحسين النص) === */
+        /* === قسم المحتوى === */
         .content-wrapper {
             max-width: 800px;
             margin: 60px auto 80px;
@@ -93,9 +93,21 @@
             font-size: 2.4rem;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             text-align: center;
         }
+        
+        /* تنسيق صورة الغلاف الجديدة */
+        .about-cover-img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            display: block;
+            object-fit: cover;
+        }
+
         .platform-heading {
             font-size: 1.5rem;
             font-weight: 700;
@@ -107,13 +119,13 @@
         }
         .platform-text {
             font-size: 1.15rem;
-            color: #333333; /* لون أغمق لراحة العين */
+            color: #333333; 
             margin-bottom: 25px;
-            line-height: 2; /* تباعد أفضل للأسطر */
+            line-height: 2; 
             text-align: justify;
         }
         .platform-text strong {
-            color: var(--primary-color); /* تمييز النصوص المهمة بلون الهوية */
+            color: var(--primary-color); 
             font-weight: 600;
         }
         .action-btn { 
@@ -160,7 +172,8 @@
             .nav-links { display: none; }
             .menu-toggle-btn { display: block; font-size: 1.5rem; }
             .content-wrapper { margin: 40px auto; }
-            .platform-title { font-size: 2rem; }
+            .platform-title { font-size: 2rem; margin-bottom: 20px; }
+            .about-cover-img { margin-bottom: 30px; }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
             .footer-logos { flex-direction: row; justify-content: center; flex-wrap: wrap; }
             .top-navbar { padding: 5px 0; } 
@@ -176,6 +189,8 @@
         
         <article class="content-wrapper">
             <h1 class="platform-title">عن منصة "صوامت"</h1>
+            
+            <img src="{{ '/images/cover.jpg' | relative_url }}" alt="غلاف منصة صوامت" class="about-cover-img">
             
             <p class="platform-text">
                 في خطوة جادة لتوظيف التقنية في خدمة علم الأصوات، تنطلق منصة "صوامت" كبيئة تعليمية مصممة خصيصًا لطلبة علم الأصوات. المنصة من ابتكار وتطوير الطالب <strong>جاسم بن جمعة الفارسي</strong> (تخصص التربية - لغة عربية، كلية الآداب والعلوم الإنسانية بجامعة الشرقية)، وبشراكة وتوجيه علمي من الدكتور <strong>علي إسماعيل عبدالله</strong>، أستاذ اللسانيات بالجامعة.
