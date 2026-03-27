@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -27,9 +26,8 @@
             --primary-light: #f6ecf8;
             --bg-color: #ffffff;
             --text-main: #222222;
-            --text-muted: #666666;
+            --text-muted: #555555;
             --border-color: #e5e5e5;
-            --card-bg: #ffffff;
         }
         
         * {
@@ -85,40 +83,38 @@
         .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out; backdrop-filter: blur(2px); }
         .drawer-overlay.open { opacity: 1; visibility: visible; }
 
-        /* === قسم المنصة (المحتوى الجديد) === */
-        .platform-section {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            padding: 50px 40px;
-            margin: 60px auto;
+        /* === قسم المحتوى (تم إزالة الحاوية وتحسين النص) === */
+        .content-wrapper {
             max-width: 800px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            border: 1px solid var(--border-color);
+            margin: 60px auto 80px;
+            padding: 0 15px;
         }
         .platform-title {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 25px;
+            margin-bottom: 40px;
             text-align: center;
         }
         .platform-heading {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--text-main);
-            margin: 35px 0 15px;
-            border-right: 4px solid var(--primary-color);
+            margin: 45px 0 20px;
+            border-right: 5px solid var(--primary-color);
             padding-right: 15px;
+            line-height: 1.4;
         }
         .platform-text {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            line-height: 1.9;
+            font-size: 1.15rem;
+            color: #333333; /* لون أغمق لراحة العين */
+            margin-bottom: 25px;
+            line-height: 2; /* تباعد أفضل للأسطر */
             text-align: justify;
         }
         .platform-text strong {
-            color: var(--text-main);
+            color: var(--primary-color); /* تمييز النصوص المهمة بلون الهوية */
+            font-weight: 600;
         }
         .action-btn { 
             display: inline-block; 
@@ -126,20 +122,20 @@
             background-color: var(--primary-color); 
             color: white; 
             border: none; 
-            padding: 12px 35px; 
+            padding: 14px 40px; 
             font-size: 1.1rem; 
             font-weight: 600; 
             border-radius: 12px; 
             cursor: pointer; 
             transition: all 0.3s ease; 
-            box-shadow: 0 4px 15px rgba(127, 40, 143, 0.2); 
-            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(158, 55, 176, 0.2); 
+            margin-top: 30px;
         }
         .action-btn:hover { 
             background-color: var(--primary-hover); 
             color: white; 
             transform: translateY(-2px); 
-            box-shadow: 0 6px 20px rgba(127, 40, 143, 0.3); 
+            box-shadow: 0 6px 20px rgba(158, 55, 176, 0.3); 
         }
         .center-btn {
             text-align: center;
@@ -163,8 +159,8 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .menu-toggle-btn { display: block; font-size: 1.5rem; }
-            .platform-section { padding: 30px 20px; margin: 30px auto; }
-            .platform-title { font-size: 1.8rem; }
+            .content-wrapper { margin: 40px auto; }
+            .platform-title { font-size: 2rem; }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
             .footer-logos { flex-direction: row; justify-content: center; flex-wrap: wrap; }
             .top-navbar { padding: 5px 0; } 
@@ -178,32 +174,30 @@
 
     <main class="container">
         
-        <div id="main-content-area">
-            <section class="platform-section">
-                <h1 class="platform-title">عن منصة "صوامت"</h1>
-                
-                <p class="platform-text">
-                    في خطوة جادة لتوظيف التقنية في خدمة علم الأصوات، تنطلق منصة "صوامت" كبيئة تعليمية مصممة خصيصًا لطلبة علم الأصوات. المنصة من ابتكار وتطوير الطالب <strong>جاسم بن جمعة الفارسي</strong> (تخصص التربية - لغة عربية، كلية الآداب والعلوم الإنسانية بجامعة الشرقية)، وبشراكة وتوجيه علمي من الدكتور <strong>علي إسماعيل عبدالله</strong>، أستاذ اللسانيات بالجامعة.
-                </p>
+        <article class="content-wrapper">
+            <h1 class="platform-title">عن منصة "صوامت"</h1>
+            
+            <p class="platform-text">
+                في خطوة جادة لتوظيف التقنية في خدمة علم الأصوات، تنطلق منصة "صوامت" كبيئة تعليمية مصممة خصيصًا لطلبة علم الأصوات. المنصة من ابتكار وتطوير الطالب <strong>جاسم بن جمعة الفارسي</strong> (تخصص التربية - لغة عربية، كلية الآداب والعلوم الإنسانية بجامعة الشرقية)، وبشراكة وتوجيه علمي من الدكتور <strong>علي إسماعيل عبدالله</strong>، أستاذ اللسانيات بالجامعة.
+            </p>
 
-                <h2 class="platform-heading">الهدف وآلية العمل</h2>
-                <p class="platform-text">
-                    تهدف المنصة إلى نقل دراسة الصوامت العربية من التنظير المجرد إلى التطبيق التفاعلي المباشر، مما يمكّن الطلبة من الفهم العميق والدقيق لخصائص الحروف وتصنيفاتها.
-                </p>
-                <p class="platform-text">
-                    تدشن المنصة مرحلتها الأولى بأداة تشغيلية واحدة هي <strong>"محرك البحث في الصوامت"</strong>. تعتمد آلية عمل المحرك على الاستعلام المباشر؛ حيث يدخل المستخدم الحرف (الصامت) في خانة البحث، ليقوم النظام فورًا بمعالجته واستدعاء بطاقته الصوتية الشاملة، والتي تفصل مخرج الصوت، وصفاته، وحالته الوترية بدقة علمية.
-                </p>
+            <h2 class="platform-heading">الهدف وآلية العمل</h2>
+            <p class="platform-text">
+                تهدف المنصة إلى نقل دراسة الصوامت العربية من التنظير المجرد إلى التطبيق التفاعلي المباشر، مما يمكّن الطلبة من الفهم العميق والدقيق لخصائص الحروف وتصنيفاتها.
+            </p>
+            <p class="platform-text">
+                تدشن المنصة مرحلتها الأولى بأداة تشغيلية واحدة هي <strong>"محرك البحث في الصوامت"</strong>. تعتمد آلية عمل المحرك على الاستعلام المباشر؛ حيث يدخل المستخدم الحرف (الصامت) في خانة البحث، ليقوم النظام فورًا بمعالجته واستدعاء بطاقته الصوتية الشاملة، والتي تفصل مخرج الصوت، وصفاته، وحالته الوترية بدقة علمية.
+            </p>
 
-                <h2 class="platform-heading">التطوير المستمر</h2>
-                <p class="platform-text">
-                    يعد محرك البحث النواة التأسيسية للمشروع، حيث صممت البنية التحتية للمنصة لاستيعاب أدوات تفاعلية وتحليلية أخرى يجري تطويرها حالياً، وستضاف تباعًا لتغطية مباحث أوسع في النظام الصوتي العربي، لتكون "صوامت" مرجعًا رقميًا موثوقًا للطلبة والباحثين.
-                </p>
-                
-                <div class="center-btn">
-                    <a href="{{ '/' | relative_url }}" class="action-btn">العودة للصفحة الرئيسة</a>
-                </div>
-            </section>
-        </div>
+            <h2 class="platform-heading">التطوير المستمر</h2>
+            <p class="platform-text">
+                يعد محرك البحث النواة التأسيسية للمشروع، حيث صممت البنية التحتية للمنصة لاستيعاب أدوات تفاعلية وتحليلية أخرى يجري تطويرها حالياً، وستضاف تباعًا لتغطية مباحث أوسع في النظام الصوتي العربي، لتكون "صوامت" مرجعًا رقميًا موثوقًا للطلبة والباحثين.
+            </p>
+            
+            <div class="center-btn">
+                <a href="{{ '/' | relative_url }}" class="action-btn">العودة للصفحة الرئيسة</a>
+            </div>
+        </article>
 
     </main>
 
