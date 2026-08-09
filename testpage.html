@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة صوامت - مختبر النطق المباشر</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            text-align: center;
+            padding: 50px;
+        }
+        .card {
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        #mic-waveform {
+            margin: 20px 0;
+            background-color: #1a1a1a;
+            border-radius: 5px;
+            border: 1px solid #444;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: white;
+        }
+        #recordBtn {
+            background-color: #dc3545; /* لون أحمر للتسجيل */
+        }
+        #recordBtn:hover { background-color: #c82333; }
+        
+        #stopBtn {
+            background-color: #6c757d; /* لون رمادي للإيقاف */
+            display: none; /* مخفي في البداية */
+        }
+        #stopBtn:hover { background-color: #5a6268; }
+        
+        #playBtn {
+            background-color: #28a745; /* لون أخضر للتشغيل */
+            display: none;
+        }
+        #playBtn:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>مختبر النطق: جرب بصوتك</h2>
+        <p>اضغط على زر التسجيل وانطق الحرف لترى شكل الموجة الصوتية.</p>
+        
+        <!-- الحاوية التي سيتم رسم الموجة المباشرة بداخلها -->
+        <div id="mic-waveform"></div>
+        
+        <!-- أزرار التحكم -->
+        <button id="recordBtn">🎤 بدء التسجيل</button>
+        <button id="stopBtn">⏹️ إيقاف التسجيل</button>
+        <button id="playBtn">▶️ استماع للتسجيل</button>
+    </div>
+
+    <!-- استدعاء المكتبة الأساسية وإضافة التسجيل -->
+    <script src="https://unpkg.com/wavesurfer.js@7"></script>
+    <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/record.min.js"></script>
+
+    <script>
+        // إعداد Wavesurfer
+        const wavesurfer = WaveSurfer.create({
+            container: '#mic-waveform',
+            waveColor: '#ff5555',     // لون الموجة أثناء التسجيل
+            progressColor: '#d63031',
+            barWidth: 2,
+            height: 100
+        });
+
+        // إعداد إضافة التسجيل (Record Plugin)
+        const record = wavesurfer.registerPlugin(WaveSurfer.Record.create({
+            scrollingWaveform: true, // جعل الموجة تتحرك باستمرار أثناء التحدث
+            renderRecordedAudio: true // رسم الموجة النهائية بعد التوقف لتشغيلها
+        }));
+
+        // جلب الأزرار
+        const recordBtn = document.getElementById('recordBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const playBtn = document.getElementById('playBtn');
+
+        // حدث زر التسجيل
+        recordBtn.addEventListener('click', () => {
+            record.startRecording();
+            recordBtn.style.display = 'none';
+            playBtn.style.display = 'none';
+            stopBtn.style.display = 'inline-block';
+        });
+
+        // حدث زر الإيقاف
+        stopBtn.addEventListener('click', () => {
+            record.stopRecording();
+            stopBtn.style.display = 'none';
+            recordBtn.style.display = 'inline-block';
+            recordBtn.innerText = '🎤 إعادة التسجيل';
+            playBtn.style.display = 'inline-block';
+        });
+
+        // حدث زر التشغيل (بعد انتهاء التسجيل)
+        playBtn.addEventListener('click', () => {
+            wavesurfer.playPause();
+        });
+    </script>
+</body>
+</html>
