@@ -3,116 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة صوامت - مختبر النطق المباشر</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
-            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
             text-align: center;
-            padding: 50px;
+            padding: 30px;
         }
-        .card {
-            background-color: #2d2d2d;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 600px;
+        .lab-container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 700px;
             margin: 0 auto;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        #mic-waveform {
-            margin: 20px 0;
-            background-color: #1a1a1a;
-            border-radius: 5px;
+        .wave-box {
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
             border: 1px solid #444;
         }
+        .wave-title {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+            text-align: right;
+            font-weight: bold;
+        }
+        .reference-wave { border-right: 4px solid #4CAF50; } /* أخضر للنموذج */
+        .student-wave { border-right: 4px solid #2196F3; }   /* أزرق للطالب */
+        
         button {
-            padding: 10px 20px;
+            padding: 12px 24px;
             margin: 5px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
-            color: white;
+            font-weight: bold;
+            transition: 0.3s;
         }
-        #recordBtn {
-            background-color: #dc3545; /* لون أحمر للتسجيل */
-        }
-        #recordBtn:hover { background-color: #c82333; }
+        .btn-play { background-color: #4CAF50; color: white; }
+        .btn-play:hover { background-color: #45a049; }
         
-        #stopBtn {
-            background-color: #6c757d; /* لون رمادي للإيقاف */
-            display: none; /* مخفي في البداية */
-        }
-        #stopBtn:hover { background-color: #5a6268; }
+        .btn-record { background-color: #f44336; color: white; }
+        .btn-record:hover { background-color: #da190b; }
         
-        #playBtn {
-            background-color: #28a745; /* لون أخضر للتشغيل */
-            display: none;
-        }
-        #playBtn:hover { background-color: #218838; }
+        .btn-stop { background-color: #ff9800; color: white; display: none; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>مختبر النطق: جرب بصوتك</h2>
-        <p>اضغط على زر التسجيل وانطق الحرف لترى شكل الموجة الصوتية.</p>
-        
-        <!-- الحاوية التي سيتم رسم الموجة المباشرة بداخلها -->
-        <div id="mic-waveform"></div>
-        
-        <!-- أزرار التحكم -->
-        <button id="recordBtn">🎤 بدء التسجيل</button>
-        <button id="stopBtn">⏹️ إيقاف التسجيل</button>
-        <button id="playBtn">▶️ استماع للتسجيل</button>
+    <div class="lab-container">
+        <h2 style="color: #fff;">مختبر الاستطالة: حرف (الضاد)</h2>
+        <p style="color: #aaa; margin-bottom: 30px;">استمع لنطق الأستاذ، ثم سجل صوتك وحاول مطابقة زمن الاستطالة بصرياً.</p>
+
+        <!-- موجة الأستاذ (المرجع) -->
+        <div class="wave-box reference-wave">
+            <div class="wave-title">🔊 النطق المعياري (الأستاذ)</div>
+            <div id="teacher-waveform"></div>
+            <button class="btn-play" id="playTeacherBtn">▶️ استماع للنموذج</button>
+        </div>
+
+        <!-- موجة الطالب -->
+        <div class="wave-box student-wave">
+            <div class="wave-title">🎤 نطقك (الطالب)</div>
+            <div id="student-waveform"></div>
+            <div style="margin-top: 15px;">
+                <button class="btn-record" id="recordBtn">🔴 بدء المحاكاة</button>
+                <button class="btn-stop" id="stopBtn">⏹️ إيقاف التسجيل</button>
+                <button class="btn-play" id="playStudentBtn" style="display: none;">▶️ استماع لنطقك</button>
+            </div>
+        </div>
     </div>
 
-    <!-- استدعاء المكتبة الأساسية وإضافة التسجيل -->
+    <!-- المكتبات -->
     <script src="https://unpkg.com/wavesurfer.js@7"></script>
     <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/record.min.js"></script>
 
     <script>
-        // إعداد Wavesurfer
-        const wavesurfer = WaveSurfer.create({
-            container: '#mic-waveform',
-            waveColor: '#ff5555',     // لون الموجة أثناء التسجيل
-            progressColor: '#d63031',
-            barWidth: 2,
-            height: 100
+        // 1. إعداد موجة الأستاذ (ملف صوتي مسجل مسبقاً)
+        const teacherWave = WaveSurfer.create({
+            container: '#teacher-waveform',
+            waveColor: '#4CAF50',
+            progressColor: '#2E7D32',
+            barWidth: 3,
+            height: 80,
+            url: 'https://www.w3schools.com/html/horse.ogg' // استبدله بملف صوتي لحرف الضاد
         });
 
-        // إعداد إضافة التسجيل (Record Plugin)
-        const record = wavesurfer.registerPlugin(WaveSurfer.Record.create({
-            scrollingWaveform: true, // جعل الموجة تتحرك باستمرار أثناء التحدث
-            renderRecordedAudio: true // رسم الموجة النهائية بعد التوقف لتشغيلها
+        document.getElementById('playTeacherBtn').addEventListener('click', () => {
+            teacherWave.playPause();
+        });
+
+        // 2. إعداد موجة الطالب (للتسجيل المباشر)
+        const studentWave = WaveSurfer.create({
+            container: '#student-waveform',
+            waveColor: '#2196F3',
+            progressColor: '#1565C0',
+            barWidth: 3,
+            height: 80
+        });
+
+        const recordPlugin = studentWave.registerPlugin(WaveSurfer.Record.create({
+            scrollingWaveform: true,
+            renderRecordedAudio: true
         }));
 
-        // جلب الأزرار
+        // أزرار الطالب
         const recordBtn = document.getElementById('recordBtn');
         const stopBtn = document.getElementById('stopBtn');
-        const playBtn = document.getElementById('playBtn');
+        const playStudentBtn = document.getElementById('playStudentBtn');
 
-        // حدث زر التسجيل
         recordBtn.addEventListener('click', () => {
-            record.startRecording();
+            recordPlugin.startRecording();
             recordBtn.style.display = 'none';
-            playBtn.style.display = 'none';
+            playStudentBtn.style.display = 'none';
             stopBtn.style.display = 'inline-block';
         });
 
-        // حدث زر الإيقاف
         stopBtn.addEventListener('click', () => {
-            record.stopRecording();
+            recordPlugin.stopRecording();
             stopBtn.style.display = 'none';
             recordBtn.style.display = 'inline-block';
-            recordBtn.innerText = '🎤 إعادة التسجيل';
-            playBtn.style.display = 'inline-block';
+            recordBtn.innerText = '🔄 إعادة المحاولة';
+            playStudentBtn.style.display = 'inline-block';
         });
 
-        // حدث زر التشغيل (بعد انتهاء التسجيل)
-        playBtn.addEventListener('click', () => {
-            wavesurfer.playPause();
+        playStudentBtn.addEventListener('click', () => {
+            studentWave.playPause();
         });
     </script>
 </body>
