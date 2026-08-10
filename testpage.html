@@ -12,8 +12,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
         .card {
             background: #1e1e1e;
@@ -21,16 +23,27 @@
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             text-align: center;
         }
         h2 { margin-top: 0; color: #ffffff; }
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .label {
+            text-align: right;
+            font-size: 14px;
+            color: #aaaaaa;
+            margin-bottom: -5px;
+        }
         canvas {
             width: 100%;
-            height: 200px;
+            height: 180px;
             background: #000000;
             border-radius: 8px;
-            margin: 20px 0;
             border: 1px solid #333;
         }
         button {
@@ -42,6 +55,8 @@
             font-size: 16px;
             cursor: pointer;
             transition: background 0.3s;
+            width: 100%;
+            max-width: 300px;
         }
         button:hover { background: #45a049; }
         button.recording { background: #f44336; }
@@ -50,25 +65,41 @@
 <body>
 
     <div class="card">
-        <h2>تحليل الموجة الصوتية</h2>
-        <p>انقر على الزر أدناه وانطق بعض الأصوات العربية (مثل: ضَ - دَ)</p>
-        <canvas id="oscilloscope"></canvas>
-        <br>
+        <h2>معمل الصوتيات الافتراضي (نسخة الويب)</h2>
+        <p>انقر على الزر أدناه وانطق الأصوات لمشاهدة الموجة والمخطط الطيفي.</p>
+        
+        <div class="canvas-container">
+            <div class="label">الموجة الصوتية (Waveform): قياس الشدة والزمن</div>
+            <canvas id="oscilloscope"></canvas>
+            
+            <div class="label">المخطط الطيفي (Spectrogram): قياس الترددات (Formants)</div>
+            <canvas id="spectrogram"></canvas>
+        </div>
+
         <button id="toggleMic">بدء التحليل الصوتي</button>
     </div>
 
     <script>
         const btn = document.getElementById('toggleMic');
-        const canvas = document.getElementById('oscilloscope');
-        const canvasCtx = canvas.getContext('2d');
+        
+        // إعداد كانفاس الموجة
+        const canvasOsc = document.getElementById('oscilloscope');
+        const ctxOsc = canvasOsc.getContext('2d');
+        
+        // إعداد كانفاس الطيف (مع willReadFrequently لتحسين أداء النسخ والإزاحة)
+        const canvasSpec = document.getElementById('spectrogram');
+        const ctxSpec = canvasSpec.getContext('2d', { willReadFrequently: true });
         
         let audioCtx;
         let analyser;
         let source;
         let isRecording = false;
+        let animationId;
 
         btn.onclick = async () => {
             if (isRecording) {
+                // إيقاف التسجيل
+                cancelAnimationFrame(animationId);
                 audioCtx.close();
                 isRecording = false;
                 btn.textContent = "بدء التحليل الصوتي";
@@ -77,7 +108,7 @@
             }
 
             try {
-                // طلب صلاحية الميكروفون
+                // طلب الصلاحية وبدء الميكروفون
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -86,54 +117,99 @@
                 source = audioCtx.createMediaStreamSource(stream);
                 source.connect(analyser);
                 
-                analyser.fftSize = 2048;
-                const bufferLength = analyser.frequencyBinCount;
-                const dataArray = new Uint8Array(bufferLength);
+                // دقة التحليل (fftSize) - كلما زادت زادت دقة الترددات
+                analyser.fftSize = 2048; 
+                
+                // مصفوفات البيانات
+                const bufferLengthOsc = analyser.frequencyBinCount;
+                const dataArrayOsc = new Uint8Array(bufferLengthOsc);
+                
+                const bufferLengthSpec = analyser.frequencyBinCount;
+                const dataArraySpec = new Uint8Array(bufferLengthSpec);
 
                 isRecording = true;
                 btn.textContent = "إيقاف التحليل";
                 btn.classList.add('recording');
 
-                // إعداد أبعاد الكانفاس لتجنب التشوه
-                canvas.width = canvas.clientWidth;
-                canvas.height = canvas.clientHeight;
+                // ضبط أبعاد الكانفاس لتتطابق مع العرض الفعلي
+                canvasOsc.width = canvasOsc.clientWidth;
+                canvasOsc.height = canvasOsc.clientHeight;
+                canvasSpec.width = canvasSpec.clientWidth;
+                canvasSpec.height = canvasSpec.clientHeight;
+
+                // سرعة تحرك المخطط الطيفي
+                const scrollSpeed = 2; 
 
                 function draw() {
                     if (!isRecording) return;
-                    requestAnimationFrame(draw);
+                    animationId = requestAnimationFrame(draw);
 
-                    analyser.getByteTimeDomainData(dataArray);
+                    // ==========================================
+                    // 1. رسم الموجة الصوتية (Oscilloscope)
+                    // ==========================================
+                    analyser.getByteTimeDomainData(dataArrayOsc);
 
-                    canvasCtx.fillStyle = '#000000';
-                    canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctxOsc.fillStyle = '#000000';
+                    ctxOsc.fillRect(0, 0, canvasOsc.width, canvasOsc.height);
 
-                    canvasCtx.lineWidth = 2;
-                    canvasCtx.strokeStyle = '#00ffcc';
-                    canvasCtx.beginPath();
+                    ctxOsc.lineWidth = 2;
+                    ctxOsc.strokeStyle = '#00ffcc'; // لون الموجة
+                    ctxOsc.beginPath();
 
-                    const sliceWidth = canvas.width * 1.0 / bufferLength;
+                    const sliceWidth = canvasOsc.width * 1.0 / bufferLengthOsc;
                     let x = 0;
 
-                    for (let i = 0; i < bufferLength; i++) {
-                        const v = dataArray[i] / 128.0;
-                        const y = v * canvas.height / 2;
+                    for (let i = 0; i < bufferLengthOsc; i++) {
+                        const v = dataArrayOsc[i] / 128.0;
+                        const y = v * canvasOsc.height / 2;
 
                         if (i === 0) {
-                            canvasCtx.moveTo(x, y);
+                            ctxOsc.moveTo(x, y);
                         } else {
-                            canvasCtx.lineTo(x, y);
+                            ctxOsc.lineTo(x, y);
                         }
                         x += sliceWidth;
                     }
+                    ctxOsc.lineTo(canvasOsc.width, canvasOsc.height / 2);
+                    ctxOsc.stroke();
 
-                    canvasCtx.lineTo(canvas.width, canvas.height / 2);
-                    canvasCtx.stroke();
+                    // ==========================================
+                    // 2. رسم المخطط الطيفي (Spectrogram)
+                    // ==========================================
+                    analyser.getByteFrequencyData(dataArraySpec);
+
+                    // إزاحة اللوحة الحالية لليسار لخلق تأثير الحركة
+                    ctxSpec.drawImage(canvasSpec, -scrollSpeed, 0);
+
+                    // نأخذ فقط النصف السفلي من الترددات (حوالي 0 إلى 5500 هرتز) 
+                    // لأن معظم خصائص الكلام البشري تقع في هذا النطاق
+                    const usefulBins = Math.floor(bufferLengthSpec * 0.5);
+                    const h = canvasSpec.height / usefulBins;
+
+                    for (let i = 0; i < usefulBins; i++) {
+                        // البيانات تأتي من التردد المنخفض للمرتفع
+                        const value = dataArraySpec[i]; 
+                        const percent = value / 255;
+                        
+                        // تلوين حراري داكن (أسود -> أزرق داكن -> سيان لامع)
+                        const r = Math.floor(percent * 30);
+                        const g = Math.floor(percent * 255);
+                        const b = Math.floor(percent * 200);
+                        
+                        ctxSpec.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                        
+                        // رسم العمود الجديد على الحافة اليمنى
+                        // نقوم بعكس المحور الصادي ليكون التردد المنخفض بالأسفل
+                        const y = canvasSpec.height - (i * h) - h;
+                        
+                        ctxSpec.fillRect(canvasSpec.width - scrollSpeed, y, scrollSpeed, h);
+                    }
                 }
 
                 draw();
 
             } catch (err) {
-                alert('لم نتمكن من الوصول إلى الميكروفون: ' + err);
+                alert('حدث خطأ في الوصول للميكروفون: ' + err);
             }
         };
     </script>
