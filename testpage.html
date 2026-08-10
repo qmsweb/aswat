@@ -3,140 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>معمل الصوتيات الافتراضي</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #121212;
             color: #e0e0e0;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: #1e1e1e;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 600px;
             text-align: center;
-            padding: 30px;
         }
-        .lab-container {
-            background-color: #1e1e1e;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 700px;
-            margin: 0 auto;
-            border: 1px solid #333;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .wave-box {
-            background-color: #2a2a2a;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #444;
-        }
-        .wave-title {
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 10px;
-            text-align: right;
-            font-weight: bold;
-        }
-        .reference-wave { border-right: 4px solid #4CAF50; } /* أخضر للنموذج */
-        .student-wave { border-right: 4px solid #2196F3; }   /* أزرق للطالب */
-        
-        button {
-            padding: 12px 24px;
-            margin: 5px;
-            border: none;
+        h2 { margin-top: 0; color: #ffffff; }
+        canvas {
+            width: 100%;
+            height: 200px;
+            background: #000000;
             border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
+            margin: 20px 0;
+            border: 1px solid #333;
         }
-        .btn-play { background-color: #4CAF50; color: white; }
-        .btn-play:hover { background-color: #45a049; }
-        
-        .btn-record { background-color: #f44336; color: white; }
-        .btn-record:hover { background-color: #da190b; }
-        
-        .btn-stop { background-color: #ff9800; color: white; display: none; }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover { background: #45a049; }
+        button.recording { background: #f44336; }
     </style>
 </head>
 <body>
 
-    <div class="lab-container">
-        <h2 style="color: #fff;">مختبر الاستطالة: حرف (الضاد)</h2>
-        <p style="color: #aaa; margin-bottom: 30px;">استمع لنطق الأستاذ، ثم سجل صوتك وحاول مطابقة زمن الاستطالة بصرياً.</p>
-
-        <!-- موجة الأستاذ (المرجع) -->
-        <div class="wave-box reference-wave">
-            <div class="wave-title">🔊 النطق المعياري (الأستاذ)</div>
-            <div id="teacher-waveform"></div>
-            <button class="btn-play" id="playTeacherBtn">▶️ استماع للنموذج</button>
-        </div>
-
-        <!-- موجة الطالب -->
-        <div class="wave-box student-wave">
-            <div class="wave-title">🎤 نطقك (الطالب)</div>
-            <div id="student-waveform"></div>
-            <div style="margin-top: 15px;">
-                <button class="btn-record" id="recordBtn">🔴 بدء المحاكاة</button>
-                <button class="btn-stop" id="stopBtn">⏹️ إيقاف التسجيل</button>
-                <button class="btn-play" id="playStudentBtn" style="display: none;">▶️ استماع لنطقك</button>
-            </div>
-        </div>
+    <div class="card">
+        <h2>تحليل الموجة الصوتية</h2>
+        <p>انقر على الزر أدناه وانطق بعض الأصوات العربية (مثل: ضَ - دَ)</p>
+        <canvas id="oscilloscope"></canvas>
+        <br>
+        <button id="toggleMic">بدء التحليل الصوتي</button>
     </div>
 
-    <!-- المكتبات -->
-    <script src="https://unpkg.com/wavesurfer.js@7"></script>
-    <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/record.min.js"></script>
-
     <script>
-        // 1. إعداد موجة الأستاذ (ملف صوتي مسجل مسبقاً)
-        const teacherWave = WaveSurfer.create({
-            container: '#teacher-waveform',
-            waveColor: '#4CAF50',
-            progressColor: '#2E7D32',
-            barWidth: 3,
-            height: 80,
-            url: 'https://www.w3schools.com/html/horse.ogg' // استبدله بملف صوتي لحرف الضاد
-        });
+        const btn = document.getElementById('toggleMic');
+        const canvas = document.getElementById('oscilloscope');
+        const canvasCtx = canvas.getContext('2d');
+        
+        let audioCtx;
+        let analyser;
+        let source;
+        let isRecording = false;
 
-        document.getElementById('playTeacherBtn').addEventListener('click', () => {
-            teacherWave.playPause();
-        });
+        btn.onclick = async () => {
+            if (isRecording) {
+                audioCtx.close();
+                isRecording = false;
+                btn.textContent = "بدء التحليل الصوتي";
+                btn.classList.remove('recording');
+                return;
+            }
 
-        // 2. إعداد موجة الطالب (للتسجيل المباشر)
-        const studentWave = WaveSurfer.create({
-            container: '#student-waveform',
-            waveColor: '#2196F3',
-            progressColor: '#1565C0',
-            barWidth: 3,
-            height: 80
-        });
+            try {
+                // طلب صلاحية الميكروفون
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioCtx.createAnalyser();
+                
+                source = audioCtx.createMediaStreamSource(stream);
+                source.connect(analyser);
+                
+                analyser.fftSize = 2048;
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
 
-        const recordPlugin = studentWave.registerPlugin(WaveSurfer.Record.create({
-            scrollingWaveform: true,
-            renderRecordedAudio: true
-        }));
+                isRecording = true;
+                btn.textContent = "إيقاف التحليل";
+                btn.classList.add('recording');
 
-        // أزرار الطالب
-        const recordBtn = document.getElementById('recordBtn');
-        const stopBtn = document.getElementById('stopBtn');
-        const playStudentBtn = document.getElementById('playStudentBtn');
+                // إعداد أبعاد الكانفاس لتجنب التشوه
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
 
-        recordBtn.addEventListener('click', () => {
-            recordPlugin.startRecording();
-            recordBtn.style.display = 'none';
-            playStudentBtn.style.display = 'none';
-            stopBtn.style.display = 'inline-block';
-        });
+                function draw() {
+                    if (!isRecording) return;
+                    requestAnimationFrame(draw);
 
-        stopBtn.addEventListener('click', () => {
-            recordPlugin.stopRecording();
-            stopBtn.style.display = 'none';
-            recordBtn.style.display = 'inline-block';
-            recordBtn.innerText = '🔄 إعادة المحاولة';
-            playStudentBtn.style.display = 'inline-block';
-        });
+                    analyser.getByteTimeDomainData(dataArray);
 
-        playStudentBtn.addEventListener('click', () => {
-            studentWave.playPause();
-        });
+                    canvasCtx.fillStyle = '#000000';
+                    canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    canvasCtx.lineWidth = 2;
+                    canvasCtx.strokeStyle = '#00ffcc';
+                    canvasCtx.beginPath();
+
+                    const sliceWidth = canvas.width * 1.0 / bufferLength;
+                    let x = 0;
+
+                    for (let i = 0; i < bufferLength; i++) {
+                        const v = dataArray[i] / 128.0;
+                        const y = v * canvas.height / 2;
+
+                        if (i === 0) {
+                            canvasCtx.moveTo(x, y);
+                        } else {
+                            canvasCtx.lineTo(x, y);
+                        }
+                        x += sliceWidth;
+                    }
+
+                    canvasCtx.lineTo(canvas.width, canvas.height / 2);
+                    canvasCtx.stroke();
+                }
+
+                draw();
+
+            } catch (err) {
+                alert('لم نتمكن من الوصول إلى الميكروفون: ' + err);
+            }
+        };
     </script>
 </body>
 </html>
