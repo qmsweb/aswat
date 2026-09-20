@@ -1,7 +1,3 @@
----
-layout: default
-title: بطاقات الأسئلة - صوامت
----
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -45,6 +41,8 @@ title: بطاقات الأسئلة - صوامت
             font-family: 'IBM Plex Sans Arabic', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
+
+        img { max-width: 100%; height: auto; }
 
         body {
             background-color: var(--bg-color);
@@ -160,7 +158,7 @@ title: بطاقات الأسئلة - صوامت
         .section-header { text-align: center; margin-bottom: 40px; }
         .section-title { font-size: 2rem; color: var(--text-main); display: inline-block; position: relative; }
         .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--primary-color); border-radius: 2px; }
-        .classification-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+        .classification-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr)); gap: 25px; }
         .class-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 25px; }
         
         .class-title { font-size: 1.3rem; font-weight: 700; color: var(--primary-color); margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }

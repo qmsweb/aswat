@@ -107,4 +107,5 @@ function toggleMenu() {
 }
 
 // إغلاق القائمة عند النقر على الخلفية المعتمة
-document.getElementById('overlay').addEventListener('click', toggleMenu);
+var overlayEl = document.getElementById('overlay');
+if (overlayEl) overlayEl.addEventListener('click', toggleMenu);

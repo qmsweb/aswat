@@ -86,8 +86,9 @@
             /* استخدام visibility و opacity لعمل حركة ظهور ناعمة */
             display: flex !important;
             flex-direction: column !important;
-            justify-content: center !important;
+            justify-content: flex-start !important;
             align-items: center !important;
+            overflow-y: auto !important;
             visibility: hidden;
             opacity: 0;
             transition: opacity 0.4s ease, visibility 0.4s ease !important;
@@ -167,8 +168,8 @@
             justify-content: center !important;
             gap: 35px !important;
             width: 100% !important;
-            padding: 0 !important;
-            margin: 0 !important;
+            padding: 90px 0 40px !important;
+            margin: auto 0 !important;
             list-style: none !important;
         }
 
@@ -217,20 +218,51 @@
 
         /* أوقات التأخير لعمل التأثير التتابعي لكل عنصر */
         .mobile-drawer.open .drawer-links a:nth-child(1) { transition-delay: 0.1s !important; }
-        .mobile-drawer.open .drawer-links a:nth-child(2) { transition-delay: 0.2s !important; }
-        .mobile-drawer.open .drawer-links a:nth-child(3) { transition-delay: 0.3s !important; }
+        .mobile-drawer.open .drawer-links a:nth-child(2) { transition-delay: 0.15s !important; }
+        .mobile-drawer.open .drawer-links a:nth-child(3) { transition-delay: 0.2s !important; }
+        .mobile-drawer.open .drawer-links a:nth-child(4) { transition-delay: 0.25s !important; }
+        .mobile-drawer.open .drawer-links a:nth-child(5) { transition-delay: 0.3s !important; }
+        .mobile-drawer.open .drawer-links a:nth-child(6) { transition-delay: 0.35s !important; }
+        .mobile-drawer.open .drawer-links a:nth-child(7) { transition-delay: 0.4s !important; }
+
+        /* ========================================================= */
+        /* الشاشات المتوسطة (أجهزة لوحية): منع تزاحم روابط الشريط العلوي */
+        /* ========================================================= */
+        @media (min-width: 769px) and (max-width: 1100px) {
+            .navbar-content {
+                flex-wrap: wrap;
+                row-gap: 8px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                gap: 14px;
+            }
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+            .brand-logo {
+                height: 36px;
+            }
+        }
     }
 </style>
 
 <header class="top-navbar">
     <div class="container navbar-content">
         <div class="brand">
-            <img src="https://github.com/qmsweb/aswat/raw/main/images/sawamet-logo.png" alt="شعار صوامت" class="brand-logo" style="max-height: 40px;">
+            <a href="{{ '/' | relative_url }}" title="الصفحة الرئيسة" aria-label="الصفحة الرئيسة">
+                <img src="{{ '/images/sawamet-logo.png' | relative_url }}" alt="شعار صوامت" class="brand-logo" style="max-height: 40px;">
+            </a>
         </div>
         
         <nav class="nav-links">
-            <a href="https://sawamet.jassim.one/about.html">عن المنصة</a>
-            <a href="https://rawafid.jassim.one/">روافد</a>
+            <a href="{{ '/' | relative_url }}">الرئيسة</a>
+            <a href="{{ '/about.html' | relative_url }}">عن المنصة</a>
+            <a href="{{ '/card.html' | relative_url }}">البطاقات</a>
+            <a href="{{ '/quiz.html?i=1' | relative_url }}">الاختبارات</a>
+            <a href="{{ '/qr.html' | relative_url }}">رمز QR</a>
+            <a href="https://rawafid.jassim.one/" target="_blank">روافد</a>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
         </nav>
 
@@ -246,7 +278,7 @@
 
 <div class="mobile-drawer" id="mobileDrawer">
     
-    <img src="/icons/favicon.png" alt="شعار صوامت" class="drawer-logo">
+    <img src="{{ '/icons/favicon.png' | relative_url }}" alt="شعار صوامت" class="drawer-logo">
 
     <div class="drawer-header">
         <h2 class="drawer-title">القائمة الرئيسية</h2>
@@ -254,10 +286,12 @@
     </div>
     
     <nav class="drawer-links">
-        <a href="https://sawamet.jassim.one/">الصفحة الرئيسة</a>
-        <a href="https://sawamet.jassim.one/about">عن المنصة</a>
-        <a href="https://sawamet.jassim.one/qr">رمز الاستجابة السريعة (QR)</a>
-        <a href="https://rawafid.jassim.one/">منصة روافد</a>
+        <a href="{{ '/' | relative_url }}">الصفحة الرئيسة</a>
+        <a href="{{ '/about.html' | relative_url }}">عن المنصة</a>
+        <a href="{{ '/card.html' | relative_url }}">بطاقات الأسئلة</a>
+        <a href="{{ '/quiz.html?i=1' | relative_url }}">الاختبارات</a>
+        <a href="{{ '/qr.html' | relative_url }}">رمز الاستجابة السريعة (QR)</a>
+        <a href="https://rawafid.jassim.one/" target="_blank">منصة روافد</a>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
     </nav>
     
@@ -286,5 +320,62 @@
         if (overlay) {
             overlay.style.display = 'none';
         }
+    }
+</script>
+
+<script>
+    // حفظ الشعار في المتصفح (localStorage) كي لا يُعاد تحميله من الشبكة في كل زيارة
+    (function () {
+        var LOGO_KEY = 'sawamet-logo-v1';
+        var LOGO_URL = '{{ "/images/sawamet-logo.png" | relative_url }}';
+
+        function applyCachedLogo(src) {
+            var imgs = document.querySelectorAll('.brand-logo, .drawer-logo, #print-only-logo img, img[alt="شعار صوامت"]');
+            for (var i = 0; i < imgs.length; i++) {
+                if (imgs[i].getAttribute('data-logo-cached')) continue;
+                imgs[i].setAttribute('src', src);
+                imgs[i].setAttribute('data-logo-cached', '1');
+            }
+        }
+
+        function cacheLogo() {
+            if (!('fetch' in window)) return;
+            fetch(LOGO_URL)
+                .then(function (res) {
+                    if (!res.ok) throw new Error('logo');
+                    return res.blob();
+                })
+                .then(function (blob) {
+                    if (blob.size > 4 * 1024 * 1024) return;
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        try { localStorage.setItem(LOGO_KEY, reader.result); } catch (e) {}
+                        applyCachedLogo(reader.result);
+                    };
+                    reader.readAsDataURL(blob);
+                })
+                .catch(function () {});
+        }
+
+        try {
+            var stored = localStorage.getItem(LOGO_KEY);
+            if (stored) {
+                applyCachedLogo(stored);
+                document.addEventListener('DOMContentLoaded', function () { applyCachedLogo(stored); });
+            } else if ('requestIdleCallback' in window) {
+                requestIdleCallback(cacheLogo, { timeout: 3000 });
+            } else {
+                setTimeout(cacheLogo, 1500);
+            }
+        } catch (e) {}
+    })();
+</script>
+
+<script>
+    // تسجيل عامل الخدمة لتخزين الشعار والملفات الثابتة في المتصفح (يفعّل مرة واحدة فقط)
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('{{ "/sw.js" | relative_url }}').catch(function () {});
+        });
     }
 </script>

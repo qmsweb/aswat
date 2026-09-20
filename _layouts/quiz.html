@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400..800&display=swap" rel="stylesheet">
-    <link rel="icon" href="{{ '/images/favicon.png' | relative_url }}" type="image/jpg">
+    <link rel="icon" href="{{ '/icons/favicon.png' | relative_url }}" type="image/jpg">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     
@@ -18,14 +18,14 @@
 
     <meta property="og:title" content="{{ page.title }} - صوامت" id="og-title">
     <meta property="og:description" content="{{ page.description | default: 'تصفح واستخدم أداة الصوامت العربية بسهولة.' }}" id="og-description">
-    <meta property="og:image" content="{{ page.image | default: '/images/cover3.png' | relative_url }}" id="og-image">
+    <meta property="og:image" content="{{ page.image | default: '/images/cover.jpg' | relative_url }}" id="og-image">
     <meta property="og:url" content="{{ page.url | absolute_url }}">
     <meta property="og:type" content="website">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ page.title }} - صوامت">
     <meta name="twitter:description" content="{{ page.description | default: 'تصفح واستخدم أداة الصوامت العربية بسهولة.' }}">
-    <meta name="twitter:image" content="{{ page.image | default: '/images/cover3.png' | relative_url }}">
+    <meta name="twitter:image" content="{{ page.image | default: '/images/cover.jpg' | relative_url }}">
 
     <script>
         (function() {
@@ -93,6 +93,8 @@
             font-family: "IBM Plex Sans Arabic", sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
+
+        img { max-width: 100%; height: auto; }
 
         body {
             background-color: var(--bg-body);
@@ -215,6 +217,9 @@
         .correct { color: var(--correct-bg); }
 
         .quiz-info-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 25px; text-align: center; border-radius: 12px; overflow: hidden; font-family: "IBM Plex Sans Arabic", sans-serif; border: 1px solid var(--border-color); }
+
+        /* حاوية قابلة للتمرير للجداول على الشاشات الصغيرة */
+        .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .quiz-info-table th, .quiz-info-table td { border-bottom: 1px solid var(--border-color); border-left: 1px solid var(--border-color); padding: 12px; color: var(--text-main); }
         .quiz-info-table th:last-child, .quiz-info-table td:last-child { border-left: none; }
         .quiz-info-table tr:last-child td { border-bottom: none; }
@@ -243,6 +248,8 @@
             .top-navbar { padding: 5px 0; } 
             .brand-logo { height: 32px; } 
             .quiz-container { margin: 20px auto; border-radius: 0; border-left: none; border-right: none; }
+            .quiz-header { gap: 15px; }
+            .question-text { flex-direction: column; align-items: stretch; gap: 8px; }
         }
 
         /* === إعدادات الطباعة === */
@@ -325,60 +332,64 @@
                 <img src="{{ '/icons/favicon.png' | relative_url }}" alt="Quiz Icon">
             </div>
 
-            <table class="quiz-info-table" id="quiz-info-table">
-                <thead>
-                    <tr>
-                        <th>اسم المقرر</th>
-                        <th>رمز المقرر</th>
-                        <th>الدرجة الكلية</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td id="subject-name"></td>
-                        <td id="subject-code"></td>
-                        <td id="subject-total-score"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-scroll">
+                <table class="quiz-info-table" id="quiz-info-table">
+                    <thead>
+                        <tr>
+                            <th>اسم المقرر</th>
+                            <th>رمز المقرر</th>
+                            <th>الدرجة الكلية</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="subject-name"></td>
+                            <td id="subject-code"></td>
+                            <td id="subject-total-score"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <table id="print-eval-table">
-                <thead>
-                    <tr>
-                        <th colspan="4" style="font-size: 18px;">جدول التقييم الذاتي للطالب</th>
-                    </tr>
-                    <tr>
-                        <th style="width: 40%;">معيار التقييم</th>
-                        <th style="width: 20%;">ممتاز</th>
-                        <th style="width: 20%;">جيد جدًا</th>
-                        <th style="width: 20%;">بحاجة للمراجعة</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="text-align: right;">فهم الأسئلة واستيعاب المطلوب</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;">دقة الإجابات وصحتها العلمية</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;">إدارة الوقت أثناء الحل</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right;"><strong>التقدير العام للمستوى</strong></td>
-                        <td colspan="3"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-scroll">
+                <table id="print-eval-table">
+                    <thead>
+                        <tr>
+                            <th colspan="4" style="font-size: 18px;">جدول التقييم الذاتي للطالب</th>
+                        </tr>
+                        <tr>
+                            <th style="width: 40%;">معيار التقييم</th>
+                            <th style="width: 20%;">ممتاز</th>
+                            <th style="width: 20%;">جيد جدًا</th>
+                            <th style="width: 20%;">بحاجة للمراجعة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: right;">فهم الأسئلة واستيعاب المطلوب</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">دقة الإجابات وصحتها العلمية</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">إدارة الوقت أثناء الحل</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;"><strong>التقدير العام للمستوى</strong></td>
+                            <td colspan="3"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div id="questions-container"></div>
