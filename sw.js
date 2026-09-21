@@ -3,13 +3,15 @@
  * يخزّن الشعار والصور والملفات الثابتة في المتصفح لتجنّب تحميلها كل مرة.
  * هذا الملف لا يخزّن بيانات شخصية ولا يرسل أي طلبات خارج نطاق الموقع.
  */
-var CACHE_VERSION = 'sawamet-v2';
+var CACHE_VERSION = 'sawamet-v3';
 var CORE_CACHE = 'sawamet-core-' + CACHE_VERSION;
 var IMAGE_CACHE = 'sawamet-images-' + CACHE_VERSION;
 
 var CORE_ASSETS = [
   './',
+  './css/style.css',
   './script.js',
+  './menu.js',
   './images/sawamet-logo.png',
   './icons/favicon.png'
 ];
@@ -69,7 +71,7 @@ self.addEventListener('fetch', function (event) {
   }
 
   /* ملفات التشغيل الأساسية: استخدم النسخة المخزنة فوراً ثم حدّثها في الخلفية */
-  if (url.pathname === '/script.js' || url.pathname === '/data.js') {
+  if (url.pathname === '/script.js' || url.pathname === '/menu.js' || url.pathname === '/css/style.css') {
     event.respondWith(
       caches.match(request).then(function (cached) {
         var network = fetch(request).then(function (response) {

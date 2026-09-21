@@ -13,12 +13,14 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ page.url | absolute_url }}" />
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="{{ '/icons/favicon.png' | relative_url }}" type="image/jpg">
-    
+
+    <link rel="stylesheet" href="{{ '/css/style.css' | relative_url }}">
+
     <style>
         :root {
             --primary-color: #9e37b0;
@@ -30,78 +32,48 @@
             --border-color: #e5e5e5;
             --card-bg: #ffffff;
         }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+
+        /* === قسم البحث في الصفحة الرئيسة === */
+        .search-input {
             font-family: 'IBM Plex Sans Arabic', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-size: 2rem;
+            padding: 10px;
+            width: 80px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--primary-color);
+            font-weight: 700;
+            transition: all 0.3s ease;
         }
-
-        img { max-width: 100%; height: auto; }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.7;
-        }
-        
-        a { text-decoration: none; color: var(--primary-color); transition: color 0.3s; }
-        a:hover { color: var(--primary-hover); }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* === الشريط العلوي === */
-        .top-navbar { background-color: var(--primary-color); padding: 15px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.1); }
-        .navbar-content { display: flex; justify-content: space-between; align-items: center; }
-        .brand { display: flex; align-items: center; gap: 12px; }
-        .brand-logo { height: 45px; width: auto; }
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-links a { font-weight: 500; color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; }
-        .nav-links a:hover { color: #ffffff; }
-        .menu-toggle-btn { display: none; background: none; border: none; color: #ffffff; font-size: 1.8rem; cursor: pointer; padding: 0; }
-
-        /* === القائمة الجانبية (للموبايل) === */
-        .mobile-drawer { position: fixed; top: 0; right: -320px; width: 320px; max-width: 100%; height: 100vh; background-color: var(--bg-color); z-index: 1000; box-shadow: -5px 0 15px rgba(0,0,0,0.05); transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1); display: flex; flex-direction: column; border-top-left-radius: 24px; border-bottom-left-radius: 24px; }
-        .mobile-drawer.open { right: 0; }
-        .drawer-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); padding: 30px 25px; display: flex; justify-content: space-between; align-items: center; border-top-left-radius: 24px; }
-        .drawer-title { margin: 0; color: #ffffff; font-size: 1.4rem; font-weight: 700; }
-        .close-drawer-btn { background: rgba(255, 255, 255, 0.2); border: none; color: #ffffff; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; }
-        .close-drawer-btn:hover { background: rgba(255, 255, 255, 0.4); }
-        .drawer-links { padding: 30px 20px; display: flex; flex-direction: column; gap: 15px; flex: 1; }
-        .drawer-links a { font-size: 1.1rem; color: var(--primary-color); background-color: var(--primary-light); font-weight: 600; padding: 15px 20px; border-radius: 12px; display: flex; align-items: center; transition: all 0.3s ease; }
-        .drawer-links a::before { content: ''; display: inline-block; width: 8px; height: 8px; background-color: var(--primary-color); border-radius: 50%; margin-left: 15px; transition: all 0.3s ease; }
-        .drawer-links a:hover { background-color: var(--primary-color); color: #ffffff; }
-        .drawer-links a:hover::before { background-color: #ffffff; }
-        .drawer-footer { padding: 20px; text-align: center; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem; }
-        .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out; backdrop-filter: blur(2px); }
-        .drawer-overlay.open { opacity: 1; visibility: visible; }
-
-        /* === قسم البحث === */
-        .hero-section { text-align: center; padding: 60px 20px 40px; }
-        .hero-title { font-size: 2.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 10px; margin-top: 0; }
-        .hero-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; }
-        .search-container { max-width: 500px; margin: 0 auto; background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid var(--border-color); }
-        .search-box { display: flex; gap: 15px; justify-content: center; align-items: stretch; }
-        .search-input { font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 2rem; padding: 10px; width: 80px; text-align: center; border: 2px solid var(--border-color); border-radius: 12px; color: var(--primary-color); font-weight: 700; transition: all 0.3s ease; }
         .search-input:focus { border-color: var(--primary-color); outline: none; }
-        .search-btn { font-family: 'IBM Plex Sans Arabic', sans-serif; background-color: var(--primary-color); color: white; border: none; padding: 0 35px; font-size: 1.1rem; font-weight: 600; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; }
+        .search-btn {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
         .search-btn:hover { background-color: var(--primary-hover); }
 
-        /* === قسم النتائج وتخطيط المحتوى === */
-        .content-wrapper { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 1100px; margin: 0 auto 50px; }
-        
-        .result-section { display: none; margin: 0; flex: 1; min-width: min(300px, 100%); max-width: 600px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden; }
-        
         /* === تنسيقات حاوية الرسم التوضيحي والتكبير === */
-        .anatomy-container { background: var(--card-bg); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); text-align: center; width: 400px; max-width: 100%; display: none; }
-        .anatomy-container h3 { color: var(--primary-color); margin-top: 0; margin-bottom: 20px; font-weight: 700;}
-        
+        .anatomy-container {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            width: 400px;
+            max-width: 100%;
+            display: none;
+        }
+        .anatomy-container h3 { color: var(--primary-color); margin-top: 0; margin-bottom: 20px; font-weight: 700; }
+
         .zoom-controls {
             display: flex;
             justify-content: center;
@@ -134,69 +106,55 @@
             scrollbar-width: thin;
             scrollbar-color: var(--primary-color) var(--primary-light);
         }
-
         .image-wrapper { position: relative; width: 100%; display: inline-block; transition: width 0.3s ease; }
         .speech-image { width: 100%; height: auto; display: block; border-radius: 10px; }
-        
-        /* تعديلات لون النقاط للبنفسجي */
-        .point { position: absolute; width: 14px; height: 14px; background-color: #DEE2E6; border-radius: 50%; transform: translate(-50%, -50%); transition: all 0.4s ease; z-index: 2; }
-        .point .label { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 11px; color: #6C757D; background: rgba(255, 255, 255, 0.85); padding: 2px 6px; border-radius: 4px; white-space: nowrap; transition: all 0.4s ease; pointer-events: none; }
-        .point.active { background-color: var(--primary-color); box-shadow: 0 0 12px 4px rgba(127, 40, 143, 0.5); transform: translate(-50%, -50%) scale(1.3); z-index: 10; }
-        .point.active .label { color: var(--primary-color); font-weight: bold; font-size: 13px; top: -28px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        .result-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); padding: 40px 30px; text-align: center; }
-        .char-display { font-size: 5.5rem; font-weight: 700; line-height: 1; color: #ffffff; margin-bottom: 15px; }
-        .char-name { font-size: 1.6rem; font-weight: 600; color: rgba(255, 255, 255, 0.9); margin: 0; }
+        .point {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background-color: #DEE2E6;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
+            z-index: 2;
+        }
+        .point .label {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #6C757D;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 2px 6px;
+            border-radius: 4px;
+            white-space: nowrap;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+        .point.active {
+            background-color: var(--primary-color);
+            box-shadow: 0 0 12px 4px rgba(127, 40, 143, 0.5);
+            transform: translate(-50%, -50%) scale(1.3);
+            z-index: 10;
+        }
+        .point.active .label {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 13px;
+            top: -28px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-        /* === تصميم بطاقات التفاصيل === */
-        .details-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 20px; 
-            padding: 30px; 
-            background-color: #ffffff; 
-        }
-        .detail-card { 
-            padding: 20px 15px; 
-            border-radius: 12px; 
-            background-color: #f8f9fa;
-            border: 1px solid var(--border-color);
-            text-align: center; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center;
-        }
-        .detail-title { 
-            font-size: 0.95rem; 
-            color: var(--text-muted); 
-            margin-bottom: 8px; 
-            font-weight: 500; 
-        }
-        .detail-value { 
-            font-size: 1.2rem; 
-            font-weight: 700; 
-            color: var(--text-main); 
-        }
-        .error-message { color: #e74c3c; text-align: center; font-size: 1.1rem; padding: 30px; font-weight: 500; }
-
-        /* === قسم التصنيفات === */
-        .classification-section { margin: 60px 0; }
-        .section-header { text-align: center; margin-bottom: 40px; }
-        .section-title { font-size: 2rem; color: var(--text-main); display: inline-block; position: relative; }
-        .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--primary-color); border-radius: 2px; }
-        .classification-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr)); gap: 25px; }
-        .class-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 25px; }
-        
-        .class-title { font-size: 1.3rem; font-weight: 700; color: var(--primary-color); margin-top: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        
-        /* التعديل لفرض اللون البنفسجي على الأيقونة باستخدام خاصية mask */
-        .class-title::before { 
-            content: ''; 
+        /* الأيقونة البنفسجية لبطاقات التصنيف باستخدام خاصية mask */
+        .class-title::before {
+            content: '';
             display: inline-block;
-            width: 24px; /* يمكنك تعديل العرض حسب الحاجة */
-            height: 24px; /* يمكنك تعديل الارتفاع حسب الحاجة */
-            background-color: var(--primary-color); /* تطبيق اللون البنفسجي العام */
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary-color);
             -webkit-mask-image: url("{{ '/icons/s2-icon.png' | relative_url }}");
             mask-image: url("{{ '/icons/s2-icon.png' | relative_url }}");
             -webkit-mask-size: contain;
@@ -206,52 +164,6 @@
             -webkit-mask-position: center;
             mask-position: center;
         }
-        
-        .class-list { list-style: none; padding: 0; margin: 0; }
-        .class-list li { padding: 10px 0; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
-        .class-list li:last-child { border-bottom: none; padding-bottom: 0; }
-        .class-list strong { color: var(--text-main); font-weight: 600; margin-left: 5px; }
-
-        /* === التذييل === */
-        .site-footer { background-color: #fafafa; border-top: 1px solid var(--border-color); padding: 60px 0 20px; margin-top: 60px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        .footer-col h3 { font-size: 1.2rem; color: var(--primary-color); margin-bottom: 20px; font-weight: 700; }
-        .footer-text { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; }
-        .footer-links-list { list-style: none; padding: 0; margin: 0; }
-        .footer-links-list li { margin-bottom: 12px; }
-        .footer-links-list a { color: var(--text-muted); }
-        .footer-links-list a:hover { color: var(--primary-color); padding-right: 5px; }
-        .footer-logos { display: flex; flex-direction: column; gap: 15px; }
-        .logo-placeholder { height: 50px; background-color: white; border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem; font-weight: 500; padding: 5px 15px; }
-        .logo-placeholder img { max-height: 100%; max-width: 100%; object-fit: contain; }
-        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem; }
-
-        /* === التجاوب === */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .menu-toggle-btn { display: block; font-size: 1.5rem; }
-            .hero-title { font-size: 2rem; }
-            .search-box { flex-direction: column; }
-            .search-input { width: 100%; }
-            .search-btn { padding: 15px; }
-            
-            .details-grid { 
-                grid-template-columns: repeat(2, 1fr); 
-                padding: 20px; 
-                gap: 15px; 
-            }
-            .detail-card { padding: 15px; }
-
-            .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
-            .footer-logos { flex-direction: row; justify-content: center; flex-wrap: wrap; }
-            
-            .top-navbar { padding: 5px 0; } 
-            .brand-logo { height: 32px; } 
-        }
-        
-        @media (max-width: 480px) {
-            .details-grid { grid-template-columns: 1fr; }
-        }
     </style>
 </head>
 <body>
@@ -259,14 +171,14 @@
     {% include header.html %}
 
     <main class="container">
-        
+
         {{ content }}
-        
+
         <div id="main-content-area">
             <section class="hero-section">
                 <h2 class="hero-title">محرك البحث في الصوامت</h2>
                 <p class="hero-subtitle">أدخل أي حرف عربي صامت لمعرفة مخرجه، طريقة نطقه، والمزيد من التفاصيل الدقيقة.</p>
-                
+
                 <div class="search-container">
                     <div class="search-box">
                         <input type="text" id="charInput" class="search-input" maxlength="2" placeholder="أ" onkeyup="if(event.key === 'Enter') searchPhonetic()">
@@ -274,12 +186,12 @@
                     </div>
                 </div>
             </section>
-            
+
             <div class="content-wrapper">
-                
+
                 <div class="anatomy-container" id="anatomySection">
                     <h3>المخرج على الجهاز النطقي</h3>
-                    
+
                     <div class="zoom-controls">
                         <button type="button" onclick="zoomIn()" title="تكبير">+</button>
                         <button type="button" onclick="resetZoom()" title="الوضع الافتراضي">↺</button>
@@ -289,7 +201,7 @@
                     <div class="zoom-wrapper">
                         <div class="image-wrapper" id="imageWrapper">
                             <img src="{{ '/images/speech.jpg' | relative_url }}" alt="المخارج الصوتية" class="speech-image">
-                            
+
                             <div id="pt-lips" class="point" style="top: 48%; left: 17%;"><span class="label">شفوي</span></div>
                             <div id="pt-teeth" class="point" style="top: 46%; left: 25%;"><span class="label">أسناني</span></div>
                             <div id="pt-lower-teeth" class="point" style="top: 56%; left: 29%;"><span class="label">أسناني لثوي</span></div>
@@ -309,20 +221,20 @@
                         <div id="charDisplay" class="char-display"></div>
                         <h3 id="charName" class="char-name"></h3>
                     </div>
-                    
+
                     <div class="details-grid" id="resultDetails">
                     </div>
                 </section>
 
             </div>
-            
+
             <section class="classification-section">
                 <div class="section-header">
                     <h2 class="section-title">تصنيف الصوامت</h2>
                 </div>
-                
+
                 <div class="classification-grid">
-                    
+
                     <div class="class-card">
                         <h3 class="class-title">حسب المخرج</h3>
                         <ul class="class-list">
@@ -338,7 +250,7 @@
                             <li><strong>الحنجرية:</strong> الهمزة، الهاء</li>
                         </ul>
                     </div>
-                    
+
                     <div class="class-card">
                         <h3 class="class-title">حسب اهتزاز الوترين</h3>
                         <ul class="class-list">
@@ -350,7 +262,7 @@
                             الهمزة</li>
                         </ul>
                     </div>
-                    
+
                     <div class="class-card">
                         <h3 class="class-title">حسب طريقة النطق</h3>
                         <ul class="class-list">
@@ -363,7 +275,7 @@
                             <li><strong>الاستمرارية:</strong> الواو، الياء</li>
                         </ul>
                     </div>
-                    
+
                     <div class="class-card">
                         <h3 class="class-title">حسب شكل اللسان</h3>
                         <ul class="class-list">
@@ -373,7 +285,7 @@
                             بقية الأحرف (24 حرفاً)</li>
                         </ul>
                     </div>
-                    
+
                 </div>
             </section>
         </div>
@@ -383,25 +295,13 @@
     {% include footer.html %}
 
     <script>
-        function openDrawer() {
-            document.getElementById('mobileDrawer').classList.add('open');
-            document.getElementById('drawerOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden'; 
-        }
-
-        function closeDrawer() {
-            document.getElementById('mobileDrawer').classList.remove('open');
-            document.getElementById('drawerOverlay').classList.remove('open');
-            document.body.style.overflow = 'auto'; 
-        }
-
         function updateAnatomy(mokhraj, manner, charValue) {
             // إعادة حجم الصورة للوضع الطبيعي قبل عرض حرف جديد
             resetZoom();
 
             document.querySelectorAll('.point').forEach(el => el.classList.remove('active'));
             let activeTargets = [];
-            
+
             if (!mokhraj) mokhraj = '';
             if (!manner) manner = '';
             if (!charValue) charValue = '';
@@ -409,7 +309,7 @@
             // توجيه الحروف (س، ص، ز) للنقطة السفلية المخصصة لها
             if (['س', 'ص', 'ز'].includes(charValue)) {
                 activeTargets.push('lower-teeth');
-            } 
+            }
             // القواعد العادية لبقية الحروف
             else {
                 if (mokhraj.includes('أسناني') || mokhraj.includes('أسنان')) activeTargets.push('teeth');
@@ -434,24 +334,24 @@
         document.addEventListener('DOMContentLoaded', function() {
             const resultSection = document.getElementById('resultSection');
             const anatomySection = document.getElementById('anatomySection');
-            
+
             if (resultSection && anatomySection) {
                 const observer = new MutationObserver(function(mutations) {
                     const displayStyle = window.getComputedStyle(resultSection).display;
-                    
+
                     if (displayStyle !== 'none') {
                         anatomySection.style.display = 'block';
-                        
+
                         setTimeout(() => {
                             let extractedMokhraj = '';
                             let extractedManner = '';
                             let currentChar = '';
-                            
+
                             const charDisplayEl = document.getElementById('charDisplay');
                             if (charDisplayEl) {
                                 currentChar = charDisplayEl.innerText.trim();
                             }
-                            
+
                             const details = document.querySelectorAll('.detail-card');
                             details.forEach(card => {
                                 const title = card.querySelector('.detail-title');
@@ -465,15 +365,15 @@
                                     }
                                 }
                             });
-                            
+
                             updateAnatomy(extractedMokhraj, extractedManner, currentChar);
-                        }, 50); 
+                        }, 50);
                     } else {
                         anatomySection.style.display = 'none';
                         document.querySelectorAll('.point').forEach(el => el.classList.remove('active'));
                     }
                 });
-                
+
                 observer.observe(resultSection, { attributes: true, childList: true, subtree: true });
             }
         });

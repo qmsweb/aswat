@@ -1,253 +1,3 @@
-<style>
-    /* ========================================================= */
-    /* إعدادات الشاشات الكبيرة (سطح المكتب) */
-    /* ========================================================= */
-    /* إخفاء عناصر الجوال في الشاشات الكبيرة للحفاظ على التصميم المثالي */
-    .menu-toggle-btn, .mobile-drawer, .drawer-overlay {
-        display: none !important;
-    }
-
-    /* ========================================================= */
-    /* تخصيص شاشات الجوال (عرض الشاشة 768 بكسل فأقل) */
-    /* ========================================================= */
-    @media (max-width: 768px) {
-        .navbar-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            min-height: 60px;
-        }
-
-        /* إخفاء روابط سطح المكتب على الجوال */
-        .nav-links {
-            display: none !important;
-        }
-
-        /* توسيط الشعار في المنتصف تماماً */
-        .brand {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            margin: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        /* تنسيق زر القائمة (على اليمين) */
-        .menu-toggle-btn {
-            position: absolute;
-            right: 15px; 
-            z-index: 1001;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0 !important;
-        }
-
-        /* أيقونة القائمة باللون الأبيض */
-        .menu-toggle-btn svg {
-            fill: #ffffff !important;
-            width: 32px;
-            height: 32px;
-        }
-
-        /* --------------------------------------------------------- */
-        /* تصميم القائمة الزجاجية (Blur) وفرض السيطرة على الكود القديم */
-        /* --------------------------------------------------------- */
-        
-        /* إخفاء غطاء التعتيم القديم الخاص بالكمبيوتر */
-        .drawer-overlay {
-            display: none !important;
-        }
-
-        /* حاوية القائمة ملء الشاشة */
-        .mobile-drawer {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100% !important;
-            height: 100vh !important;
-            max-width: 100% !important; 
-            
-            /* خلفية زجاجية ضبابية شفافة */
-            background-color: rgba(0, 0, 0, 0.5) !important; 
-            backdrop-filter: blur(15px) !important;
-            -webkit-backdrop-filter: blur(15px) !important;
-            
-            z-index: 9999 !important; 
-            
-            /* استخدام visibility و opacity لعمل حركة ظهور ناعمة */
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: flex-start !important;
-            align-items: center !important;
-            overflow-y: auto !important;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.4s ease, visibility 0.4s ease !important;
-            
-            box-shadow: none !important;
-            border: none !important;
-            border-radius: 0 !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        /* عرض القائمة عند النقر */
-        .mobile-drawer.open {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* --------------------------------------------------------- */
-        /* زر الإغلاق (X) في الأعلى يساراً وشعار القائمة في اليمين */
-        /* --------------------------------------------------------- */
-        .drawer-header {
-            position: absolute !important;
-            top: 25px !important;
-            left: 25px !important;
-            width: auto !important;
-            background: transparent !important;
-            border: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            display: block !important;
-        }
-
-        /* تصميم زر X */
-        .close-drawer-btn {
-            background: transparent !important;
-            border: none !important;
-            color: #ffffff !important;
-            font-size: 45px !important;
-            font-weight: 300 !important;
-            cursor: pointer !important;
-            line-height: 1 !important;
-            padding: 0 !important;
-            border-radius: 0 !important;
-            transition: transform 0.3s ease !important;
-        }
-
-        .close-drawer-btn:hover {
-            transform: scale(1.1) !important;
-        }
-
-        /* الشعار في أعلى اليمين */
-        .drawer-logo {
-            position: absolute !important;
-            top: 25px !important;
-            right: 25px !important;
-            max-height: 40px !important; /* الحجم متناسق مع الشعار العلوي */
-            z-index: 10 !important;
-        }
-
-        /* إخفاء عنوان القائمة القديم */
-        .drawer-title {
-            display: none !important;
-        }
-
-        /* إخفاء الفوتر القديم في الجوال */
-        .drawer-footer {
-            display: none !important;
-        }
-
-        /* --------------------------------------------------------- */
-        /* نصوص الروابط (بدون خلفية وبدون بطاقات) */
-        /* --------------------------------------------------------- */
-        .drawer-links {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important; 
-            justify-content: center !important;
-            gap: 35px !important;
-            width: 100% !important;
-            padding: 90px 0 40px !important;
-            margin: auto 0 !important;
-            list-style: none !important;
-        }
-
-        /* إعداد حالة الروابط قبل الفتح */
-        .drawer-links a {
-            /* 🔴 إزالة أي خلفيات أو حواف أو ظلال نهائياً */
-            background: none !important;
-            background-color: transparent !important;
-            box-shadow: none !important;
-            border: none !important;
-            
-            color: #ffffff !important;
-            font-size: 26px !important;
-            font-weight: 500 !important;
-            text-decoration: none !important;
-            text-align: center !important;
-            padding: 1px !important;
-            display: inline-block !important; /* كي لا تأخذ عرض الشاشة بالكامل وتظهر كبطاقة */
-            border-radius: 0 !important;
-            position: relative !important; 
-            
-            /* إعدادات الحركة من الأسفل للأعلى */
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s ease !important;
-        }
-
-        /* إخفاء النقطة البنفسجية أو أي عناصر وهمية نهائياً */
-        .drawer-links a::before,
-        .drawer-links a::after {
-            display: none !important;
-            content: none !important;
-            background: none !important;
-        }
-
-        /* تأثير لطيف عند لمس الرابط */
-        .drawer-links a:hover {
-            color: #cccccc !important;
-        }
-
-        /* تنفيذ الحركة عند فتح القائمة (ظهور في مكانه الطبيعي) */
-        .mobile-drawer.open .drawer-links a {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* أوقات التأخير لعمل التأثير التتابعي لكل عنصر */
-        .mobile-drawer.open .drawer-links a:nth-child(1) { transition-delay: 0.1s !important; }
-        .mobile-drawer.open .drawer-links a:nth-child(2) { transition-delay: 0.15s !important; }
-        .mobile-drawer.open .drawer-links a:nth-child(3) { transition-delay: 0.2s !important; }
-        .mobile-drawer.open .drawer-links a:nth-child(4) { transition-delay: 0.25s !important; }
-        .mobile-drawer.open .drawer-links a:nth-child(5) { transition-delay: 0.3s !important; }
-        .mobile-drawer.open .drawer-links a:nth-child(6) { transition-delay: 0.35s !important; }
-        .mobile-drawer.open .drawer-links a:nth-child(7) { transition-delay: 0.4s !important; }
-
-        /* ========================================================= */
-        /* الشاشات المتوسطة (أجهزة لوحية): منع تزاحم روابط الشريط العلوي */
-        /* ========================================================= */
-        @media (min-width: 769px) and (max-width: 1100px) {
-            .navbar-content {
-                flex-wrap: wrap;
-                row-gap: 8px;
-            }
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: flex-end;
-                gap: 14px;
-            }
-            .nav-links a {
-                font-size: 0.85rem;
-            }
-            .brand-logo {
-                height: 36px;
-            }
-        }
-    }
-</style>
-
 <header class="top-navbar">
     <div class="container navbar-content">
         <div class="brand">
@@ -255,7 +5,7 @@
                 <img src="{{ '/images/sawamet-logo.png' | relative_url }}" alt="شعار صوامت" class="brand-logo" style="max-height: 40px;">
             </a>
         </div>
-        
+
         <nav class="nav-links">
             <a href="{{ '/' | relative_url }}">الرئيسة</a>
             <a href="{{ '/about.html' | relative_url }}">عن المنصة</a>
@@ -266,7 +16,7 @@
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
         </nav>
 
-        <button class="menu-toggle-btn" onclick="toggleMobileDrawer()" aria-label="قائمة التنقل">
+        <button class="menu-toggle-btn" onclick="toggleMobileDrawer()" aria-label="قائمة التنقل" aria-expanded="false">
             <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                 <path d="M160 256h704a32 32 0 0 1 0 64H160a32 32 0 0 1 0-64zm192 192h512a32 32 0 0 1 0 64H352a32 32 0 0 1 0-64zm-192 192h704a32 32 0 0 1 0 64H160a32 32 0 0 1 0-64z"/>
             </svg>
@@ -274,17 +24,15 @@
     </div>
 </header>
 
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeMobileDrawer()"></div>
+<div class="drawer-overlay" id="drawerOverlay"></div>
 
-<div class="mobile-drawer" id="mobileDrawer">
-    
-    <img src="{{ '/icons/favicon.png' | relative_url }}" alt="شعار صوامت" class="drawer-logo">
-
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-label="القائمة الرئيسية">
     <div class="drawer-header">
+        <img src="{{ '/icons/favicon.png' | relative_url }}" alt="شعار صوامت" class="drawer-logo">
         <h2 class="drawer-title">القائمة الرئيسية</h2>
-        <button class="close-drawer-btn" onclick="closeMobileDrawer()">×</button>
+        <button class="close-drawer-btn" onclick="closeMobileDrawer()" aria-label="إغلاق القائمة">×</button>
     </div>
-    
+
     <nav class="drawer-links">
         <a href="{{ '/' | relative_url }}">الصفحة الرئيسة</a>
         <a href="{{ '/about.html' | relative_url }}">عن المنصة</a>
@@ -294,88 +42,10 @@
         <a href="https://rawafid.jassim.one/" target="_blank">منصة روافد</a>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzGsbQVEFWEBrl2jYWHs8-KISOJ-7A1-Vuao0FE27XPRLcA/viewform?usp=header" target="_blank">المقترحات</a>
     </nav>
-    
+
     <div class="drawer-footer">
         منصة صوامت © 2026
     </div>
 </div>
 
-<script>
-    // دالة فتح/إغلاق القائمة
-    function toggleMobileDrawer() {
-        var drawer = document.getElementById("mobileDrawer");
-        if (drawer) {
-            drawer.classList.toggle("open");
-        }
-    }
-
-    // دالة إغلاق القائمة (عند الضغط على X أو الغطاء)
-    function closeMobileDrawer() {
-        var drawer = document.getElementById("mobileDrawer");
-        if(drawer) {
-            drawer.classList.remove("open");
-        }
-        
-        var overlay = document.getElementById("drawerOverlay");
-        if (overlay) {
-            overlay.style.display = 'none';
-        }
-    }
-</script>
-
-<script>
-    // حفظ الشعار في المتصفح (localStorage) كي لا يُعاد تحميله من الشبكة في كل زيارة
-    (function () {
-        var LOGO_KEY = 'sawamet-logo-v1';
-        var LOGO_URL = '{{ "/images/sawamet-logo.png" | relative_url }}';
-
-        function applyCachedLogo(src) {
-            var imgs = document.querySelectorAll('.brand-logo, .drawer-logo, #print-only-logo img, img[alt="شعار صوامت"]');
-            for (var i = 0; i < imgs.length; i++) {
-                if (imgs[i].getAttribute('data-logo-cached')) continue;
-                imgs[i].setAttribute('src', src);
-                imgs[i].setAttribute('data-logo-cached', '1');
-            }
-        }
-
-        function cacheLogo() {
-            if (!('fetch' in window)) return;
-            fetch(LOGO_URL)
-                .then(function (res) {
-                    if (!res.ok) throw new Error('logo');
-                    return res.blob();
-                })
-                .then(function (blob) {
-                    if (blob.size > 4 * 1024 * 1024) return;
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        try { localStorage.setItem(LOGO_KEY, reader.result); } catch (e) {}
-                        applyCachedLogo(reader.result);
-                    };
-                    reader.readAsDataURL(blob);
-                })
-                .catch(function () {});
-        }
-
-        try {
-            var stored = localStorage.getItem(LOGO_KEY);
-            if (stored) {
-                applyCachedLogo(stored);
-                document.addEventListener('DOMContentLoaded', function () { applyCachedLogo(stored); });
-            } else if ('requestIdleCallback' in window) {
-                requestIdleCallback(cacheLogo, { timeout: 3000 });
-            } else {
-                setTimeout(cacheLogo, 1500);
-            }
-        } catch (e) {}
-    })();
-</script>
-
-<script>
-    // تسجيل عامل الخدمة لتخزين الشعار والملفات الثابتة في المتصفح (يفعّل مرة واحدة فقط)
-    if ('serviceWorker' in navigator && location.protocol === 'https:') {
-        window.addEventListener('load', function () {
-            navigator.serviceWorker.register('{{ "/sw.js" | relative_url }}').catch(function () {});
-        });
-    }
-</script>
+<script src="{{ '/menu.js' | relative_url }}"></script>
