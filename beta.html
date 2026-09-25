@@ -12,7 +12,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>صوامت - أداة الصوامت العربية</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="fonts/thmanyahsans-Regular.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="fonts/thmanyahsans-Bold.otf" as="font" type="font/otf" crossorigin>
+    <link rel="stylesheet" href="css/fonts.css">
     <link rel="icon" href="icons/favicon.png" type="image/jpg">
     
     <style>
@@ -32,7 +34,7 @@
         }
 
         body {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            font-family: 'Thmanyah', 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.7;
@@ -275,7 +277,7 @@
         }
         
         .search-input {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            font-family: 'Thmanyah', 'Segoe UI', Tahoma, sans-serif;
             font-size: 2rem;
             padding: 10px;
             width: 80px;
@@ -294,7 +296,7 @@
         }
         
         .search-btn {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            font-family: 'Thmanyah', 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--primary-color);
             color: white;
             border: none;

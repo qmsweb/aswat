@@ -1,0 +1,53 @@
+/* ========================================================= */
+/* صوامت - الخطوط المحلية                                   */
+/* خط ثمانية سانس (Thmanyah Sans) من مجلد /fonts            */
+/* جميع الأوزان مربوطة بعائلة واحدة 'Thmanyah' فيختار       */
+/* المتصفح الوزن المناسب حسب font-weight في صفحات الموقع.    */
+/* الملفات من نفس النطاق، فيتم تخزينها بواسطة service      */
+/* worker ولا تُحمَّل من الشبكة في كل زيارة.                */
+/* ========================================================= */
+
+/* الوزن 400 - العادي */
+@font-face {
+    font-family: 'Thmanyah';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../fonts/thmanyahsans-Regular.otf') format('opentype');
+}
+
+/* الوزن 500 - المتوسط */
+@font-face {
+    font-family: 'Thmanyah';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('../fonts/thmanyahsans-Medium.otf') format('opentype');
+}
+
+/* الوزن 700 - الغامق */
+@font-face {
+    font-family: 'Thmanyah';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../fonts/thmanyahsans-Bold.otf') format('opentype');
+}
+
+/* الوزن 300 - الخفيف */
+@font-face {
+    font-family: 'Thmanyah';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('../fonts/thmanyahsans-Light.otf') format('opentype');
+}
+
+/* الوزن 900 - الأسود */
+@font-face {
+    font-family: 'Thmanyah';
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url('../fonts/thmanyahsans-Black.otf') format('opentype');
+}

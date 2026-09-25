@@ -14,9 +14,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ page.url | absolute_url }}" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {% include fonts.html %}
     <link rel="icon" href="{{ '/icons/favicon.png' | relative_url }}" type="image/jpg">
 
     <link rel="stylesheet" href="{{ '/css/style.css' | relative_url }}">
@@ -35,7 +33,7 @@
 
         /* === قسم البحث في الصفحة الرئيسة === */
         .search-input {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            font-family: 'Thmanyah', 'Segoe UI', Tahoma, sans-serif;
             font-size: 2rem;
             padding: 10px;
             width: 80px;
@@ -48,7 +46,7 @@
         }
         .search-input:focus { border-color: var(--primary-color); outline: none; }
         .search-btn {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            font-family: 'Thmanyah', 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--primary-color);
             color: white;
             border: none;
