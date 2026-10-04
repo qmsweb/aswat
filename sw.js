@@ -3,7 +3,7 @@
  * يخزّن الشعار والصور والملفات الثابتة في المتصفح لتجنّب تحميلها كل مرة.
  * هذا الملف لا يخزّن بيانات شخصية ولا يرسل أي طلبات خارج نطاق الموقع.
  */
-var CACHE_VERSION = 'sawamet-v4';
+var CACHE_VERSION = 'sawamet-v5';
 var CORE_CACHE = 'sawamet-core-' + CACHE_VERSION;
 var IMAGE_CACHE = 'sawamet-images-' + CACHE_VERSION;
 var FONT_CACHE = 'sawamet-fonts-' + CACHE_VERSION;
